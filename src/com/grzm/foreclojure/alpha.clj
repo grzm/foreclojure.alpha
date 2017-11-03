@@ -67,3 +67,47 @@
   (fn [coll]
     (let [coll-seq (seq coll)]
       (= coll-seq (reverse coll-seq)))))
+
+(def
+  ^{::problem 28}
+  flatten'
+  "Flatten a Sequence
+  Write a function which flattens a sequence.
+  Special Restrictions: flatten"
+  (letfn [(flatten* [coll]
+            (if (coll? coll)
+              (when (seq coll)
+                (concat (flatten* (first coll)) (flatten* (rest coll))))
+              (list coll)))]
+    flatten*))
+
+(def
+  ^{::problem 29}
+  caps
+  "Write a function which takes a string and returns a new string
+  containing only the capital letters"
+  (fn [s] (clojure.string/replace s #"[^A-Z]", "")))
+
+(def
+  ^{::problem 30}
+  dedupe
+  "Write a function which removes consecutive duplicates from a sequence"
+  (comp reverse
+        (partial reduce
+                 (fn [memo el]
+                   (if (= (first memo) el)
+                     memo
+                     (conj memo el)))
+                 '())))
+
+(def
+  ^{::problem 31}
+  pack
+  "Write a function which packs consecutive duplicates into sub-lists"
+  (comp reverse
+        (partial reduce
+                 (fn [memo el]
+                   (if (= (ffirst memo) el)
+                     (conj (rest memo) (conj (first memo) el))
+                     (conj memo (list el))))
+                 '())))

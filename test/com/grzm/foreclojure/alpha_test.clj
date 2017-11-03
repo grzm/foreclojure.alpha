@@ -65,3 +65,35 @@
     (is (true? (__ [:foo :bar :foo])))
     (is (true? (__ '(1 1 3 3 1 1))))
     (is (false? (__ '(:a :b :c))))))
+
+(deftest
+  ^{::fc/problem 28}
+  flatten-a-sequence
+  (let [__ fc/flatten']
+    (is (= (__ '((1 2) 3 [4 [5 6]])) '(1 2 3 4 5 6)))
+    (is (= (__ ["a" ["b"] "c"]) '("a" "b" "c")))
+    (is (= (__ '((((:a))))) '(:a)))))
+
+(deftest
+  ^{::fc/problem 29}
+  get-the-caps
+  (let [__ fc/caps]
+    (is (= (__ "HeLlO, WoRlD!") "HLOWRD"))
+    (is (empty? (__ "nothing")))
+    (is (= (__ "$#A(*&987Zf") "AZ"))))
+
+(deftest
+  ^{::fc/problem 30}
+  compress-a-sequence
+  (let [__ fc/dedupe]
+    (is (= (apply str (__ "Leeeeeerrroyyy")) "Leroy"))
+    (is (= (__ [1 1 2 3 3 2 2 3]) '(1 2 3 2 3)))
+    (is (= (__ [[1 2] [1 2] [3 4] [1 2]]) '([1 2] [3 4] [1 2])))))
+
+(deftest
+  ^{::fc/problem 31}
+  pack-a-sequence
+  (let [__ fc/pack]
+    (is (= (__ [1 1 2 1 1 1 3 3]) '((1 1) (2) (1 1 1) (3 3))))
+    (is (= (__ [:a :a :b :b :c]) '((:a :a) (:b :b) (:c))))
+    (is (= (__ [[1 2] [1 2] [3 4]]) '(([1 2] [1 2]) ([3 4]))))))
