@@ -1,10 +1,18 @@
-# 4clojure.com problems and solutions
+# 4Clojure.com problems and solutions
 
-My workspace for 4clojure.com problems
+My workspace for [4Clojure.com](http://www.4clojure.com).
 
 ## Usage
 
-Write a test, write a solution.
+Write a test. Write a solution.
+
+To confirm, run
+
+    boot test
+
+Or, while working
+
+    boot watch alt-test
 
 ## License
 
