@@ -11,3 +11,57 @@
     (is (= (__ [1 2 3 4] 1) 2))
     (is (= (__ '([1 2] [3 4] [5 6]) 2) [5 6]))))
 
+(deftest
+  ^{:fc/problem 22}
+  count-a-sequence
+  (let [__ fc/cownt]
+    (is (= (__ '(1 2 3 3 1)) 5))
+    (is (= (__ "Hello World") 11))
+    (is (= (__ [[1 2] [3 4] [5 6]]) 3))
+    (is (= (__ '(13)) 1))
+    (is (= (__ '(:a :b :c)) 3))))
+
+(deftest
+  ^{::fc/problem 23}
+  reverse-a-sequence
+  (let [__ fc/revers]
+    (is (= (__ [1 2 3 4 5]) [5 4 3 2 1]))
+    (is (= (__ (sorted-set 5 7 2 7)) '(7 5 2)))
+    (is (= (__ [[1 2] [3 4] [5 6]]) [[5 6] [3 4] [1 2]]))))
+
+(deftest
+  ^{::fc/problem 24}
+  sum-it-all-up
+  (let [__ fc/sum]
+    (is (= (__ [1 2 3]) 6))
+    (is (= (__ (list 0 -2 5 5)) 8))
+    (is (= (__ #{4 2 1}) 7))
+    (is (= (__ '(0 0 -1)) -1))
+    (is (= (__ '(1 10 3)) 14))))
+
+(deftest
+  ^{::fc/problem 25}
+  find-the-odd-numbers
+  (let [__ fc/filter-odd]
+    (is (= (__ #{1 2 3 4 5}) '(1 3 5)))
+    (is (= (__ [4 2 1 6]) '(1)))
+    (is (= (__ [2 2 4 6]) '()))
+    (is (= (__ [1 1 1 3]) '(1 1 1 3)))))
+
+(deftest
+  ^{::fc/problem 26}
+  fibonacci-sequence
+  (let [__ fc/fibonacci-seq]
+    (is (= (__ 3) '(1 1 2)))
+    (is (= (__ 6) '(1 1 2 3 5 8)))
+    (is (= (__ 8) '(1 1 2 3 5 8 13 21)))))
+
+(deftest
+  ^{::fc/problem 27}
+  palindrome-detector
+  (let [__ fc/palindrome?]
+    (is (false? (__ '(1 2 3 4 5))))
+    (is (true? (__ "racecar")))
+    (is (true? (__ [:foo :bar :foo])))
+    (is (true? (__ '(1 1 3 3 1 1))))
+    (is (false? (__ '(:a :b :c))))))
