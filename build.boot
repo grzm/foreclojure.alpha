@@ -1,5 +1,5 @@
 (def project 'com.grzm.foreclojure.alpha)
-(def version "0.1.6-SNAPSHOT")
+(def version "0.1.9")
 
 (set-env! :resource-paths #{"resources" "src"}
           :source-paths   #{"test"}
