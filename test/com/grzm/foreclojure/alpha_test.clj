@@ -2,7 +2,9 @@
   (:require [clojure.test :refer :all]
             [com.grzm.foreclojure.alpha :as fc]))
 
-(deftest nth-element
+(deftest
+  ^{::fc/problem 21}
+  nth-element
   (let [__ fc/enth]
     (= (__ '(4 5 6 7) 2) 6)
     (= (__ [:a :b :c] 0) :a)
