@@ -90,7 +90,7 @@
 
 (def
   ^{::problem 30}
-  dedupe
+  dedupe'
   "Write a function which removes consecutive duplicates from a sequence"
   (comp reverse
         (partial reduce
