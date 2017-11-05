@@ -124,3 +124,50 @@
     (is (= (__ 1 4) '(1 2 3)))
     (is (= (__ -2 2) '(-2 -1 0 1)))
     (is (= (__ 5 8) '(5 6 7)))))
+
+(deftest
+  ^{::fc/problem 35}
+  local-bindings
+  (let [__ 7]
+    (is (= __ (let [x 5] (+ 2 x))))
+    (is (= __ (let [x 3, y 10] (- y x))))
+    (is (= __ (let [x 21] (let [y 3] (/ x y)))))))
+
+(deftest
+  ^{::fc/problem 36}
+  let-it-be
+  (let [x 7
+        y 3
+        z 1]
+    (is (= 10 (+ x y)))
+    (is (= 4 (+ y z)))
+    (is (= 1 z))))
+
+(deftest
+  ^{::fc/problem 37}
+  regular-expressions
+  (let [__ "ABC"]
+    (is (= __ (apply str (re-seq #"[A-Z]+" "bA1B3Ce "))))))
+
+(deftest
+  ^{::fc/problem 38}
+  maximum-value
+  (let [__ (fn [& xs]
+             (reduce (fn [memo el]
+                       (if (< memo el) el memo))
+                     (first xs)
+                     (rest xs)))]
+    (is (= (__ 1 8 3 4) 8))
+    (is (= (__ 30 20) 30))
+    (is (= (__ 45 67 11) 67))))
+
+(deftest
+  ^{::fc/problems 39}
+  interleave-two-seqs
+  "Write a function which takes two sequences and returns the first item
+  from each, then the second item from each, then the third, etc."
+  (let [__ fc/interleave']
+    (is (= (__ [1 2 3] [:a :b :c]) '(1 :a 2 :b 3 :c)))
+    (is (= (__ [1 2] [3 4 5 6]) '(1 3 2 4)))
+    (is (= (__ [1 2 3 4] [5]) [1 5]))
+    (is (= (__ [30 20] [25 15]) [30 25 20 15]))))

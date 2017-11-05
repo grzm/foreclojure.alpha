@@ -138,3 +138,11 @@
   Special Restrictions: `range`"
   (fn [start end]
     (take-while #(< % end) (iterate inc start))))
+
+(def
+  ^{::problem 39}
+  interleave'
+  "Write a function which takes two sequences and returns the first item
+  from each, then the second item from each, then the third, etc."
+  (fn [& xss]
+    (apply (partial mapcat vector) xss)))
