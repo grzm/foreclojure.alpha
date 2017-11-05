@@ -1,5 +1,5 @@
 (def project 'com.grzm.foreclojure.alpha)
-(def version "0.1.14-SNAPSHOT")
+(def version "0.1.16")
 
 (set-env! :resource-paths #{"resources" "src"}
           :source-paths   #{"test"}
@@ -21,5 +21,3 @@
   []
   (comp (pom) (jar) (install)))
 
-(require '[adzerk.boot-test :refer [test]])
-(require '[metosin.boot-alt-test :refer (alt-test)])
