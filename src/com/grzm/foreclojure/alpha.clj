@@ -111,3 +111,30 @@
                      (conj (rest memo) (conj (first memo) el))
                      (conj memo (list el))))
                  '())))
+
+(def
+  ^{::problem 32}
+  duplicate
+  "Write a function which duplicates each element of a sequence."
+  (partial reduce
+           (fn [memo el]
+             (-> memo
+                 (conj el)
+                 (conj el)))
+           []))
+
+(def
+  ^{::problem 33}
+  replicate'
+  "Write a function which replicates each element of a
+  sequence a variable number of times."
+  (fn [xs n]
+    (mapcat #(repeat n %) xs)))
+
+(def
+  ^{::problem 34}
+  range'
+  "Write a function which creates a list of all integers in a given range.
+  Special Restrictions: `range`"
+  (fn [start end]
+    (take-while #(< % end) (iterate inc start))))
