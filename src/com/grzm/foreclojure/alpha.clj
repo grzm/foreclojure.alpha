@@ -146,3 +146,38 @@
   from each, then the second item from each, then the third, etc."
   (fn [& xss]
     (apply (partial mapcat vector) xss)))
+
+(def
+  ^{::problem 40}
+  interpose'
+  "Write a function which separates the items of a sequence by an arbitrary value.
+  Special Restrictions: interpose"
+  (fn [sep xs]
+    ((comp drop-last interleave) xs (repeat sep))))
+
+(def
+  ^{::problem 41}
+  drop-nth
+  "Write a function which drops every Nth item from a sequence."
+  (fn [xs n]
+    (apply concat (partition (dec n) n [] xs))))
+
+(def
+  ^{::problem 42}
+  factorial'
+  "Write a function which calculates factorials."
+  (fn [n]
+    (if (zero? n) 1 ;; unused
+        (apply * (range 1 (inc n))))))
+
+(def
+  ^{::problem 43}
+  reverse-interleave
+  "Write a function which reverses the interleave process into x 
+  number of subsequences."
+  ;; XXX There's *got* to be a better way to do this!
+  (fn [xs n]
+    (let [groups (group-by first (map-indexed (fn [i el] (list (rem i n) el)) xs))
+          ks (sort (keys groups))]
+      (->> ks
+           (map (fn [k] (map second (get groups k))))))))

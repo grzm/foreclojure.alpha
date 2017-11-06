@@ -171,3 +171,40 @@
     (is (= (__ [1 2] [3 4 5 6]) '(1 3 2 4)))
     (is (= (__ [1 2 3 4] [5]) [1 5]))
     (is (= (__ [30 20] [25 15]) [30 25 20 15]))))
+
+(deftest
+  ^{::fc/problems 40}
+  interpose-a-seq
+  "Write a function which separates the items of a sequence by an arbitrary value.
+  Special Restrictions: interpose"
+  (let [__ fc/interpose']
+    (is (= (__ 0 [1 2 3]) [1 0 2 0 3]))
+    (is (= (apply str (__ ", " ["one" "two" "three"])) "one, two, three"))
+    (is (= (__ :z [:a :b :c :d]) [:a :z :b :z :c :z :d]))))
+
+(deftest
+  ^{::fc/problems 41}
+  drop-every-nth-item
+  "Write a function which drops every Nth item from a sequence."
+  (let [__ fc/drop-nth]
+    (is (= (__ [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8]))
+    (is (= (__ [:a :b :c :d :e :f] 2) [:a :c :e]))
+    (is (= (__ [1 2 3 4 5 6] 4) [1 2 3 5 6]))))
+
+(deftest
+  ^{::fc/problems 42}
+  factorial-fun
+  "Write a function which calculates factorials."
+  (let [__ fc/factorial']
+    (is (= (__ 1) 1))
+    (is (= (__ 3) 6))
+    (is (= (__ 5) 120))
+    (is (= (__ 8) 40320))))
+
+(deftest
+  ^{::fc/problems 43}
+  reverse-interleave
+  (let [__ fc/reverse-interleave]
+    (is (= (__ [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6))))
+    (is (= (__ (range 9) 3) '((0 3 6) (1 4 7) (2 5 8))))
+    (is (= (__ (range 10) 5) '((0 5) (1 6) (2 7) (3 8) (4 9))))))
