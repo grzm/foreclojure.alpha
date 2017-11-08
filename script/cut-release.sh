@@ -14,7 +14,10 @@ INCREMENT="${PARTS[1]}"
 VERSION_STRING="${MAJOR}.${MINOR}.${INCREMENT}"
 DATE_STRING=$(date +%Y-%m-%d)
 COMMIT_MESSAGE="Release v${VERSION_STRING} (${DATE_STRING})"
+SNAPSHOT_VERSION_STRING="${MAJOR}.${MINOR}.$((INCREMENT+1))-SNAPSHOT"
 
 echo release version: "${VERSION_STRING}"
 echo git commit -am '"'"${COMMIT_MESSAGE}"'"'
 echo git tag -a '"'"v${VERSION_STRING}"'"' -m '"'"${COMMIT_MESSAGE}"'"'
+echo development version: "${SNAPSHOT_VERSION_STRING}"
+echo git commit -am '"Update version for development."'
