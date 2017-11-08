@@ -313,3 +313,56 @@
     (is (= (__ [5 6 1 3 2 7]) [5 6]))
     (is (= (__ [2 3 3 4 5]) [3 4 5]))
     (is (= (__ [7 6 5 4]) []))))
+
+(deftest
+  ^{::fc/problems 54}
+  partition-a-sequence
+  "Write a function which returns a sequence of lists of x items
+  each. Lists of less than x items should not be returned.
+  Special Restrictions: partition, partition-all"
+  (let [__ fc/partition']
+    (is (= (__ 3 (range 9)) '((0 1 2) (3 4 5) (6 7 8))))
+    (is (= (__ 2 (range 8)) '((0 1) (2 3) (4 5) (6 7))))
+    (is (= (__ 3 (range 8)) '((0 1 2) (3 4 5))))))
+
+(deftest
+  ^{::fc/problems 55}
+    count-occurrences
+    "Write a function which returns a map containing the
+    number of occurences of each distinct item in a sequence."
+  (let [__ fc/count-occurrences]
+    (is (= (__ [1 1 2 3 2 1 1]) {1 4, 2 2, 3 1}))
+    (is (= (__ [:b :a :b :a :b]) {:a 2, :b 3}))
+    (is (= (__ '([1 2] [1 3] [1 3])) {[1 2] 1, [1 3] 2}))))
+
+(deftest
+  ^{::fc/problems 56}
+  find-distinct-items
+  "Write a function which removes the duplicates from
+  a sequence. Order of the items must be maintained."
+  (let [__ fc/find-distinct]
+    (is (= (__ [1 2 1 3 1 2 4]) [1 2 3 4]))
+    (is (= (__ [:a :a :b :b :c :c]) [:a :b :c]))
+    (is (= (__ '([2 4] [1 2] [1 3] [1 3])) '([2 4] [1 2] [1 3])))
+    (is (= (__ (range 50)) (range 50)))))
+
+(deftest
+  ^{::fc/problems 57}
+  simple-recursion
+  "A recursive function is a function which calls itself. This is one
+  of the fundamental techniques used in functional programming."
+  (let [__ '(5 4 3 2 1)]
+    (= __ ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5))))
+
+(deftest
+  ^{::fc/problems 58}
+  function-composition
+  "Write a function which allows you to create function compositions.
+  The parameter list should take a variable number of functions, and
+  create a function that applies them from right-to-left.
+  Special Restrictions: comp"
+  (let [__ fc/comp']
+    (is (= [3 2 1] ((__ rest reverse) [1 2 3 4])))
+    (is (= 5 ((__ (partial + 3) second) [1 2 3 4])))
+    (is (= true ((__ zero? #(mod % 8) +) 3 5 7 9)))
+    (is (= "HELLO" ((__ #(.toUpperCase %) #(apply str %) take) 5 "hello world")))))

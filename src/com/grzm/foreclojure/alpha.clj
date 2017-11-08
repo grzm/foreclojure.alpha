@@ -214,3 +214,51 @@
          ((fn [x]
             (concat (map first (butlast x)) (last x))))))
   )
+
+(def
+  ^{::problem 54}
+  partition'
+  "Write a function which returns a sequence of lists of x items
+  each. Lists of less than x items should not be returned.
+  Special Restrictions: partition, partition-all"
+  (letfn [(p [n xs]
+            (if (and (seq xs)
+                     (<= n (count xs)))
+              (conj (p n (drop n xs)) (take n xs))
+              '()))]
+    p))
+
+(def
+  ^{::problem 55}
+  count-occurrences
+  "Write a function which returns a map containing the
+  number of occurences of each distinct item in a sequence."
+  (fn [xs]
+    (->> (group-by identity xs)
+         (map (fn [[k v]] [k (count v)]))
+         (into {}))))
+
+(def
+  ^{::problem 56}
+  find-distinct
+  "Write a function which removes the duplicates from
+  a sequence. Order of the items must be maintained."
+  (partial reduce (fn [memo el]
+                    (if (some #(= el %) memo)
+                      memo
+                      (conj memo el))) []))
+
+(def
+  ^{::problem 58}
+  comp'
+  "Write a function which allows you to create function compositions.
+  The parameter list should take a variable number of functions, and
+  create a function that applies them from right-to-left.
+  Special Restrictions: comp"
+  (fn comp* [& fs]
+    (let [f (first fs)
+          r (rest fs)]
+      (fn [& args]
+        (if (seq r)
+          (f (apply (apply comp* r) args))
+          (apply f args))))))
