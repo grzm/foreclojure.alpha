@@ -181,3 +181,36 @@
           ks     (sort (keys groups))]
       (->> ks
            (map (fn [k] (map second (get groups k))))))))
+
+(def
+  ^{::problem 44}
+  rotate'
+  "Write a function which can rotate a sequence in either direction."
+  (fn [i xs]
+    (let [n     (count xs)
+          i'    (rem i n)
+          i''   (if (neg? i') (+ n i') i')
+          [h t] (split-at i'' xs)]
+      (concat t h))))
+
+(def
+  ^{::problem 53}
+  longest-sub
+  "Given a vector of integers, find the longest consecutive
+  sub-sequence of increasing numbers. If two sub-sequences have
+  the same length, use the one that occurs first. An increasing
+   sub-sequence must have a length of 2 or greater to qualify."
+  (fn [xs]
+    (->> (partition 2 1 xs)
+         (partition-by (partial apply <))
+         (filter #(apply < (first %)))
+         (reduce (fn [memo el]
+                   (let [c (count el)]
+                     (if (and (< (count memo) c)
+                              (<= 1 c))
+                       el
+                       memo)))
+                 [])
+         ((fn [x]
+            (concat (map first (butlast x)) (last x))))))
+  )
