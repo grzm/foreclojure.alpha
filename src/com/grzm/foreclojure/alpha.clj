@@ -173,11 +173,11 @@
 (def
   ^{::problem 43}
   reverse-interleave
-  "Write a function which reverses the interleave process into x 
+  "Write a function which reverses the interleave process into x
   number of subsequences."
   ;; XXX There's *got* to be a better way to do this!
   (fn [xs n]
     (let [groups (group-by first (map-indexed (fn [i el] (list (rem i n) el)) xs))
-          ks (sort (keys groups))]
+          ks     (sort (keys groups))]
       (->> ks
            (map (fn [k] (map second (get groups k))))))))
