@@ -6,7 +6,7 @@
                     [org.clojure/clojure "RELEASE"]])
 
 (def project 'com.grzm.foreclojure.alpha)
-(def version "0.1.29")
+(def version "0.1.30-SNAPSHOT")
 
 (task-options!
   pom {:project     project
