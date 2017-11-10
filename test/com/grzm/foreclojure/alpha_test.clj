@@ -366,3 +366,18 @@
     (is (= 5 ((__ (partial + 3) second) [1 2 3 4])))
     (is (= true ((__ zero? #(mod % 8) +) 3 5 7 9)))
     (is (= "HELLO" ((__ #(.toUpperCase %) #(apply str %) take) 5 "hello world")))))
+
+(deftest
+  ^{::fc/problems 59}
+  juxtaposition
+  "Take a set of functions and return a new function that takes a
+  variable number of arguments and returns a sequence containing the
+  result of applying each function left-to-right to the argument list.
+  Special Restrictions: juxt"
+  (let [__ (fn juxt* [& fs]
+             (fn [& args]
+               (map #(apply % args) fs)))]
+    (is (= [21 6 1] ((__ + max min) 2 3 5 1 6 4)))
+    (is (= ["HELLO" 5] ((__ #(.toUpperCase %) count) "hello")))
+    (is (= [2 6 4] ((__ :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10})))))
+
