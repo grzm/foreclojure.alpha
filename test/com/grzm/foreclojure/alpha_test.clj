@@ -381,3 +381,96 @@
     (is (= ["HELLO" 5] ((__ #(.toUpperCase %) count) "hello")))
     (is (= [2 6 4] ((__ :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10})))))
 
+(deftest
+  ^{::fc/problems 61}
+  map-construction
+  "Write a function which takes a vector of keys and a vector of values
+  and constructs a map from them.
+  Special Restrictions: zipmap"
+  (let [__ (fn [ks vs]
+             (into {} (map (comp vec list) ks vs)))]
+    (is (= (__ [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3}))
+    (is (= (__ [1 2 3 4] ["one" "two" "three"]) {1 "one", 2 "two", 3 "three"}))
+    (is (= (__ [:foo :bar] ["foo" "bar" "baz"]) {:foo "foo", :bar "bar"}))    ))
+
+(deftest
+  ^{::fc/problems 63}
+  group-a-sequence
+  "Given a function f and a sequence s, write a function which
+  returns a map. The keys should be the values of f applied to each
+  item in s. The value at each key should be a vector of corresponding
+  items in the order they appear in s."
+  (let [__ (fn [f xs]
+             (reduce
+               (fn [memo el]
+                 (let [v (f el)]
+                   (if (get memo v)
+                     (update-in memo [v] conj el)
+                     (assoc memo v [el]))))
+               {} xs))]
+    (is (= (__ #(> % 5) [1 3 6 8]) {false [1 3], true [6 8]}))
+    (is (= (__ #(apply / %) [[1 2] [2 4] [4 6] [3 6]])
+           {1/2 [[1 2] [2 4] [3 6]], 2/3 [[4 6]]}))
+    (is (= (__ count [[1] [1 2] [3] [1 2 3] [2 3]])
+           {1 [[1] [3]], 2 [[1 2] [2 3]], 3 [[1 2 3]]}))))
+
+(deftest
+  ^{::fc/problems 64}
+  intro-to-reduce
+  "Reduce takes a 2 argument function and an optional starting value.
+  It then applies the function to the first 2 items in the sequence
+  (or the starting value and the first element of the sequence). In the
+  next iteration the function will be called on the previous return value
+  and the next item from the sequence, thus reducing the entire collection
+  to one value. Don't worry, it's not as complicated as it sounds."
+  (let [__ +]
+    (is (= 15 (reduce __ [1 2 3 4 5])))
+    (is (=  0 (reduce __ [])))
+    (is (=  6 (reduce __ 1 [2 3])))))
+
+(deftest
+  ^{::fc/problems 65}
+  black-box-testing
+  "Clojure has many sequence types, which act in subtly different ways.
+  The core functions typically convert them into a uniform \"sequence\"
+  type and work with them that way, but it can be important to understand
+  the behavioral and performance differences so that you know which kind
+  is appropriate for your application.
+
+  Write a function which takes a collection and returns one of :map, :set,
+  :list, or :vector - describing the type of collection it was given. You
+  won't be allowed to inspect their class or use the built-in predicates like
+  list? - the point is to poke at them and understand their behavior.
+
+  Special Restrictions: class type Class vector? sequential? list? seq?
+                        map? set? instance? getClass"
+  (let [__ (fn [bb]
+             (let [mapped (map identity bb)
+                   g      (gensym)
+                   h      (gensym)]
+               (if (= mapped bb)
+                 (if (= h (-> (conj bb g) (conj h) first))
+                   :list
+                   :vector)
+                 (if (= h (-> (conj bb {g h}) (get g)))
+                   :map
+                   :set))))]
+    (is (= :map (__ {:a 1, :b 2})))
+    (is (= :list (__ (range (rand-int 20)))))
+    (is (= :vector (__ [1 2 3 4 5 6])))
+    (is (= :set (__ #{10 (rand-int 5)})))
+    (is (= [:map :set :vector :list] (map __ [{} #{} [] ()])))))
+
+(deftest
+  ^{::fc/problems 71}
+  rearranging-code-colon->
+  "The -> macro threads an expression x through a variable number of
+  forms. First, x is inserted as the second item in the first form,
+  making a list of it if it is not a list already. Then the first form
+  is inserted as the second item in the second form, making a list of
+  that form if necessary. This process continues for all the forms.
+  Using -> can sometimes make your code more readable."
+  (let [__ last]
+    (= (__ (sort (rest (reverse [2 5 4 1 3 6]))))
+       (-> [2 5 4 1 3 6] (reverse) (rest) (sort) (__))
+       5)))
