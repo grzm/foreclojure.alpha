@@ -687,6 +687,24 @@
     (is (= (__ concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]})
            {:a [3 4 5], :b [6 7], :c [8 9]}))))
 
+
+(deftest
+  ^{::fc/problems 70}
+  word-sorting
+  "Write a function that splits a sentence up into a sorted
+  list of words. Capitalization should not affect sort order
+  and punctuation should be ignored."
+  (let [__ (fn [sent]
+             (->> sent
+                  (re-seq #"\w+")
+                  (sort-by clojure.string/lower-case)))]
+    (is (= (__  "Have a nice day.")
+           ["a" "day" "Have" "nice"]))
+    (is (= (__  "Clojure is a fun language!")
+           ["a" "Clojure" "fun" "is" "language"]))
+    (is (= (__  "Fools fall for foolish follies.")
+           ["fall" "follies" "foolish" "Fools" "for"]))))
+
 (deftest
   ^{::fc/problems 71}
   rearranging-code-colon->
@@ -700,3 +718,59 @@
     (is (= (__ (sort (rest (reverse [2 5 4 1 3 6]))))
            (-> [2 5 4 1 3 6] (reverse) (rest) (sort) (__))
            5))))
+
+(deftest
+  ^{::fc/problems 72}
+  rearranging-code-colon->>
+  "The ->> macro threads an expression x through a variable number of
+  forms. First, x is inserted as the last item in the first form, making
+  a list of it if it is not a list already. Then the first form is
+  inserted as the last item in the second form, making a list of that form
+  if necessary. This process continues for all the forms. Using ->> can
+  sometimes make your code more readable."
+  (let [__ #(apply + %)]
+    (is (= (__ (map inc (take 3 (drop 2 [2 5 4 1 3 6]))))
+           (->> [2 5 4 1 3 6] (drop 2) (take 3) (map inc) (__))
+           11))))
+
+(deftest
+  ^{::fc/problems 73}
+  analyze-a-tic-tac-toe-board
+  "A tic-tac-toe board is represented by a two dimensional vector.
+  X is represented by :x, O is represented by :o, and empty is
+  represented by :e. A player wins by placing three Xs or three Os
+  in a horizontal, vertical, or diagonal row. Write a function which
+  analyzes a tic-tac-toe board and returns :x if X has won, :o if O
+  has won, and nil if neither player has won."
+  (let [__ fc/tic-tac-toe-win?]
+    (is (= nil (__ [[:e :e :e]
+                    [:e :e :e]
+                    [:e :e :e]])))
+    (is (= :x (__ [[:x :e :o]
+                   [:x :e :e]
+                   [:x :e :o]])))
+    (is (= :o (__ [[:e :x :e]
+                   [:o :o :o]
+                   [:x :e :x]])))
+    (is (= nil (__ [[:x :e :o]
+                    [:x :x :e]
+                    [:o :x :o]])))
+    (is (= :x (__ [[:x :e :e]
+                   [:o :x :e]
+                   [:o :e :x]])))
+    (is (= :o (__ [[:x :e :o]
+                   [:x :o :e]
+                   [:o :e :x]])))
+    (is (= nil (__ [[:x :o :x]
+                    [:x :o :x]
+                    [:o :x :o]])))))
+
+(deftest
+  ^{::fc/problem 74}
+  filter-perfect-squares
+  "Given a string of comma separated integers, write a function
+  which returns a new comma separated string that only contains
+  the numbers which are perfect squares."
+  (let [__ fc/filter-perfect-squares]
+    (is (= (__ "4,5,6,7,8,9") "4,9"))
+    (is (= (__ "15,16,25,36,37") "16,25,36"))))

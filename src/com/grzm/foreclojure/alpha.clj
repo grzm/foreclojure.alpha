@@ -289,3 +289,36 @@
               (assoc m k (reduce f (remove nil? (map #(get % k) ms)))))
             {}
             (flatten (map keys ms)))))
+
+(def
+  ^{::problems 73}
+  tic-tac-toe-win?
+  "A tic-tac-toe board is represented by a two dimensional vector.
+  X is represented by :x, O is represented by :o, and empty is
+  represented by :e. A player wins by placing three Xs or three Os
+  in a horizontal, vertical, or diagonal row. Write a function which
+  analyzes a tic-tac-toe board and returns :x if X has won, :o if O
+  has won, and nil if neither player has won."
+  (fn [board]
+    (let [rows (concat
+                 board
+                 (apply map vector board)
+                 (list
+                   (map-indexed (fn [i r] (nth r i)) board)
+                   (map-indexed (fn [i r] (nth r i)) (reverse board))))]
+      (some #{:x :o}
+            (map #(when (apply = %) (first %))
+                 rows)))))
+
+(def
+  ^{::problem 74}
+  filter-perfect-squares
+  "Given a string of comma separated integers, write a function
+  which returns a new comma separated string that only contains
+  the numbers which are perfect squares."
+  (fn [s]
+    (->> (clojure.string/split s #",")
+         (map #(Integer/parseInt %))
+         (filter #(let [r (Math/sqrt %)]
+                    (= r (Math/floor r))))
+         (clojure.string/join ","))))
