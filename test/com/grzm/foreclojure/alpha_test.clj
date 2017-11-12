@@ -327,8 +327,8 @@
 
 (deftest
   ^{::fc/problems 55}
-    count-occurrences
-    "Write a function which returns a map containing the
+  count-occurrences
+  "Write a function which returns a map containing the
     number of occurences of each distinct item in a sequence."
   (let [__ fc/count-occurrences]
     (is (= (__ [1 1 2 3 2 1 1]) {1 4, 2 2, 3 1}))
