@@ -262,3 +262,30 @@
         (if (seq r)
           (f (apply (apply comp* r) args))
           (apply f args))))))
+
+(def
+  ^{::problem 66}
+  brute-force-gcd
+  "Given two integers, write a function which returns the greatest common divisor."
+  (fn [& args]
+    (let [[m & r :as sorted] (sort args)]
+      (reduce (fn [memo el]
+                (if (every? #(zero? (rem % el)) sorted)
+                  el
+                  memo))
+              (range 1 (inc m))))))
+
+(def
+  ^{::problem 69}
+  merge-with'
+  "Write a function which takes a function f and a variable number of maps.
+  Your function should return a map that consists of the rest of the maps
+  conj-ed onto the first. If a key occurs in more than one map, the mapping(s)
+  from the latter (left-to-right) should be combined with the mapping in the
+  result by calling (f val-in-result val-in-latter)
+  Special Restrictions: merge-with"
+  (fn [f & ms]
+    (reduce (fn [m k]
+              (assoc m k (reduce f (remove nil? (map #(get % k) ms)))))
+            {}
+            (flatten (map keys ms)))))

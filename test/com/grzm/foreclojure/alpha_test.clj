@@ -462,6 +462,49 @@
     (is (= [:map :set :vector :list] (map __ [{} #{} [] ()])))))
 
 (deftest
+  ^{::fc/problems 66}
+  greatest-common-divisor
+  "Given two integers, write a function which returns the greatest common divisor."
+  (let [__ fc/brute-force-gcd]
+    (is (= (__ 2 4) 2))
+    (is (= (__ 10 5) 5))
+    (is (= (__ 5 7) 1))
+    (is (= (__ 1023 858) 33))))
+
+(deftest
+  ^{::fc/problems 68}
+  recurring-theme
+  "Clojure only has one non-stack-consuming looping construct: recur.
+  Either a function or a loop can be used as the recursion point.
+  Either way, recur rebinds the bindings of the recursion point to the
+  values it is passed. Recur must be called from the tail-position,
+  and calling it elsewhere will result in an error."
+  (let [__ [7 6 5 4 3]]
+    (= __
+       (loop [x 5
+              result []]
+         (if (> x 0)
+           (recur (dec x) (conj result (+ 2 x)))
+           result)))))
+
+(deftest
+  ^{::fc/problems 69}
+  merge-with-a-function
+  "Write a function which takes a function f and a variable number of maps.
+  Your function should return a map that consists of the rest of the maps
+  conj-ed onto the first. If a key occurs in more than one map, the mapping(s)
+  from the latter (left-to-right) should be combined with the mapping in the
+  result by calling (f val-in-result val-in-latter)
+  Special Restrictions: merge-with"
+  (let [__ fc/merge-with']
+    (is (= (__ * {:a 2, :b 3, :c 4} {:a 2} {:b 2} {:c 5})
+           {:a 4, :b 6, :c 20}))
+    (is (= (__ - {1 10, 2 20} {1 3, 2 10, 3 15})
+           {1 7, 2 10, 3 15}))
+    (is (= (__ concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]})
+           {:a [3 4 5], :b [6 7], :c [8 9]}))))
+
+(deftest
   ^{::fc/problems 71}
   rearranging-code-colon->
   "The -> macro threads an expression x through a variable number of
