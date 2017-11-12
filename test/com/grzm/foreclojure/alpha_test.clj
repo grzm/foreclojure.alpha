@@ -3,6 +3,189 @@
             [com.grzm.foreclojure.alpha :as fc]))
 
 (deftest
+  ^{::fc/problem 1}
+  nothing-but-the-truth
+  "This is a clojure form. Enter a value which will make the form
+  evaluate to true. Don't over think it! If you are confused, see
+  the getting started page. Hint: true is equal to true."
+  (let [__ true]
+    (is (= __ true))))
+
+(deftest
+  ^{::fc/problem 2}
+  simple-math
+  "If you are not familiar with polish notation, simple arithmetic
+  might seem confusing.
+
+  Note: Enter only enough to fill in the blank (in this case, a single
+  number) - do not retype the whole problem."
+  (let [__ 4]
+    (is (= (- 10 (* 2 3)) __))))
+
+(deftest
+  ^{::fc/problem 3}
+  intro-to-strings
+  "Clojure strings are Java strings. This means that you can use any
+  of the Java string methods on Clojure strings."
+  (let [__ "HELLO WORLD"]
+    (is (= __ (.toUpperCase "hello world")))))
+
+(deftest
+  ^{::fc/problems 4}
+  intro-to-lists
+  "Lists can be constructed with either a function or a quoted form."
+  (is (= (list :a :b :c) '(:a :b :c))))
+
+(deftest
+  ^{::fc/problems 5}
+  lists-conj
+  "When operating on a list, the conj function will return a new list
+  with one or more items \"added\" to the front.
+
+  Note that there are two test cases, but you are expected to supply
+  only one answer, which will cause all the tests to pass."
+  (let [__ '(1 2 3 4)]
+    (is (= __ (conj '(2 3 4) 1)))
+    (is (= __ (conj '(3 4) 2 1)))))
+
+(deftest
+  ^{::fc/problems 6}
+  intro-to-vectors
+  "Vectors can be constructed several ways. You can compare them with lists.
+
+  Note: the brackets [] surrounding the blanks __ are part of the test case."
+  (is (= [:a :b :c] (list :a :b :c) (vec '(:a :b :c)) (vector :a :b :c))))
+
+(deftest
+  ^{::fc/problems 7}
+  vectors-conj
+  "When operating on a Vector, the conj function will return a new vector with
+  one or more items \"added\" to the end."
+  (let [__ [1 2 3 4]]
+    (is (= __ (conj [1 2 3] 4)))
+    (is (= __ (conj [1 2] 3 4)))))
+
+(deftest
+  ^{::fc/problems 8}
+  intro-to-sets
+  "Sets are collections of unique values."
+  (let [__ #{:a :b :c :d}]
+    (is (= __ (set '(:a :a :b :c :c :c :c :d :d))))
+    (is (= __ (clojure.set/union #{:a :b :c} #{:b :c :d})))))
+
+(deftest
+  ^{::fc/problems 9}
+  sets-conj
+  "When operating on a set, the conj function returns a new set with one
+  or more keys \"added\"."
+  (let [__ 2]
+    (is (= #{1 2 3 4} (conj #{1 4 3} __)))))
+
+(deftest
+  ^{::fc/problems 10}
+  intro-to-maps
+  "Maps store key-value pairs. Both maps and keywords can be used as
+  lookup functions. Commas can be used to make maps more readable,
+  but they are not required."
+  (let [__ 20]
+    (is (= __ ((hash-map :a 10, :b 20, :c 30) :b)))
+    (is (= __ (:b {:a 10, :b 20, :c 30})))))
+
+(deftest
+  ^{::fc/problems 11}
+  maps-conj
+  "When operating on a map, the conj function returns a new map with one
+  or more key-value pairs \"added\"."
+  (let [__ [:b 2]]
+    (= {:a 1, :b 2, :c 3} (conj {:a 1} __ [:c 3]))))
+
+(deftest
+  ^{::fc/problems 12}
+  intro-to-sequences
+  "All Clojure collections support sequencing. You can operate on sequences
+  with functions like first, second, and last."
+  (let [__ 3]
+    (= __ (first '(3 2 1)))
+    (= __ (second [2 3 4]))
+    (= __ (last (list 1 2 3)))))
+
+(deftest
+  ^{::fc/problems 13}
+  sequences-rest
+  "The rest function will return all the items of a sequence except the first."
+  (let [__ '(20 30 40)]
+    (is (= __ (rest [10 20 30 40])))))
+
+(deftest
+  ^{::fc/problems 14}
+  intro-to-functions
+  "Clojure has many different ways to create functions."
+  (let [__ 8]
+    (is (= __ ((fn add-five [x] (+ x 5)) 3)))
+    (is (= __ ((fn [x] (+ x 5)) 3)))
+    (is (= __ (#(+ % 5) 3)))
+    (is (= __ ((partial + 5) 3)))))
+
+(deftest
+  ^{::fc/problems 15}
+  double-down
+  "Write a function which doubles a number."
+  (let [__ (partial * 2)]
+    (is (= (__ 2) 4))
+    (is (= (__ 3) 6))
+    (is (= (__ 11) 22))
+    (is (= (__ 7) 14))))
+
+(deftest
+  ^{::fc/problems 16}
+  hello-world
+  "Write a function which returns a personalized greeting."
+  (let [__ (partial format "Hello, %s!")]
+    (is (= (__ "Dave") "Hello, Dave!"))
+    (is (= (__ "Jenn") "Hello, Jenn!"))
+    (is (= (__ "Rhea") "Hello, Rhea!"))))
+
+(deftest
+  ^{::fc/problems 17}
+  sequences-map
+  "The map function takes two arguments: a function (f) and a
+  sequence (s). Map returns a new sequence consisting of the
+  result of applying f to each item of s. Do not confuse the
+   map function with the map data structure."
+  (let [__ (list 6 7 8)]
+    (is (= __ (map #(+ % 5) '(1 2 3))))))
+
+(deftest
+  ^{::fc/problems 18}
+  sequences-filter
+  "The filter function takes two arguments: a predicate function
+  (f) and a sequence (s). Filter returns a new sequence consisting
+  of all the items of s for which (f item) returns true."
+  (let [__ '(6 7)]
+    (is (= __ (filter #(> % 5) '(3 4 5 6 7))))))
+
+(deftest
+  ^{::fc/problems 19}
+  last-element
+  "Write a function which returns the last element in a sequence.
+
+   Special Restrictions: last"
+  (let [__ (comp first reverse)]
+    (is (= (__ [1 2 3 4 5]) 5))
+    (is (= (__ '(5 4 3)) 3))
+    (is (= (__ ["b" "c" "d"]) "d"))))
+
+(deftest
+  ^{::fc/problems 20}
+  penultimate-element
+  "Write a function which returns the second to last element
+  from a sequence."
+  (let [__ (comp second reverse)]
+    (is (= (__ (list 1 2 3 4 5)) 4))
+    (is (= (__ ["a" "b" "c"]) "b"))
+    (is (= (__ [[1 2] [3 4]]) [1 2]))))
+
+(deftest
   ^{::fc/problem 21}
   nth-element
   (let [__ fc/enth]
