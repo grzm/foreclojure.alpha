@@ -352,7 +352,7 @@
   "A recursive function is a function which calls itself. This is one
   of the fundamental techniques used in functional programming."
   (let [__ '(5 4 3 2 1)]
-    (= __ ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5))))
+    (is (= __ ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5)))))
 
 (deftest
   ^{::fc/problems 58}
@@ -480,12 +480,12 @@
   values it is passed. Recur must be called from the tail-position,
   and calling it elsewhere will result in an error."
   (let [__ [7 6 5 4 3]]
-    (= __
-       (loop [x 5
-              result []]
-         (if (> x 0)
-           (recur (dec x) (conj result (+ 2 x)))
-           result)))))
+    (is (= __
+           (loop [x      5
+                  result []]
+             (if (> x 0)
+               (recur (dec x) (conj result (+ 2 x)))
+               result))))))
 
 (deftest
   ^{::fc/problems 69}
@@ -514,6 +514,6 @@
   that form if necessary. This process continues for all the forms.
   Using -> can sometimes make your code more readable."
   (let [__ last]
-    (= (__ (sort (rest (reverse [2 5 4 1 3 6]))))
-       (-> [2 5 4 1 3 6] (reverse) (rest) (sort) (__))
-       5)))
+    (is (= (__ (sort (rest (reverse [2 5 4 1 3 6]))))
+           (-> [2 5 4 1 3 6] (reverse) (rest) (sort) (__))
+           5))))
