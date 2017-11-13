@@ -564,6 +564,21 @@
     (is (= ["HELLO" 5] ((__ #(.toUpperCase %) count) "hello")))
     (is (= [2 6 4] ((__ :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10})))))
 
+#_(deftest
+    ^{::fc/problems             60
+      ::fc/difficulty           :medium
+      ::fc/topics               [:seqs :core-functions]
+      ::fc/special-restrictions ['reductions]}
+    sequence-reductions
+    "Write a function which behaves like reduce, but returns each
+  intermediate value of the reduction. Your function must accept
+  either two or three arguments, and the return sequence must be
+  lazy."
+    (let [__ identity]
+      (is (= (take 5 (__ + (range))) [0 1 3 6 10]))
+      (is (= (__ conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]]))
+      (is (= (last (__ * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120))))
+
 (deftest
   ^{::fc/problems 61}
   map-construction
@@ -575,6 +590,20 @@
     (is (= (__ [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3}))
     (is (= (__ [1 2 3 4] ["one" "two" "three"]) {1 "one", 2 "two", 3 "three"}))
     (is (= (__ [:foo :bar] ["foo" "bar" "baz"]) {:foo "foo", :bar "bar"}))    ))
+
+#_(deftest
+    ^{::fc/problems             62
+      ::fc/difficulty           :easy
+      ::fc/topics               [:seqs :core-functions]
+      ::fc/special-restrictions ['iterate]}
+    re-implement-iterate
+    "Given a side-effect free function f and an initial value x write a
+  function which returns an infinite lazy sequence of x, (f x), (f (f
+  x)), (f (f (f x))), etc."
+    (let [__ identity]
+      (is (= (take 5 (__ #(* 2 %) 1)) [1 2 4 8 16]))
+      (is (= (take 100 (__ inc 0)) (take 100 (range))))
+      (is (= (take 9 (__ #(inc (mod % 3)) 1)) (take 9 (cycle [1 2 3]))))))
 
 (deftest
   ^{::fc/problems 63}
