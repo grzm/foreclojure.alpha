@@ -276,6 +276,21 @@
               (range 1 (inc m))))))
 
 (def
+  ^{::problem 67}
+  primes
+  "Write a function which returns the first x number of prime numbers."
+  (fn [n]
+    (letfn [(prime? [x]
+              (cond
+                (= 2 x)   true
+                (= 3 x)   true
+                (even? x) false
+                :else     (not (apply (some-fn zero?)
+                                      (for [i (range 3 (inc (Math/sqrt x)) 2)]
+                                        (rem x i))))))]
+      (take n (filter prime? (drop 2 (range)))))))
+
+(def
   ^{::problem 69}
   merge-with'
   "Write a function which takes a function f and a variable number of maps.
@@ -322,3 +337,20 @@
          (filter #(let [r (Math/sqrt %)]
                     (= r (Math/floor r))))
          (clojure.string/join ","))))
+
+(def
+  ^{::problem    75
+    ::difficulty :medium}
+  totient
+  "Two numbers are coprime if their greatest common divisor equals 1.
+  Euler's totient function f(x) is defined as the number of positive
+  integers less than x which are coprime to x. The special case f(1)
+  equals 1. Write a function which calculates Euler's totient function."
+  (fn [n]
+    (if (= n 1)
+      1
+      (letfn [(gcd [a b]
+                (if (zero? b)
+                  a
+                  (recur b (rem a b))))]
+        (count (filter #(= 1 (gcd % n)) (range n)))))))

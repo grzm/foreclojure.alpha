@@ -684,6 +684,15 @@
     (is (= (__ 1023 858) 33))))
 
 (deftest
+  ^{::fc/problems 67}
+  prime-numbers
+  "Write a function which returns the first x number of prime numbers."
+  (let [__ fc/primes]
+    (is (= (__ 2) [2 3]))
+    (is (= (__ 5) [2 3 5 7 11]))
+    (is (= (last (__ 100)) 541))))
+
+(deftest
   ^{::fc/problems 68}
   recurring-theme
   "Clojure only has one non-stack-consuming looping construct: recur.
@@ -803,3 +812,38 @@
   (let [__ fc/filter-perfect-squares]
     (is (= (__ "4,5,6,7,8,9") "4,9"))
     (is (= (__ "15,16,25,36,37") "16,25,36"))))
+
+(deftest
+  ^{::fc/problem    75
+    ::fc/difficulty :medium}
+  eulers-totient-function
+  "Two numbers are coprime if their greatest common divisor equals 1.
+  Euler's totient function f(x) is defined as the number of positive
+  integers less than x which are coprime to x. The special case f(1)
+  equals 1. Write a function which calculates Euler's totient function."
+  (let [__ fc/totient]
+    (is (= (__ 1) 1))
+    (is (= (__ 10) (count '(1 3 7 9)) 4))
+    (is (= (__ 40) 16))
+    (is (= (__ 99) 60))))
+
+(deftest
+  ^{::fc/problem    76
+    ::fc/difficulty :medium
+    ::fc/topcs      [:recursion]}
+  intro-to-trampoline
+  "The trampoline function takes a function f and a variable number of
+  parameters. Trampoline calls f with any parameters that were
+  supplied. If f returns a function, trampoline calls that function
+  with no arguments. This is repeated, until the return value is not a
+  function, and then trampoline returns that non-function value. This
+  is useful for implementing mutually recursive algorithms in a way
+  that won't consume the stack."
+  (let [__ [1 3 5 7 9 11]]
+    (= __
+       (letfn
+           [(foo [x y] #(bar (conj x y) y))
+            (bar [x y] (if (> (last x) 10)
+                         x
+                         #(foo x (+ 2 y))))]
+         (trampoline foo [] 1)))))
