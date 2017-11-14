@@ -847,3 +847,74 @@
                          x
                          #(foo x (+ 2 y))))]
          (trampoline foo [] 1)))))
+
+(deftest
+  ^{::fc/problem    77
+    ::fc/difficulty :medium}
+  anagram-finder
+  "Write a function which finds all the anagrams in a vector of words.
+  A word x is an anagram of word y if all the letters in x can be
+  rearranged in a different order to form y. Your function should
+  return a set of sets, where each sub-set is a group of words which
+  are anagrams of each other. Each sub-set should have at least two
+  words. Words without any anagrams should not be included in the
+  result."
+  (let [__ fc/anagrams]
+    (is (= (__ ["meat" "mat" "team" "mate" "eat"])
+           #{#{"meat" "team" "mate"}}))
+    (is (= (__ ["veer" "lake" "item" "kale" "mite" "ever"])
+           #{#{"veer" "ever"} #{"lake" "kale"} #{"mite" "item"}}))))
+
+(deftest
+  ^{::fc/problem              78
+    ::fc/difficulty           :medium
+    ::fc/topics               [:core-functions]
+    ::fc/special-restrictions ['trampoline]}
+  reimplement-trampoline
+  "Reimplement the function described in \"Intro to Trampoline\"."
+  (let [__ fc/trampoline']
+    (is (= (letfn [(triple [x] #(sub-two (* 3 x)))
+                   (sub-two [x] #(stop?(- x 2)))
+                   (stop? [x] (if (> x 50) x #(triple x)))]
+             (__ triple 2))
+           82))
+    (is (= (letfn [(my-even? [x] (if (zero? x) true #(my-odd? (dec x))))
+                   (my-odd? [x] (if (zero? x) false #(my-even? (dec x))))]
+             (map (partial __ my-even?) (range 6)))
+           [true false true false true false]))))
+
+#_(deftest
+    ^{::fc/problem    79
+      ::fc/difficulty :hard
+      ::fc/topcs      [:graph-theory]}
+    triangle-minimal-path
+    "Write a function which calculates the sum of the minimal path
+  through a triangle. The triangle is represented as a collection of
+  vectors. The path should start at the top of the triangle and move
+  to an adjacent number on the next row until the bottom of the
+  triangle is reached."
+    (let [__ fc/triangle-minimal-path]
+      (is (= 7 (__ '([1]
+                     [2 4]
+                     [5 1 4]
+                     [2 3 4 5]))))        ; 1->2->1->3
+      (is (= 20 (__ '([3]
+                      [2 4]
+                      [1 9 3]
+                      [9 9 2 4]
+                      [4 6 6 7 8]
+                      [5 7 3 5 1 4])))))) ; 3->4->3->2->7->1
+
+(deftest
+  ^{::fc/problem    80
+    ::fc/difficulty :medium}
+  perfect-numbers
+  "A number is perfect if the sum of its divisors equal the number
+  itself. 6 is a perfect number because 1+2+3=6. Write a function
+  which returns true for perfect numbers and false otherwise."
+  (let [__ fc/perfect?]
+    (is (= (__ 6) true))
+    (is (= (__ 7) false))
+    (is (= (__ 496) true))
+    (is (= (__ 500) false))
+    (is (= (__ 8128) true))))

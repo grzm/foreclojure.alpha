@@ -354,3 +354,64 @@
                   a
                   (recur b (rem a b))))]
         (count (filter #(= 1 (gcd % n)) (range n)))))))
+
+(def
+  ^{::problem    77
+    ::difficulty :medium}
+  anagrams
+  "Write a function which finds all the anagrams in a vector of words.
+  A word x is an anagram of word y if all the letters in x can be
+  rearranged in a different order to form y. Your function should
+  return a set of sets, where each sub-set is a group of words which
+  are anagrams of each other. Each sub-set should have at least two
+  words. Words without any anagrams should not be included in the
+  result."
+  (fn [words]
+    (->> words
+         (group-by sort)
+         vals
+         (filter #(< 1 (count %)))
+         (map set)
+         (into #{}))))
+
+(def
+  ^{::problem              78
+    ::difficulty           :medium
+    ::topics               [:core-functions]
+    ::special-restrictions ['trampoline]}
+  trampoline'
+  "Reimplement the function described in \"Intro to Trampoline\"."
+  (fn t
+    [f & args]
+    (let [res (apply f args)]
+      (if (fn? res)
+        (t res)
+        res))))
+
+#_(def
+    ^{::problem    79
+      ::difficulty :hard
+      ::topcs      [:graph-theory]}
+    triangle-minimal-path
+    "Write a function which calculates the sum of the minimal path
+  through a triangle. The triangle is represented as a collection of
+  vectors. The path should start at the top of the triangle and move
+  to an adjacent number on the next row until the bottom of the
+  triangle is reached."
+    (fn [xs]
+      (-> (reduce (fn [memo el]
+                    (map list el (partition 2 1 memo)))
+                  (reverse xs)))))
+
+(def
+  ^{::problem    80
+    ::difficulty :medium}
+  perfect?
+  "A number is perfect if the sum of its divisors equal the number
+  itself. 6 is a perfect number because 1+2+3=6. Write a function
+  which returns true for perfect numbers and false otherwise."
+  (fn [n]
+    (let [divisors (for [i     (range 1 (inc (/ n 2)))
+                         :when (zero? (rem n i))]
+                     i)]
+      (= n (reduce + divisors)))))
