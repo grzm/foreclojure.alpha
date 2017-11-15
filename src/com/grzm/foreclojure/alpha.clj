@@ -415,3 +415,16 @@
                          :when (zero? (rem n i))]
                      i)]
       (= n (reduce + divisors)))))
+
+(def
+  ^{::problem              81
+    ::difficulty           :easy
+    ::topics               [:set-theory]
+    ::special-restrictions ['intersection]}
+  intersection'
+  "Write a function which returns the intersection of two sets. The
+  intersection is the sub-set of items that each set has in common."
+  (fn [f & sets]
+    (reduce (fn [m e]
+              (set (remove nil? (map #(some #{%} m) e))))
+            f sets)))

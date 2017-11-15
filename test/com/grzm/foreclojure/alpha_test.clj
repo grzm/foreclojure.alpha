@@ -918,3 +918,56 @@
     (is (= (__ 496) true))
     (is (= (__ 500) false))
     (is (= (__ 8128) true))))
+
+(deftest
+  ^{::fc/problem              81
+    ::fc/difficulty           :easy
+    ::fc/topics               [:set-theory]
+    ::fc/special-restrictions ['intersection]}
+  set-intersection
+  "Write a function which returns the intersection of two sets. The
+  intersection is the sub-set of items that each set has in common."
+  (let [__ fc/intersection']
+    (is (= (__ #{0 1 2 3} #{2 3 4 5}) #{2 3}))
+    (is (= (__ #{0 1 2} #{3 4 5}) #{}))
+    (is (= (__ #{:a :b :c :d} #{:c :e :a :f :d}) #{:a :c :d}))))
+
+#_(deftest
+    ^{::fc/problem    82
+      ::fc/difficulty :hard
+      ::fc/topics     [:seqs]}
+    word-chains
+    "A word chain consists of a set of words ordered so that each word
+  differs by only one letter from the words directly before and after
+  it. The one letter difference can be either an insertion, a deletion,
+  or a substitution. Here is an example word chain:
+
+  cat -> cot -> coat -> oat -> hat -> hot -> hog -> dog
+
+  Write a function which takes a sequence of words, and returns true if
+  they can be arranged into one continous word chain, and false if they
+  cannot."
+    (let [__ fc/word-chain?]
+      (is (= true (__ #{"hat" "coat" "dog" "cat" "oat" "cot" "hot" "hog"})))
+      (is (= false (__ #{"cot" "hot" "bat" "fat"})))
+      (is (= false (__ #{"to" "top" "stop" "tops" "toss"})))
+      (is (= true (__ #{"spout" "do" "pot" "pout" "spot" "dot"})))
+      (is (= true (__ #{"share" "hares" "shares" "hare" "are"})))
+      (is (= false (__ #{"share" "hares" "hare" "are"})))))
+
+(deftest
+  ^{::fc/problems   83
+    ::fc/difficulty :easy}
+  a-half-truth
+  "Write a function which takes a variable number of booleans. Your
+  function should return true if some of the parameters are true, but
+  not all of the parameters are true. Otherwise your function should
+  return false."
+  (let [__ (fn [& args]
+             (= 2 (count (keys (group-by identity args)))))]
+    (is (= false (__ false false)))
+    (is (= true (__ true false)))
+    (is (= false (__ true)))
+    (is (= true (__ false true false)))
+    (is (= false (__ true true true)))
+    (is (= true (__ true true true false)))))
