@@ -388,20 +388,21 @@
         (t res)
         res))))
 
-#_(def
-    ^{::problem    79
-      ::difficulty :hard
-      ::topcs      [:graph-theory]}
-    triangle-minimal-path
-    "Write a function which calculates the sum of the minimal path
+#_
+(def
+  ^{::problem    79
+    ::difficulty :hard
+    ::topcs      [:graph-theory]}
+  triangle-minimal-path
+  "Write a function which calculates the sum of the minimal path
   through a triangle. The triangle is represented as a collection of
   vectors. The path should start at the top of the triangle and move
   to an adjacent number on the next row until the bottom of the
   triangle is reached."
-    (fn [xs]
-      (-> (reduce (fn [memo el]
-                    (map list el (partition 2 1 memo)))
-                  (reverse xs)))))
+  (fn [xs]
+    (-> (reduce (fn [memo el]
+                  (map list el (partition 2 1 memo)))
+                (reverse xs)))))
 
 (def
   ^{::problem    80
