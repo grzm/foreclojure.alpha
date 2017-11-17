@@ -1385,6 +1385,438 @@
     (is (= (__ (constantly true) #{0 1 2 3 4})
            #{#{0 1 2 3 4}}))))
 
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    99
+    ::fc/difficulty :easy
+    ::fc/topics     #{:math :seqs}}
+  product-digits
+  "Write a function which multiplies two numbers and returns the
+  result as a sequence of its digits."
+  (let [__ ]
+    (is (= (__ 1 1) [1]))
+    (is (= (__ 99 9) [8 9 1]))
+    (is (= (__ 999 99) [9 8 9 0 1]))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem 100
+    ::fc/difficulty :easy
+    ::fc/topics #{:math}}
+  least-common-multiple
+  "Write a function which calculates the [least common
+  multiple](http://en.wikipedia.org/wiki/Least_common_multiple). Your
+  function should accept a variable number of positive integers or
+  ratios. "
+  (let [__]
+    (is (== (__ 2 3) 6))
+    (is (== (__ 5 3 7) 105))
+    (is (== (__ 1/3 2/5) 2))
+    (is (== (__ 3/4 1/6) 3/2))
+    (is (== (__ 7 5/7 2 3/5) 210))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    107
+    ::fc/difficulty :easy
+    ::fc/topics     #{:higher-order-functions :math}}
+  simple-closures
+  "Lexical scope and first-class functions are two of the most basic
+  building blocks of a functional language like Clojure. When you
+  combine the two together, you get something very powerful called
+  **lexical closures**. With these, you can exercise a great deal of
+  control over the lifetime of your local bindings, saving their
+  values for use later, long after the code you're running now has
+  finished.
+
+  It can be hard to follow in the abstract, so let's build a simple
+  closure. Given a positive integer *n*, return a function (f x) which
+  computes x<sup>n</sup>. Observe that the effect of this is to
+  preserve the value of *n* for use outside the scope in which it is
+  defined."
+  (let [__ ]
+    (is (= 256 ((__ 2) 16),
+           ((__ 8) 2)))
+    (is (= [1 8 27 64] (map (__ 3) [1 2 3 4])))
+    (is (= [1 2 4 8 16] (map #((__ %) 2) [0 1 2 3 4])))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem 118
+    ::fc/difficulty :easy
+    ::fc/topics #{:core-seqs}
+    ::fc/special-restrictions #{'map 'map-indexed 'mapcat 'for}}
+  re-implement-map
+  "Map is one of the core elements of a functional programming
+  language. Given a function f and an input sequence s, return a lazy
+  sequence of (f x) for each element x in s."
+  (let [__]
+    (is (= [3 4 5 6 7]
+           (__ inc [2 3 4 5 6])))
+    (is (= (repeat 10 nil)
+           (__ (fn [_] nil) (range 10))))
+    (is (= [1000000 1000001]
+           (->> (__ inc (range))
+                (drop (dec 1000000))
+                (take 2))))    ))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem 120
+    ::fc/difficulty :easy
+    ::fc/topics #{:math}}
+  sum-of-square-of-digits
+  "Write a function which takes a collection of integers as an
+  argument. Return the count of how many elements are smaller than the
+  sum of their squared component digits. For example: 10 is larger
+  than 1 squared plus 0 squared; whereas 15 is smaller than 1 squared
+  plus 5 squared."
+  (let [__]
+    (is (= 8 (__ (range 10))))
+    (is (= 19 (__ (range 30))))
+    (is (= 50 (__ (range 100))))
+    (is (= 50 (__ (range 1000))))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    122
+    ::fc/difficulty :easy}
+  read-a-binary-number
+  "Convert a binary number, provided in the form of a string, to its
+  numerical value."
+  (let [__]
+    (is (= 0     (__ "0")))
+    (is (= 7     (__ "111")))
+    (is (= 8     (__ "1000")))
+    (is (= 9     (__ "1001")))
+    (is (= 255   (__ "11111111")))
+    (is (= 1365  (__ "10101010101")))
+    (is (= 65535 (__ "1111111111111111")))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problems   126
+    ::fc/difficulty :easy
+    ::fc/topics     #{:fun :brain-teaser}}
+  through-the-looking-glass
+  "Enter a value which satisfies the following:"
+  (let [__]
+    (is (let [x __]
+          (and (= (class x) x) x)))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problems 128
+    ::fc/difficulty :easy
+    ::fc/topics #{:strings :game}}
+  recognize-playing-cards
+  "A standard American deck of playing cards has four suits - spades,
+  hearts, diamonds, and clubs - and thirteen cards in each suit. Two
+  is the lowest rank, followed by other integers up to ten; then the
+  jack, queen, king, and ace.
+
+  It's convenient for humans to represent these cards as suit/rank
+  pairs, such as H5 or DQ: the heart five and diamond queen
+  respectively. But these forms are not convenient for programmers, so
+  to write a card game you need some way to parse an input string into
+  meaningful components. For purposes of determining rank, we will
+  define the cards to be valued from 0 (the two) to 12 (the ace)
+
+  Write a function which converts (for example) the string \"SJ\" into
+  a map of {:suit :spade, :rank 9}. A ten will always be represented
+  with the single character \"T\", rather than the two characters
+  \"10\"."
+  (let [__]
+    (is (= {:suit :diamond :rank 10} (__ "DQ")))
+    (is (= {:suit :heart :rank 3} (__ "H5")))
+    (is (= {:suit :club :rank 12} (__ "CA")))
+    (is (= (range 13) (map (comp :rank __ str)
+                           '[S2 S3 S4 S5 S6 S7
+                             S8 S9 ST SJ SQ SK SA])))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    134
+    ::fc/difficulty :elementary
+    ::topics        #{:maps}}
+  a-nil-key
+  "Write a function which, given a key and map, returns true iff the
+  map contains an entry with that key and its value is nil."
+  (let [__ ]
+    (is (true?  (__ :a {:a nil :b 2})))
+    (is (false? (__ :b {:a nil :b 2})))
+    (is (false? (__ :c {:a nil :b 2})))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    135
+    ::fc/difficulty :easy
+    ::fc/topics     #{:higher-order-functions :math}}
+  infix-calculator
+  "Your friend Joe is always whining about Lisps using the prefix
+  notation for math. Show him how you could easily write a function
+  that does math using the infix notation. Is your favorite language
+  that flexible, Joe? Write a function that accepts a variable length
+  mathematical expression consisting of numbers and the operations +,
+  -, *, and /. Assume a simple calculator that does not do precedence
+  and instead just calculates left to right."
+  (let [__]
+    (is (= 7  (__ 2 + 5)))
+    (is (= 42 (__ 38 + 48 - 2 / 2)))
+    (is (= 8  (__ 10 / 2 - 1 * 2)))
+    (is (= 72 (__ 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9)))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    143
+    ::fc/difficulty :easy
+    ::topics        #{:seqs :math}}
+  dot-product
+  "Create a function that computes the [dot
+  product](http://en.wikipedia.org/wiki/Dot_product#Definition) of two
+  sequences. You may assume that the vectors will have the same
+  length."
+  (let [__ ]
+    (is (= 0 (__ [0 1 0] [1 0 0])))
+    (is (= 3 (__ [1 1 1] [1 1 1])))
+    (is (= 32 (__ [1 2 3] [4 5 6])))
+    (is (= 256 (__ [2 5 6] [100 10 1])))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    145
+    ::fc/difficulty :elementary
+    ::fc/topics     #{:core-functions :seqs}}
+  for-the-win
+  "Clojure's for macro is a tremendously versatile mechanism for
+  producing a sequence based on some other sequence(s). It can take
+  some time to understand how to use it properly, but that investment
+  will be paid back with clear, concise sequence-wrangling later. With
+  that in mind, read over these for expressions and try to see how
+  each of them produces the same result."
+  (let [__ ]
+    (is (= __ (for [x     (range 40)
+                    :when (= 1 (rem x 4))]
+                x)))
+    (is (= __ (for [x      (iterate #(+ 4 %) 0)
+                    :let   [z (inc x)]
+                    :while (< z 40)]
+                z)))
+    (is (= __ (for [[x y] (partition 2 (range 20))]
+                (+ x y))))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem 146
+    ::fc/difficulty :easy
+    ::fc/topics #{:seqs :maps}}
+  trees-into-tables
+  "Because Clojure's `for` macro allows you to \"walk\" over multiple
+  sequences in a nested fashion, it is excellent for transforming all
+  sorts of sequences. If you don't want a sequence as your final
+  output (say you want a map), you are often still best-off using for,
+  because you can produce a sequence and feed it into a map, for
+  example.
+
+  For this problem, your goal is to \"flatten\" a map of
+  hashmaps. Each key in your output map should be the
+  \"path\"<sup>1</sup> that you would have to take in the original map
+  to get to a value, so for example `{1 {2 3}}` should result in `{[1
+  2] 3}`. You only need to flatten one level of maps: if one of the
+  values is a map, just leave it alone.
+
+  <sup>1</sup> That is, `(get-in original [k1 k2])` should be the same
+  as `(get result [k1 k2])`"
+  (let [__]
+    (is (= (__ '{a {p 1, q 2}
+                 b {m 3, n 4}})
+           '{[a p] 1, [a q] 2
+             [b m] 3, [b n] 4}))
+    (is (= (__ '{[1] {a b c d}
+                 [2] {q r s t u v w x}})
+           '{[[1] a] b, [[1] c] d,
+             [[2] q] r, [[2] s] t,
+             [[2] u] v, [[2] w] x}))
+    (is (= (__ '{m {1 [a b c] 3 nil}})
+           '{[m 1] [a b c], [m 3] nil}))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem 147
+    ::fc/difficulty :easy
+    ::fc/topics #{:seqs}}
+  pascals-trapezoid
+  "Write a function that, for any given input vector of numbers,
+  returns an infinite lazy sequence of vectors, where each next one is
+  constructed from the previous following the rules used in [Pascal's
+  Triangle](http://en.wikipedia.org/wiki/Pascal's_triangle). For
+  example, for [3 1 2], the next row is [3 4 3 2].
+
+  Beware of arithmetic overflow! In clojure (since version 1.3 in
+  2011), if you use an arithmetic operator like + and the result is
+  too large to fit into a 64-bit integer, an exception is thrown. You
+  can use +' to indicate that you would rather overflow into Clojure's
+  slower, arbitrary-precision bigint."
+  (let [__]
+    (is (= (second (__ [2 3 2])) [2 5 5 2]))
+    (is (= (take 5 (__ [1])) [[1] [1 1] [1 2 1] [1 3 3 1] [1 4 6 4 1]]))
+    (is (= (take 2 (__ [3 1 2])) [[3 1 2] [3 4 3 2]]))
+    (is (= (take 100 (__ [2 4 2])) (rest (take 101 (__ [2 2])))))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    153
+    ::fc/difficulty :easy
+    ::fc/topics     #{:set-theory}}
+  pairwise-disjoint-sets
+  "Given a set of sets, create a function which returns true if no two
+  of those sets have any elements in common<sup>1</sup> and false
+  otherwise. Some of the test cases are a bit tricky, so pay a little
+  more attention to them.
+
+  <sup>1</sup>Such sets are usually called *pairwise disjoint* or
+  *mutually disjoint*."
+  (let [__]
+    (is (= (__ #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
+           true))
+    (is (= (__ #{#{:a :b :c :d :e}
+                 #{:a :b :c :d}
+                 #{:a :b :c}
+                 #{:a :b}
+                 #{:a}})
+           false))
+    (is (= (__ #{#{[1 2 3] [4 5]}
+                 #{[1 2] [3 4 5]}
+                 #{[1] [2] 3 4 5}
+                 #{1 2 [3 4] [5]}})
+           true))
+    (is (= (__ #{#{'a 'b}
+                 #{'c 'd 'e}
+                 #{'f 'g 'h 'i}
+                 #{''a ''c ''f}})
+           true))
+    (is (= (__ #{#{'(:x :y :z) '(:x :y) '(:z) '()}
+                 #{#{:x :y :z} #{:x :y} #{:z} #{}}
+                 #{'[:x :y :z] [:x :y] [:z] [] {}}})
+           false))
+    (is (= (__ #{#{(= "true") false}
+                 #{:yes :no}
+                 #{(class 1) 0}
+                 #{(symbol "true") 'false}
+                 #{(keyword "yes") ::no}
+                 #{(class '1) (int \0)}})
+           false))
+    (is (= (__ #{#{distinct?}
+                 #{#(-> %) #(-> %)}
+                 #{#(-> %) #(-> %) #(-> %)}
+                 #{#(-> %) #(-> %) #(-> %)}})
+           true))
+    (is (= (__ #{#{(#(-> *)) + (quote mapcat) #_ nil}
+                 #{'+ '* mapcat (comment mapcat)}
+                 #{(do) set contains? nil?}
+                 #{, , , #_, , empty?}})
+           false))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    156
+    ::fc/difficulty :elementary
+    ::fc/topics     #{:seqs}}
+  map-defaults
+  "When retrieving values from a map, you can specify default values
+  in case the key is not found:
+
+  (= 2 (:foo {:bar 0, :baz 1} 2))
+
+  However, what if you want the map itself to contain the default
+  values? Write a function which takes a default value and a sequence
+  of keys and constructs a map."
+  (let [__]
+    (is (= (__ 0 [:a :b :c]) {:a 0 :b 0 :c 0}))
+    (is (= (__ "x" [1 2 3]) {1 "x" 2 "x" 3 "x"}))
+    (is (= (__ [:a :b] [:foo :bar]) {:foo [:a :b] :bar [:a :b]}))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    157
+    ::fc/difficulty :easy
+    ::fc/topics     #{:seqs}}
+  indexing-sequences
+  "Transform a sequence into a sequence of pairs containing the
+  original elements along with their index."
+  (let [__]
+    (is (= (__ [:a :b :c]) [[:a 0] [:b 1] [:c 2]]))
+    (is (= (__ [0 1 3]) '((0 0) (1 1) (3 2))))
+    (is (= (__ [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]]))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    161
+    ::fc/difficulty :elementary
+    ::fc/topics     #{:set-theory}}
+  subset-and-superset
+  "Set A is a subset of set B, or equivalently B is a superset of A,
+  if A is \"contained\" inside B. A and B may coincide."
+  (let [__]
+    (is (clojure.set/superset? __ #{2}))
+    (is (clojure.set/subset? #{1} __))
+    (is (clojure.set/superset? __ #{1 2}))
+    (is (clojure.set/subset? #{1 2} __))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    162
+    ::fc/difficulty :elementary
+    ::fc/topics     #{:logic}}
+  logical-falsity-and-truth
+  "In Clojure, only nil and false represent the values of logical
+  falsity in conditional tests - anything else is logical truth."
+  (let [__ ]
+    (is (= __ (if-not false 1 0)))
+    (is (= __ (if-not nil 1 0)))
+    (is (= __ (if true 1 0)))
+    (is (= __ (if [] 1 0)))
+    (is (= __ (if [0] 1 0)))
+    (is (= __ (if 0 1 0)))
+    (is (= __ (if 1 1 0)))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    166
+    ::fc/difficulty :easy}
+  comparisons
+  "For any orderable data type it's possible to derive all of the
+  basic comparison operations (<, ≤, =, ≠, ≥, and >) from a single
+  operation (any operator but = or ≠ will work). Write a function that
+  takes three arguments, a less than operator for the data and two items
+  to compare. The function should return a keyword describing the
+  relationship between the two items. The keywords for the relationship
+  between *x* and *y* are as follows:
+
+ - x = y → :eq
+ - x > y → :gt
+ - x < y → :lt"
+  (let [__ ]
+    (is (= :gt (__ < 5 1)))
+    (is (= :eq (__ (fn [x y] (< (count x) (count y))) "pear" "plum")))
+    (is (= :lt (__ (fn [x y] (< (mod x 5) (mod y 5))) 21 3)))
+    (is (= :gt (__ > 0 2)))))
+
+#_;; TODO
+(deftest
+  ^{::fc/problem 173
+    ::fc/difficulty :easy
+    ::fc/topics #{:destructuring}}
+  intro-to-destructuring-2
+  "Sequential destructuring allows you to bind symbols to parts of
+  sequential things (vectors, lists, seqs, etc.): [(let [bindings* ]
+  exprs*)](http://clojure.org/special_forms#Special%20Forms--(let%20[bindings*%20]%20exprs*))
+  Complete the bindings so all let-parts evaluate to 3."
+  (let [__ ]
+    (is (= 3
+           (let [[__] [+ (range 3)]] (apply __))
+           (let [[[__] b] [[+ 1] 2]] (__ b))
+           (let [[__] [inc 2]] (__))))))
 
 (comment
   ;; all solved problems ordered by name
