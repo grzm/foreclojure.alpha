@@ -3,7 +3,8 @@
             [com.grzm.foreclojure.alpha :as fc]))
 
 (deftest
-  ^{::fc/problem 1}
+  ^{::fc/problem    1
+    ::fc/difficulty :elementary}
   nothing-but-the-truth
   "This is a clojure form. Enter a value which will make the form
   evaluate to true. Don't over think it! If you are confused, see
@@ -12,7 +13,8 @@
     (is (= __ true))))
 
 (deftest
-  ^{::fc/problem 2}
+  ^{::fc/problem    2
+    ::fc/difficulty :elementary}
   simple-math
   "If you are not familiar with polish notation, simple arithmetic
   might seem confusing.
@@ -23,7 +25,8 @@
     (is (= (- 10 (* 2 3)) __))))
 
 (deftest
-  ^{::fc/problem 3}
+  ^{::fc/problem    3
+    ::fc/difficulty :elementary}
   intro-to-strings
   "Clojure strings are Java strings. This means that you can use any
   of the Java string methods on Clojure strings."
@@ -31,13 +34,15 @@
     (is (= __ (.toUpperCase "hello world")))))
 
 (deftest
-  ^{::fc/problem 4}
+  ^{::fc/problem    4
+    ::fc/difficulty :elementary}
   intro-to-lists
   "Lists can be constructed with either a function or a quoted form."
   (is (= (list :a :b :c) '(:a :b :c))))
 
 (deftest
-  ^{::fc/problem 5}
+  ^{::fc/problem    5
+    ::fc/difficulty :elementary}
   lists-conj
   "When operating on a list, the conj function will return a new list
   with one or more items \"added\" to the front.
@@ -49,7 +54,8 @@
     (is (= __ (conj '(3 4) 2 1)))))
 
 (deftest
-  ^{::fc/problem 6}
+  ^{::fc/problem    6
+    ::fc/difficulty :elementary}
   intro-to-vectors
   "Vectors can be constructed several ways. You can compare them with lists.
 
@@ -57,7 +63,8 @@
   (is (= [:a :b :c] (list :a :b :c) (vec '(:a :b :c)) (vector :a :b :c))))
 
 (deftest
-  ^{::fc/problem 7}
+  ^{::fc/problem    7
+    ::fc/difficulty :elementary}
   vectors-conj
   "When operating on a Vector, the conj function will return a new vector with
   one or more items \"added\" to the end."
@@ -66,7 +73,8 @@
     (is (= __ (conj [1 2] 3 4)))))
 
 (deftest
-  ^{::fc/problem 8}
+  ^{::fc/problem    8
+    ::fc/difficulty :elementary}
   intro-to-sets
   "Sets are collections of unique values."
   (let [__ #{:a :b :c :d}]
@@ -74,7 +82,8 @@
     (is (= __ (clojure.set/union #{:a :b :c} #{:b :c :d})))))
 
 (deftest
-  ^{::fc/problem 9}
+  ^{::fc/problem    9
+    ::fc/difficulty :elementary}
   sets-conj
   "When operating on a set, the conj function returns a new set with one
   or more keys \"added\"."
@@ -82,7 +91,8 @@
     (is (= #{1 2 3 4} (conj #{1 4 3} __)))))
 
 (deftest
-  ^{::fc/problem 10}
+  ^{::fc/problem    10
+    ::fc/difficulty :elementary}
   intro-to-maps
   "Maps store key-value pairs. Both maps and keywords can be used as
   lookup functions. Commas can be used to make maps more readable,
@@ -92,7 +102,8 @@
     (is (= __ (:b {:a 10, :b 20, :c 30})))))
 
 (deftest
-  ^{::fc/problem 11}
+  ^{::fc/problem    11
+    ::fc/difficulty :elementary}
   maps-conj
   "When operating on a map, the conj function returns a new map with one
   or more key-value pairs \"added\"."
@@ -100,7 +111,8 @@
     (= {:a 1, :b 2, :c 3} (conj {:a 1} __ [:c 3]))))
 
 (deftest
-  ^{::fc/problem 12}
+  ^{::fc/problem    12
+    ::fc/difficulty :elementary}
   intro-to-sequences
   "All Clojure collections support sequencing. You can operate on sequences
   with functions like first, second, and last."
@@ -110,14 +122,16 @@
     (= __ (last (list 1 2 3)))))
 
 (deftest
-  ^{::fc/problem 13}
+  ^{::fc/problem    13
+    ::fc/difficulty :elementary}
   sequences-rest
   "The rest function will return all the items of a sequence except the first."
   (let [__ '(20 30 40)]
     (is (= __ (rest [10 20 30 40])))))
 
 (deftest
-  ^{::fc/problem 14}
+  ^{::fc/problem    14
+    ::fc/difficulty :elementary}
   intro-to-functions
   "Clojure has many different ways to create functions."
   (let [__ 8]
@@ -127,7 +141,8 @@
     (is (= __ ((partial + 5) 3)))))
 
 (deftest
-  ^{::fc/problem 15}
+  ^{::fc/problem    15
+    ::fc/difficulty :elementary}
   double-down
   "Write a function which doubles a number."
   (let [__ (partial * 2)]
@@ -137,7 +152,8 @@
     (is (= (__ 7) 14))))
 
 (deftest
-  ^{::fc/problem 16}
+  ^{::fc/problem    16
+    ::fc/difficulty :elementary}
   hello-world
   "Write a function which returns a personalized greeting."
   (let [__ (partial format "Hello, %s!")]
@@ -146,7 +162,8 @@
     (is (= (__ "Rhea") "Hello, Rhea!"))))
 
 (deftest
-  ^{::fc/problem 17}
+  ^{::fc/problem    17
+    ::fc/difficulty :elementary}
   sequences-map
   "The map function takes two arguments: a function (f) and a
   sequence (s). Map returns a new sequence consisting of the
@@ -156,7 +173,8 @@
     (is (= __ (map #(+ % 5) '(1 2 3))))))
 
 (deftest
-  ^{::fc/problem 18}
+  ^{::fc/problem    18
+    ::fc/difficulty :elementary}
   sequences-filter
   "The filter function takes two arguments: a predicate function
   (f) and a sequence (s). Filter returns a new sequence consisting
@@ -165,7 +183,8 @@
     (is (= __ (filter #(> % 5) '(3 4 5 6 7))))))
 
 (deftest
-  ^{::fc/problem 19}
+  ^{::fc/problem    19
+    ::fc/difficulty :easy}
   last-element
   "Write a function which returns the last element in a sequence.
 
@@ -176,7 +195,8 @@
     (is (= (__ ["b" "c" "d"]) "d"))))
 
 (deftest
-  ^{::fc/problem 20}
+  ^{::fc/problem    20
+    ::fc/difficulty :easy}
   penultimate-element
   "Write a function which returns the second to last element
   from a sequence."
@@ -186,7 +206,8 @@
     (is (= (__ [[1 2] [3 4]]) [1 2]))))
 
 (deftest
-  ^{::fc/problem 21}
+  ^{::fc/problem    21
+    ::fc/difficulty :easy}
   nth-element
   (let [__ fc/enth]
     (is (= (__ '(4 5 6 7) 2) 6))
@@ -195,7 +216,8 @@
     (is (= (__ '([1 2] [3 4] [5 6]) 2) [5 6]))))
 
 (deftest
-  ^{:fc/problem 22}
+  ^{::fc/problem    22
+    ::fc/difficulty :easy}
   count-a-sequence
   (let [__ fc/cownt]
     (is (= (__ '(1 2 3 3 1)) 5))
@@ -205,7 +227,8 @@
     (is (= (__ '(:a :b :c)) 3))))
 
 (deftest
-  ^{::fc/problem 23}
+  ^{::fc/problem    23
+    ::fc/difficulty :easy}
   reverse-a-sequence
   (let [__ fc/revers]
     (is (= (__ [1 2 3 4 5]) [5 4 3 2 1]))
@@ -213,7 +236,8 @@
     (is (= (__ [[1 2] [3 4] [5 6]]) [[5 6] [3 4] [1 2]]))))
 
 (deftest
-  ^{::fc/problem 24}
+  ^{::fc/problem    24
+    ::fc/difficulty :easy}
   sum-it-all-up
   (let [__ fc/sum]
     (is (= (__ [1 2 3]) 6))
@@ -223,7 +247,8 @@
     (is (= (__ '(1 10 3)) 14))))
 
 (deftest
-  ^{::fc/problem 25}
+  ^{::fc/problem    25
+    ::fc/difficulty :easy}
   find-the-odd-numbers
   (let [__ fc/filter-odd]
     (is (= (__ #{1 2 3 4 5}) '(1 3 5)))
@@ -232,7 +257,8 @@
     (is (= (__ [1 1 1 3]) '(1 1 1 3)))))
 
 (deftest
-  ^{::fc/problem 26}
+  ^{::fc/problem    26
+    ::fc/difficulty :easy}
   fibonacci-sequence
   (let [__ fc/fibonacci-seq]
     (is (= (__ 3) '(1 1 2)))
@@ -240,7 +266,8 @@
     (is (= (__ 8) '(1 1 2 3 5 8 13 21)))))
 
 (deftest
-  ^{::fc/problem 27}
+  ^{::fc/problem    27
+    ::fc/difficulty :easy}
   palindrome-detector
   (let [__ fc/palindrome?]
     (is (false? (__ '(1 2 3 4 5))))
@@ -250,7 +277,8 @@
     (is (false? (__ '(:a :b :c))))))
 
 (deftest
-  ^{::fc/problem 28}
+  ^{::fc/problem    28
+    ::fc/difficulty :easy}
   flatten-a-sequence
   (let [__ fc/flatten']
     (is (= (__ '((1 2) 3 [4 [5 6]])) '(1 2 3 4 5 6)))
@@ -258,7 +286,8 @@
     (is (= (__ '((((:a))))) '(:a)))))
 
 (deftest
-  ^{::fc/problem 29}
+  ^{::fc/problem    29
+    ::fc/difficulty :easy}
   get-the-caps
   (let [__ fc/caps]
     (is (= (__ "HeLlO, WoRlD!") "HLOWRD"))
@@ -266,7 +295,8 @@
     (is (= (__ "$#A(*&987Zf") "AZ"))))
 
 (deftest
-  ^{::fc/problem 30}
+  ^{::fc/problem    30
+    ::fc/difficulty :easy}
   compress-a-sequence
   (let [__ fc/dedupe']
     (is (= (apply str (__ "Leeeeeerrroyyy")) "Leroy"))
@@ -274,7 +304,8 @@
     (is (= (__ [[1 2] [1 2] [3 4] [1 2]]) '([1 2] [3 4] [1 2])))))
 
 (deftest
-  ^{::fc/problem 31}
+  ^{::fc/problem    31
+    ::fc/difficulty :easy}
   pack-a-sequence
   (let [__ fc/pack]
     (is (= (__ [1 1 2 1 1 1 3 3]) '((1 1) (2) (1 1 1) (3 3))))
@@ -282,7 +313,8 @@
     (is (= (__ [[1 2] [1 2] [3 4]]) '(([1 2] [1 2]) ([3 4]))))))
 
 (deftest
-  ^{::fc/problem 32}
+  ^{::fc/problem    32
+    ::fc/difficulty :easy}
   duplicate-a-sequence
   (let [__ fc/duplicate]
     (is (= (__ [1 2 3]) '(1 1 2 2 3 3)))
@@ -291,7 +323,8 @@
     (is (= (__ [[1 2] [3 4]]) '([1 2] [1 2] [3 4] [3 4])))))
 
 (deftest
-  ^{::fc/problem 33}
+  ^{::fc/problem    33
+    ::fc/difficulty :easy}
   replicate-a-sequence
   (let [__ fc/replicate']
     (is (= (__ [1 2 3] 2) '(1 1 2 2 3 3)))
@@ -301,7 +334,8 @@
     (is (= (__ [44 33] 2) [44 44 33 33]))))
 
 (deftest
-  ^{::fc/problem 34}
+  ^{::fc/problem    34
+    ::fc/difficulty :easy}
   implement-range
   (let [__ fc/range']
     (is (= (__ 1 4) '(1 2 3)))
@@ -309,7 +343,8 @@
     (is (= (__ 5 8) '(5 6 7)))))
 
 (deftest
-  ^{::fc/problem 35}
+  ^{::fc/problem    35
+    ::fc/difficulty :elementary}
   local-bindings
   (let [__ 7]
     (is (= __ (let [x 5] (+ 2 x))))
@@ -317,7 +352,8 @@
     (is (= __ (let [x 21] (let [y 3] (/ x y)))))))
 
 (deftest
-  ^{::fc/problem 36}
+  ^{::fc/problem    36
+    ::fc/difficulty :elementary}
   let-it-be
   (let [x 7
         y 3
@@ -327,13 +363,15 @@
     (is (= 1 z))))
 
 (deftest
-  ^{::fc/problem 37}
+  ^{::fc/problem    37
+    ::fc/difficulty :elementary}
   regular-expressions
   (let [__ "ABC"]
     (is (= __ (apply str (re-seq #"[A-Z]+" "bA1B3Ce "))))))
 
 (deftest
-  ^{::fc/problem 38}
+  ^{::fc/problem    38
+    ::fc/difficulty :easy}
   maximum-value
   (let [__ (fn [& xs]
              (reduce (fn [memo el]
@@ -345,7 +383,8 @@
     (is (= (__ 45 67 11) 67))))
 
 (deftest
-  ^{::fc/problem 39}
+  ^{::fc/problem    39
+    ::fc/difficulty :easy}
   interleave-two-seqs
   "Write a function which takes two sequences and returns the first item
   from each, then the second item from each, then the third, etc."
@@ -356,7 +395,8 @@
     (is (= (__ [30 20] [25 15]) [30 25 20 15]))))
 
 (deftest
-  ^{::fc/problem 40}
+  ^{::fc/problem    40
+    ::fc/difficulty :easy}
   interpose-a-seq
   "Write a function which separates the items of a sequence by an arbitrary value.
   Special Restrictions: interpose"
@@ -366,7 +406,8 @@
     (is (= (__ :z [:a :b :c :d]) [:a :z :b :z :c :z :d]))))
 
 (deftest
-  ^{::fc/problem 41}
+  ^{::fc/problem    41
+    ::fc/difficulty :easy}
   drop-every-nth-item
   "Write a function which drops every Nth item from a sequence."
   (let [__ fc/drop-nth]
@@ -375,7 +416,8 @@
     (is (= (__ [1 2 3 4 5 6] 4) [1 2 3 5 6]))))
 
 (deftest
-  ^{::fc/problem 42}
+  ^{::fc/problem    42
+    ::fc/difficulty :easy}
   factorial-fun
   "Write a function which calculates factorials."
   (let [__ fc/factorial']
@@ -385,7 +427,8 @@
     (is (= (__ 8) 40320))))
 
 (deftest
-  ^{::fc/problem 43}
+  ^{::fc/problem    43
+    ::fc/difficulty :medium}
   reverse-interleave
   (let [__ fc/reverse-interleave]
     (is (= (__ [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6))))
@@ -393,7 +436,8 @@
     (is (= (__ (range 10) 5) '((0 5) (1 6) (2 7) (3 8) (4 9))))))
 
 (deftest
-  ^{::fc/problem 44}
+  ^{::fc/problem    44
+    ::fc/difficulty :medium}
   rotate-sequence
   "Write a function which can rotate a sequence in either direction."
   (let [__ fc/rotate']
@@ -404,14 +448,16 @@
     (is (= (__ -4 '(:a :b :c)) '(:c :a :b)))))
 
 (deftest
-  ^{::fc/problem 45}
+  ^{::fc/problem    45
+    ::fc/difficulty :easy}
   intro-to-iterate
   "The iterate function can be used to produce an infinite lazy sequence."
   (let [__ '(1 4 7 10 13)]
     (is (= __ (take 5 (iterate #(+ 3 %) 1))))))
 
 (deftest
-  ^{::fc/problem 46}
+  ^{::fc/problem    46
+    ::fc/difficulty :medium}
   flipping-out
   "Write a higher-order function which flips the order of the
    arguments of an input function."
@@ -422,7 +468,8 @@
     (is (= [1 2 3] ((__ take) [1 2 3 4 5] 3)))))
 
 (deftest
-  ^{::fc/problem 47}
+  ^{::fc/problem    47
+    ::fc/difficulty :easy}
   contain-yourself
   "The contains? function checks if a KEY is present in a given
    collection. This often leads beginner clojurians to use it
@@ -435,7 +482,8 @@
     (is (not (contains? [1 2 4] __)))))
 
 (deftest
-  ^{::fc/problem 48}
+  ^{::fc/problem    48
+    ::fc/difficulty :easy}
   intro-to-some
   "The some function takes a predicate function and a collection.
   It returns the first logical true value of (predicate x) where x
@@ -445,7 +493,8 @@
     (is (= __ (some #(when (even? %) %) [5 6 7 8])))))
 
 (deftest
-  ^{::fc/problem 49}
+  ^{::fc/problem    49
+    ::fc/difficulty :easy}
   split-a-sequence
   (let [__ (fn [n xs] [(take n xs) (drop n xs)])]
     (is (= (__ 3 [1 2 3 4 5 6]) [[1 2 3] [4 5 6]]))
@@ -453,7 +502,8 @@
     (is (= (__ 2 [[1 2] [3 4] [5 6]]) [[[1 2] [3 4]] [[5 6]]]))))
 
 (deftest
-  ^{::fc/problem 50}
+  ^{::fc/problem    50
+    ::fc/difficulty :medium}
   split-by-type
   "Write a function which takes a sequence consisting
   of items with different types and splits them up into
@@ -467,7 +517,8 @@
     (is (= (set (__ [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]}))))
 
 (deftest
-  ^{::fc/problem 51}
+  ^{::fc/problem    51
+    ::fc/difficulty :easy}
   advanced-destructuring
   "Here is an example of some more sophisticated destructuring."
   (let [__ [1 2 3 4 5]]
@@ -476,7 +527,8 @@
              [a b c d])))))
 
 (deftest
-  ^{::fc/problem 52}
+  ^{::fc/problem    52
+    ::fc/difficulty :elementary}
   intro-to-destructuring
   "Let bindings and function parameter lists support destructuring."
   (is (= [2 4]
@@ -485,7 +537,8 @@
            __))))
 
 (deftest
-  ^{::fc/problem 53}
+  ^{::fc/problem    53
+    ::fc/difficulty :hard}
   longest-increasing-sub-seq
   "Given a vector of integers, find the longest consecutive
   sub-sequence of increasing numbers. If two sub-sequences have
@@ -498,7 +551,8 @@
     (is (= (__ [7 6 5 4]) []))))
 
 (deftest
-  ^{::fc/problem 54}
+  ^{::fc/problem    54
+    ::fc/difficulty :medium}
   partition-a-sequence
   "Write a function which returns a sequence of lists of x items
   each. Lists of less than x items should not be returned.
@@ -509,7 +563,8 @@
     (is (= (__ 3 (range 8)) '((0 1 2) (3 4 5))))))
 
 (deftest
-  ^{::fc/problem 55}
+  ^{::fc/problem    55
+    ::fc/difficulty :medium}
   count-occurrences
   "Write a function which returns a map containing the
     number of occurences of each distinct item in a sequence."
@@ -519,7 +574,8 @@
     (is (= (__ '([1 2] [1 3] [1 3])) {[1 2] 1, [1 3] 2}))))
 
 (deftest
-  ^{::fc/problem 56}
+  ^{::fc/problem    56
+    ::fc/difficulty :medium}
   find-distinct-items
   "Write a function which removes the duplicates from
   a sequence. Order of the items must be maintained."
@@ -530,7 +586,8 @@
     (is (= (__ (range 50)) (range 50)))))
 
 (deftest
-  ^{::fc/problem 57}
+  ^{::fc/problem    57
+    ::fc/difficulty :elementary}
   simple-recursion
   "A recursive function is a function which calls itself. This is one
   of the fundamental techniques used in functional programming."
@@ -538,7 +595,8 @@
     (is (= __ ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5)))))
 
 (deftest
-  ^{::fc/problem 58}
+  ^{::fc/problem    58
+    ::fc/difficulty :medium}
   function-composition
   "Write a function which allows you to create function compositions.
   The parameter list should take a variable number of functions, and
@@ -551,7 +609,8 @@
     (is (= "HELLO" ((__ #(.toUpperCase %) #(apply str %) take) 5 "hello world")))))
 
 (deftest
-  ^{::fc/problem 59}
+  ^{::fc/problem    59
+    ::fc/difficulty :medium}
   juxtaposition
   "Take a set of functions and return a new function that takes a
   variable number of arguments and returns a sequence containing the
@@ -581,7 +640,8 @@
     (is (= (last (__ * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120))))
 
 (deftest
-  ^{::fc/problem 61}
+  ^{::fc/problem    61
+    ::fc/difficulty :easy}
   map-construction
   "Write a function which takes a vector of keys and a vector of values
   and constructs a map from them.
@@ -608,7 +668,8 @@
     (is (= (take 9 (__ #(inc (mod % 3)) 1)) (take 9 (cycle [1 2 3]))))))
 
 (deftest
-  ^{::fc/problem 63}
+  ^{::fc/problem    63
+    ::fc/difficulty :easy}
   group-a-sequence
   "Given a function f and a sequence s, write a function which
   returns a map. The keys should be the values of f applied to each
@@ -629,7 +690,8 @@
            {1 [[1] [3]], 2 [[1 2] [2 3]], 3 [[1 2 3]]}))))
 
 (deftest
-  ^{::fc/problem 64}
+  ^{::fc/problem    64
+    ::fc/difficulty :elementary}
   intro-to-reduce
   "Reduce takes a 2 argument function and an optional starting value.
   It then applies the function to the first 2 items in the sequence
@@ -643,7 +705,8 @@
     (is (=  6 (reduce __ 1 [2 3])))))
 
 (deftest
-  ^{::fc/problem 65}
+  ^{::fc/problem    65
+    ::fc/difficulty :medium}
   black-box-testing
   "Clojure has many sequence types, which act in subtly different ways.
   The core functions typically convert them into a uniform \"sequence\"
@@ -676,7 +739,8 @@
     (is (= [:map :set :vector :list] (map __ [{} #{} [] ()])))))
 
 (deftest
-  ^{::fc/problem 66}
+  ^{::fc/problem    66
+    ::fc/difficulty :easy}
   greatest-common-divisor
   "Given two integers, write a function which returns the greatest common divisor."
   (let [__ fc/brute-force-gcd]
@@ -686,7 +750,8 @@
     (is (= (__ 1023 858) 33))))
 
 (deftest
-  ^{::fc/problem 67}
+  ^{::fc/problem    67
+    ::fc/difficulty :medium}
   prime-numbers
   "Write a function which returns the first x number of prime numbers."
   (let [__ fc/primes]
@@ -695,7 +760,8 @@
     (is (= (last (__ 100)) 541))))
 
 (deftest
-  ^{::fc/problem 68}
+  ^{::fc/problem    68
+    ::fc/difficulty :elementary}
   recurring-theme
   "Clojure only has one non-stack-consuming looping construct: recur.
   Either a function or a loop can be used as the recursion point.
@@ -711,7 +777,8 @@
                result))))))
 
 (deftest
-  ^{::fc/problem 69}
+  ^{::fc/problem    69
+    ::fc/difficulty :medium}
   merge-with-a-function
   "Write a function which takes a function f and a variable number of maps.
   Your function should return a map that consists of the rest of the maps
@@ -729,7 +796,8 @@
 
 
 (deftest
-  ^{::fc/problem 70}
+  ^{::fc/problem    70
+    ::fc/difficulty :medium}
   word-sorting
   "Write a function that splits a sentence up into a sorted
   list of words. Capitalization should not affect sort order
@@ -746,7 +814,8 @@
            ["fall" "follies" "foolish" "Fools" "for"]))))
 
 (deftest
-  ^{::fc/problem 71}
+  ^{::fc/problem    71
+    ::fc/difficulty :elementary}
   rearranging-code-colon->
   "The -> macro threads an expression x through a variable number of
   forms. First, x is inserted as the second item in the first form,
@@ -760,7 +829,8 @@
            5))))
 
 (deftest
-  ^{::fc/problem 72}
+  ^{::fc/problem    72
+    ::fc/difficulty :elementary}
   rearranging-code-colon->>
   "The ->> macro threads an expression x through a variable number of
   forms. First, x is inserted as the last item in the first form, making
@@ -774,7 +844,8 @@
            11))))
 
 (deftest
-  ^{::fc/problem 73}
+  ^{::fc/problem    73
+    ::fc/difficulty :hard}
   analyze-a-tic-tac-toe-board
   "A tic-tac-toe board is represented by a two dimensional vector.
   X is represented by :x, O is represented by :o, and empty is
@@ -806,7 +877,8 @@
                     [:o :x :o]])))))
 
 (deftest
-  ^{::fc/problem 74}
+  ^{::fc/problem    74
+    ::fc/difficulty :medium}
   filter-perfect-squares
   "Given a string of comma separated integers, write a function
   which returns a new comma separated string that only contains
@@ -1313,3 +1385,12 @@
            #{#{0} #{1} #{2} #{3} #{4}}))
     (is (= (__ (constantly true) #{0 1 2 3 4})
            #{#{0 1 2 3 4}}))))
+
+
+(comment
+  ;; all solved problems ordered by name
+  (->> (ns-interns 'com.grzm.foreclojure.alpha-test)
+       vals
+       (filter #(:test (meta %)))
+       (sort-by #(:name (meta %))))
+  )
