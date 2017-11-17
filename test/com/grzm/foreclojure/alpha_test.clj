@@ -183,12 +183,11 @@
     (is (= __ (filter #(> % 5) '(3 4 5 6 7))))))
 
 (deftest
-  ^{::fc/problem    19
-    ::fc/difficulty :easy}
+  ^{::fc/problem              19
+    ::fc/difficulty           :easy
+    ::fc/special-restrictions #{'last}}
   last-element
-  "Write a function which returns the last element in a sequence.
-
-   Special Restrictions: last"
+  "Write a function which returns the last element in a sequence."
   (let [__ (comp first reverse)]
     (is (= (__ [1 2 3 4 5]) 5))
     (is (= (__ '(5 4 3)) 3))
@@ -395,11 +394,11 @@
     (is (= (__ [30 20] [25 15]) [30 25 20 15]))))
 
 (deftest
-  ^{::fc/problem    40
-    ::fc/difficulty :easy}
+  ^{::fc/problem              40
+    ::fc/difficulty           :easy
+    ::fc/special-restrictions #{'interpose}}
   interpose-a-seq
-  "Write a function which separates the items of a sequence by an arbitrary value.
-  Special Restrictions: interpose"
+  "Write a function which separates the items of a sequence by an arbitrary value."
   (let [__ fc/interpose']
     (is (= (__ 0 [1 2 3]) [1 0 2 0 3]))
     (is (= (apply str (__ ", " ["one" "two" "three"])) "one, two, three"))
@@ -551,12 +550,12 @@
     (is (= (__ [7 6 5 4]) []))))
 
 (deftest
-  ^{::fc/problem    54
-    ::fc/difficulty :medium}
+  ^{::fc/problem              54
+    ::fc/difficulty           :medium
+    ::fc/special-restrictions #{'partition 'partition-all}}
   partition-a-sequence
   "Write a function which returns a sequence of lists of x items
-  each. Lists of less than x items should not be returned.
-  Special Restrictions: partition, partition-all"
+  each. Lists of less than x items should not be returned."
   (let [__ fc/partition']
     (is (= (__ 3 (range 9)) '((0 1 2) (3 4 5) (6 7 8))))
     (is (= (__ 2 (range 8)) '((0 1) (2 3) (4 5) (6 7))))
@@ -595,13 +594,13 @@
     (is (= __ ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5)))))
 
 (deftest
-  ^{::fc/problem    58
-    ::fc/difficulty :medium}
+  ^{::fc/problem              58
+    ::fc/difficulty           :medium
+    ::fc/special-restrictions #{'comp}}
   function-composition
   "Write a function which allows you to create function compositions.
   The parameter list should take a variable number of functions, and
-  create a function that applies them from right-to-left.
-  Special Restrictions: comp"
+  create a function that applies them from right-to-left."
   (let [__ fc/comp']
     (is (= [3 2 1] ((__ rest reverse) [1 2 3 4])))
     (is (= 5 ((__ (partial + 3) second) [1 2 3 4])))
@@ -609,13 +608,13 @@
     (is (= "HELLO" ((__ #(.toUpperCase %) #(apply str %) take) 5 "hello world")))))
 
 (deftest
-  ^{::fc/problem    59
-    ::fc/difficulty :medium}
+  ^{::fc/problem              59
+    ::fc/difficulty           :medium
+    ::fc/special-restrictions #{'juxt}}
   juxtaposition
   "Take a set of functions and return a new function that takes a
   variable number of arguments and returns a sequence containing the
-  result of applying each function left-to-right to the argument list.
-  Special Restrictions: juxt"
+  result of applying each function left-to-right to the argument list."
   (let [__ (fn juxt* [& fs]
              (fn [& args]
                (map #(apply % args) fs)))]
@@ -627,8 +626,8 @@
 (deftest
   ^{::fc/problem              60
     ::fc/difficulty           :medium
-    ::fc/topics               [:seqs :core-functions]
-    ::fc/special-restrictions ['reductions]}
+    ::fc/topics               #{:seqs :core-functions}
+    ::fc/special-restrictions #{'reductions}}
   sequence-reductions
   "Write a function which behaves like reduce, but returns each
   intermediate value of the reduction. Your function must accept
@@ -640,12 +639,12 @@
     (is (= (last (__ * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120))))
 
 (deftest
-  ^{::fc/problem    61
-    ::fc/difficulty :easy}
+  ^{::fc/problem              61
+    ::fc/difficulty           :easy
+    ::fc/special-restrictions #{'zipmap}}
   map-construction
   "Write a function which takes a vector of keys and a vector of values
-  and constructs a map from them.
-  Special Restrictions: zipmap"
+  and constructs a map from them."
   (let [__ (fn [ks vs]
              (into {} (map (comp vec list) ks vs)))]
     (is (= (__ [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3}))
@@ -656,8 +655,8 @@
 (deftest
   ^{::fc/problem              62
     ::fc/difficulty           :easy
-    ::fc/topics               [:seqs :core-functions]
-    ::fc/special-restrictions ['iterate]}
+    ::fc/topics               #{:seqs :core-functions}
+    ::fc/special-restrictions #{'iterate}}
   re-implement-iterate
   "Given a side-effect free function f and an initial value x write a
   function which returns an infinite lazy sequence of x, (f x), (f (f
@@ -705,8 +704,11 @@
     (is (=  6 (reduce __ 1 [2 3])))))
 
 (deftest
-  ^{::fc/problem    65
-    ::fc/difficulty :medium}
+  ^{::fc/problem              65
+    ::fc/difficulty           :medium
+    ::fc/special-restrictions #{'class 'type 'Class
+                                'vector? 'sequential? 'list?
+                                'seq? 'map? 'set? 'instance? 'getClass?}}
   black-box-testing
   "Clojure has many sequence types, which act in subtly different ways.
   The core functions typically convert them into a uniform \"sequence\"
@@ -717,10 +719,7 @@
   Write a function which takes a collection and returns one of :map, :set,
   :list, or :vector - describing the type of collection it was given. You
   won't be allowed to inspect their class or use the built-in predicates like
-  list? - the point is to poke at them and understand their behavior.
-
-  Special Restrictions: class type Class vector? sequential? list? seq?
-                        map? set? instance? getClass"
+  list? - the point is to poke at them and understand their behavior."
   (let [__ (fn [bb]
              (let [mapped (map identity bb)
                    g      (gensym)
@@ -777,15 +776,15 @@
                result))))))
 
 (deftest
-  ^{::fc/problem    69
-    ::fc/difficulty :medium}
+  ^{::fc/problem              69
+    ::fc/difficulty           :medium
+    ::fc/special-restrictions #{'merge-with}}
   merge-with-a-function
   "Write a function which takes a function f and a variable number of maps.
   Your function should return a map that consists of the rest of the maps
   conj-ed onto the first. If a key occurs in more than one map, the mapping(s)
   from the latter (left-to-right) should be combined with the mapping in the
-  result by calling (f val-in-result val-in-latter)
-  Special Restrictions: merge-with"
+  result by calling (f val-in-result val-in-latter)"
   (let [__ fc/merge-with']
     (is (= (__ * {:a 2, :b 3, :c 4} {:a 2} {:b 2} {:c 5})
            {:a 4, :b 6, :c 20}))
@@ -942,8 +941,8 @@
 (deftest
   ^{::fc/problem              78
     ::fc/difficulty           :medium
-    ::fc/topics               [:core-functions]
-    ::fc/special-restrictions ['trampoline]}
+    ::fc/topics               #{:core-functions}
+    ::fc/special-restrictions #{'trampoline}}
   reimplement-trampoline
   "Reimplement the function described in \"Intro to Trampoline\"."
   (let [__ fc/trampoline']
@@ -997,8 +996,8 @@
 (deftest
   ^{::fc/problem              81
     ::fc/difficulty           :easy
-    ::fc/topics               [:set-theory]
-    ::fc/special-restrictions ['intersection]}
+    ::fc/topics               #{:set-theory}
+    ::fc/special-restrictions #{'intersection}}
   set-intersection
   "Write a function which returns the intersection of two sets. The
   intersection is the sub-set of items that each set has in common."
@@ -1011,7 +1010,7 @@
 (deftest
   ^{::fc/problem    82
     ::fc/difficulty :hard
-    ::fc/topics     [:seqs]}
+    ::fc/topics     #{:seqs}}
   word-chains
   "A word chain consists of a set of words ordered so that each word
   differs by only one letter from the words directly before and after
@@ -1052,7 +1051,7 @@
 (deftest
   ^{::fc/problem    84
     ::fc/difficulty :hard
-    ::topics        [:set-theory]}
+    ::topics        #{:set-theory}}
   transitive-closure
   "Write a function which generates the transitive closure of a binary
   relation. The relation will be represented as a set of 2 item vectors."
@@ -1087,7 +1086,7 @@
 (deftest
   ^{::fc/problem    86
     ::fc/difficulty :medium
-    ::fc/topics     [:math]}
+    ::fc/topics     #{:math}}
   happy-numbers
   "Happy numbers are positive integers that follow a particular
   formula: take each individual digit, square it, and then sum the
@@ -1107,7 +1106,7 @@
 (deftest
   ^{::fc/problem    88
     ::fc/difficulty :easy
-    ::fc/topics     [:set-theory]}
+    ::fc/topics     #{:set-theory}}
   symmetric-difference
   "Write a function which returns the symmetric difference of two
   sets. The symmetric difference is the set of items belonging to one
@@ -1122,7 +1121,7 @@
 (deftest
   ^{::fc/problem    89
     ::fc/difficulty :hard
-    ::fc/topics     [:graph-theory]}
+    ::fc/topics     #{:graph-theory}}
   graph-tour
   "Starting with a graph you must write a function that returns true
   if it is possible to make a tour of the graph in which every edge is
@@ -1150,7 +1149,7 @@
 (deftest
   ^{::fc/problem    90
     ::fc/difficulty :easy
-    ::fc/topics     [:set-theory]}
+    ::fc/topics     #{:set-theory}}
   cartesian-product
   "Write a function which calculates the Cartesian product of two sets."
   (let [__ fc/cartesian-product]
@@ -1234,7 +1233,7 @@
 (deftest
   ^{::fc/problem    94
     ::fc/difficulty :hard
-    ::fc/topics     [:game]}
+    ::fc/topics     #{:game}}
   game-of-life
   "The game of life is a cellular automaton devised by mathematician
   John Conway.
@@ -1293,7 +1292,7 @@
 (deftest
   ^{::fc/problem    95
     ::fc/difficulty :easy
-    ::fc/topics     [:trees]}
+    ::fc/topics     #{:trees}}
   to-tree-or-not-to-tree
   "Write a predicate which checks whether or not a given sequence
   represents a [binary tree](https://en.wikipedia.org/wiki/Binary_tree).
@@ -1317,7 +1316,7 @@
 (deftest
   ^{::fc/problem    96
     ::fc/difficulty :easy
-    ::fc/topics     [:trees]}
+    ::fc/topics     #{:trees}}
   beauty-is-symmetry
   "Let us define a binary tree as \"symmetric\" if the left half of the
   tree is the mirror image of the right half of the tree. Write a
