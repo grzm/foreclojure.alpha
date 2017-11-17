@@ -975,3 +975,186 @@
     (is (= true (__ false true false)))
     (is (= false (__ true true true)))
     (is (= true (__ true true true false)))))
+
+#_
+(deftest
+  ^{::fc/problem    84
+    ::fc/difficulty :hard
+    ::topics        [:set-theory]}
+  transitive-closure
+  "Write a function which generates the transitive closure of a binary
+  relation. The relation will be represented as a set of 2 item vectors."
+  (let [__ #()]
+    (is (let [divides #{[8 4] [9 3] [4 2] [27 9]}]
+          (= (__ divides) #{[4 2] [8 4] [8 2] [9 3] [27 9] [27 3]})))
+    (is (let [more-legs
+              #{["cat" "man"] ["man" "snake"] ["spider" "cat"]}]
+          (= (__ more-legs)
+             #{["cat" "man"] ["cat" "snake"] ["man" "snake"]
+               ["spider" "cat"] ["spider" "man"] ["spider" "snake"]})))
+    (is (let [progeny
+              #{["father" "son"] ["uncle" "cousin"] ["son" "grandson"]}]
+          (= (__ progeny)
+             #{["father" "son"] ["father" "grandson"]
+               ["uncle" "cousin"] ["son" "grandson"]})))))
+
+#_
+(deftest
+  ^{::fc/problem    85
+    ::fc/difficulty :medium
+    ::fc/topcs      [:set-theory]}
+  power-set
+  "Write a function which generates the power set of a given set. The power set of a set x is the set of all subsets of x, including the empty set and x itself."
+  (let [__ #()]
+    (is (= (__ #{1 :a}) #{#{1 :a} #{:a} #{} #{1}}))
+    (is (= (__ #{}) #{#{}}))
+    (is (= (__ #{1 2 3})
+           #{#{} #{1} #{2} #{3} #{1 2} #{1 3} #{2 3} #{1 2 3}}))
+    (is (= (count (__ (into #{} (range 10)))) 1024))))
+
+(deftest
+  ^{::fc/problem    86
+    ::fc/difficulty :medium
+    ::fc/topics     [:math]}
+  happy-numbers
+  "Happy numbers are positive integers that follow a particular
+  formula: take each individual digit, square it, and then sum the
+  squares to get a new number. Repeat with the new number and
+  eventually, you might get to a number whose squared sum is 1. This
+  is a happy number. An unhappy number (or sad number) is one that
+  loops endlessly. Write a function that determines if a number is
+  happy or not."
+  (let [__ fc/happy?]
+    (is (= (__ 7) true))
+    (is (= (__ 986543210) true))
+    (is (= (__ 2) false))
+    (is (= (__ 3) false))))
+
+;; no problem 87
+
+(deftest
+  ^{::fc/problem    88
+    ::fc/difficulty :easy
+    ::fc/topics     [:set-theory]}
+  symmetric-difference
+  "Write a function which returns the symmetric difference of two
+  sets. The symmetric difference is the set of items belonging to one
+  but not both of the two sets."
+  (let [__ fc/symmetric-difference]
+    (is (= (__ #{1 2 3 4 5 6} #{1 3 5 7}) #{2 4 6 7}))
+    (is (= (__ #{:a :b :c} #{}) #{:a :b :c}))
+    (is (= (__ #{} #{4 5 6}) #{4 5 6}))
+    (is (= (__ #{[1 2] [2 3]} #{[2 3] [3 4]}) #{[1 2] [3 4]}))))
+
+#_
+(deftest
+  ^{::fc/problem    89
+    ::fc/difficulty :hard
+    ::fc/topics     [:graph-theory]}
+  graph-tour
+  "Starting with a graph you must write a function that returns true
+  if it is possible to make a tour of the graph in which every edge is
+  visited exactly once.
+
+  The graph is represented by a vector of tuples, where each tuple
+  represents a single edge.
+
+  The rules are:
+
+  - You can start at any node.
+  - You must visit each edge exactly once.
+  - All edges are undirected."
+  (let [__ ]
+    (is (= true (__ [[:a :b]])))
+    (is (= false (__ [[:a :a] [:b :b]])))
+    (is (= false (__ [[:a :b] [:a :b] [:a :c] [:c :a]
+                      [:a :d] [:b :d] [:c :d]])))
+    (is (= true (__ [[1 2] [2 3] [3 4] [4 1]])))
+    (is (= true (__ [[:a :b] [:a :c] [:c :b] [:a :e]
+                     [:b :e] [:a :d] [:b :d] [:c :e]
+                     [:d :e] [:c :f] [:d :f]])))
+    (is (= false (__ [[1 2] [2 3] [2 4] [2 5]])))))
+
+(deftest
+  ^{::fc/problem    90
+    ::fc/difficulty :easy
+    ::fc/topics     [:set-theory]}
+  cartesian-product
+  "Write a function which calculates the Cartesian product of two sets."
+  (let [__ fc/cartesian-product]
+    (is (= (__ #{"ace" "king" "queen"} #{"♠" "♥" "♦" "♣"})
+           #{["ace"   "♠"] ["ace"   "♥"] ["ace"   "♦"] ["ace"   "♣"]
+             ["king"  "♠"] ["king"  "♥"] ["king"  "♦"] ["king"  "♣"]
+             ["queen" "♠"] ["queen" "♥"] ["queen" "♦"] ["queen" "♣"]}))
+    (is (= (__ #{1 2 3} #{4 5})
+           #{[1 4] [2 4] [3 4] [1 5] [2 5] [3 5]}))
+    (is (= 300 (count (__ (into #{} (range 10))
+                          (into #{} (range 30))))))))
+
+#_
+(deftest
+  ^{::fc/problem    91
+    ::fc/difficulty :hard
+    ::fc/topic      [:graph-theory]}
+  graph-connectivity
+  "Given a graph, determine whether the graph is connected. A
+  connected graph is such that a path exists between any two given
+  nodes.
+
+  -Your function must return true if the graph is connected and false
+   otherwise.
+
+  -You will be given a set of tuples representing the edges of a
+   graph. Each member of a tuple being a vertex/node in the graph.
+
+  -Each edge is undirected (can be traversed either direction)."
+  (let [__ #()]
+    (is (= true (__ #{[:a :a]})))
+    (is (= true (__ #{[:a :b]})))
+    (is (= false (__ #{[1 2] [2 3] [3 1]
+                       [4 5] [5 6] [6 4]})))
+    (is (= true (__ #{[1 2] [2 3] [3 1]
+                      [4 5] [5 6] [6 4] [3 4]})))
+    (is (= false (__ #{[:a :b] [:b :c] [:c :d]
+                       [:x :y] [:d :a] [:b :e]})))
+    (is (= true (__ #{[:a :b] [:b :c] [:c :d]
+                      [:x :y] [:d :a] [:b :e] [:x :a]})))))
+
+#_
+(deftest
+  ^{::fc/problem    92
+    ::fc/difficulty :hard
+    :topic          [:strings :math]}
+  read-roman-numerals
+  "Roman numerals are easy to recognize, but not everyone knows all
+  the rules necessary to work with them. Write a function to parse a
+  Roman-numeral string and return the number it represents.
+
+  You can assume that the input will be well-formed, in upper-case,
+  and follow the [subtractive
+  principle](http://en.wikipedia.org/wiki/Roman_numerals#Subtractive_principle).
+  You don't need to handle any numbers greater than MMMCMXCIX (3999), the
+  largest number representable with ordinary letters."
+  (let [__ #()]
+    (is (= 14 (__ "XIV")))
+    (is (= 827 (__ "DCCCXXVII")))
+    (is (= 3999 (__ "MMMCMXCIX")))
+    (is (= 48 (__ "XLVIII")))))
+
+#_
+(deftest
+  ^{::fc/problem    93
+    ::fc/difficulty :medium
+    ::fc/topic      [:seqs]}
+  partially-flatten-a-sequence
+  "Write a function which flattens any nested combination of
+  sequential things (lists, vectors, etc.), but maintains the lowest
+  level sequential items. The result should be a sequence of sequences
+  with only one level of nesting."
+  (let [__ fc/partial-flatten]
+    (is (= (__ [["Do"] ["Nothing"]])
+           [["Do"] ["Nothing"]]))
+    (is (= (__ [[[[:a :b]]] [[:c :d]] [:e :f]])
+           [[:a :b] [:c :d] [:e :f]]))
+    (is (= (__ '((1 2)((3 4)((((5 6)))))))
+           '((1 2)(3 4)(5 6))))))

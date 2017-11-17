@@ -429,3 +429,69 @@
     (reduce (fn [m e]
               (set (remove nil? (map #(some #{%} m) e))))
             f sets)))
+
+(def
+  ^{::problem    86
+    ::difficulty :medium
+    ::topics     [:math]}
+  happy?
+  "Happy numbers are positive integers that follow a particular
+  formula: take each individual digit, square it, and then sum the
+  squares to get a new number. Repeat with the new number and
+  eventually, you might get to a number whose squared sum is 1. This
+  is a happy number. An unhappy number (or sad number) is one that
+  loops endlessly. Write a function that determines if a number is
+  happy or not."
+  (fn h
+    ([n]
+     (h n #{}))
+    ([n seen]
+     (if (seen n)
+       false
+       (let [m (reduce + (map #(let [x (Integer/parseInt (str %))]
+                                 (* x x))
+                              (seq (str n))))]
+         (if (= m 1)
+           true
+           (h m (conj seen n))))))))
+
+(def
+  ^{::problem    88
+    ::difficulty :easy
+    ::topics     [:set-theory]}
+  symmetric-difference
+  "Write a function which returns the symmetric difference of two
+  sets. The symmetric difference is the set of items belonging to one
+  but not both of the two sets."
+  (fn [a b]
+    (clojure.set/union
+      (clojure.set/difference a b)
+      (clojure.set/difference b a))))
+
+(def
+  ^{::problem    90
+    ::difficulty :easy
+    ::topics     [:set-theory]}
+  cartesian-product
+  "Write a function which calculates the Cartesian product of two sets."
+  (fn [a b]
+    (set (for [x a
+               y b]
+           [x y]))))
+
+#_
+(def
+  ^{::problem    93
+    ::difficulty :medium
+    ::topic      [:seqs]}
+  partial-flatten
+  "Write a function which flattens any nested combination of
+  sequential things (lists, vectors, etc.), but maintains the lowest
+  level sequential items. The result should be a sequence of sequences
+  with only one level of nesting."
+  (fn [xs]
+    (letfn [(unnest [coll]
+              (if (some coll? coll)
+                (map unnest coll)
+                coll))]
+      (mapcat unnest xs))))
