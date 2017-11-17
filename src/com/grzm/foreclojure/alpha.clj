@@ -479,6 +479,37 @@
                y b]
            [x y]))))
 
+(def
+  ^{::problem    92
+    ::difficulty :hard
+    ::topic      [:strings :math]}
+  roman->dec
+  "Roman numerals are easy to recognize, but not everyone knows all
+  the rules necessary to work with them. Write a function to parse a
+  Roman-numeral string and return the number it represents.
+
+  You can assume that the input will be well-formed, in upper-case,
+  and follow the [subtractive
+  principle](http://en.wikipedia.org/wiki/Roman_numerals#Subtractive_principle).
+  You don't need to handle any numbers greater than MMMCMXCIX (3999), the
+  largest number representable with ordinary letters."
+  (fn [s]
+    (let [d       {\M 1000
+                   \D 500
+                   \C 100
+                   \L 50
+                   \X 10
+                   \V 5
+                   \I 1}
+          [f & r] (map #(get d %) (seq s))]
+      (->> (reduce (fn [memo e]
+                     (if (< (first memo) e)
+                       (conj (rest memo) (- e (first memo)))
+                       (conj memo e)))
+                   (list f)
+                   r)
+           (reduce +)))))
+
 #_
 (def
   ^{::problem    93
@@ -495,3 +526,40 @@
                 (map unnest coll)
                 coll))]
       (mapcat unnest xs))))
+
+(def
+  ^{::problem    95
+    ::difficulty :easy
+    ::topics     [:trees]}
+  binary-tree?
+  "Write a predicate which checks whether or not a given sequence
+  represents a [binary tree](https://en.wikipedia.org/wiki/Binary_tree).
+  Each node in the tree must have a value, a left child, and a right child."
+  (fn t? [xs]
+    (if (coll? xs)
+      (and (= 3 (count xs))
+           (let [[_ a b] xs]
+             (and (t? a) (t? b))))
+      ;; not sure why false isn't a valid value for a leaf,
+      ;; but this is necessary to reject [1 [2 [3 [4 false nil] nil] nil] nil]
+      ;; as not a tree
+      (not (false? xs)))))
+
+(def
+  ^{::problem    96
+    ::difficulty :easy
+    ::topics     [:trees]}
+  symmetric?
+  "Let us define a binary tree as \"symmetric\" if the left half of the
+  tree is the mirror image of the right half of the tree. Write a
+  predicate to determine whether or not a given binary tree is
+  symmetric. (see [To Tree, or not to
+  Tree](http://www.4clojure.com/problem/95) for a reminder on the tree
+  representation we're using)."
+  (fn [[_ a b]]
+    (letfn [(mirror [t]
+              (if (coll? t)
+                (let [[h a b] t]
+                  [h (mirror b) (mirror a)])
+                t))]
+      (= a (mirror b)))))

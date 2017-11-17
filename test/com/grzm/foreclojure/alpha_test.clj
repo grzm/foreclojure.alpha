@@ -1120,7 +1120,6 @@
     (is (= true (__ #{[:a :b] [:b :c] [:c :d]
                       [:x :y] [:d :a] [:b :e] [:x :a]})))))
 
-#_
 (deftest
   ^{::fc/problem    92
     ::fc/difficulty :hard
@@ -1135,7 +1134,7 @@
   principle](http://en.wikipedia.org/wiki/Roman_numerals#Subtractive_principle).
   You don't need to handle any numbers greater than MMMCMXCIX (3999), the
   largest number representable with ordinary letters."
-  (let [__ #()]
+  (let [__ fc/roman->dec]
     (is (= 14 (__ "XIV")))
     (is (= 827 (__ "DCCCXXVII")))
     (is (= 3999 (__ "MMMCMXCIX")))
@@ -1158,3 +1157,159 @@
            [[:a :b] [:c :d] [:e :f]]))
     (is (= (__ '((1 2)((3 4)((((5 6)))))))
            '((1 2)(3 4)(5 6))))))
+
+#_
+(deftest
+  ^{::fc/problem    94
+    ::fc/difficulty :hard
+    ::fc/topics     [:game]}
+  game-of-life
+  "The game of life is a cellular automaton devised by mathematician
+  John Conway.
+
+  The 'board' consists of both live (#) and dead ( ) cells. Each cell
+  interacts with its eight neighbours (horizontal, vertical, diagonal),
+  and its next state is dependent on the following rules:
+
+  1) Any live cell with fewer than two live neighbours dies, as if
+     caused by under-population.
+  2) Any live cell with two or three live neighbours lives on to the
+      next generation.
+  3) Any live cell with more than three live neighbours dies, as if
+     by overcrowding.
+  4) Any dead cell with exactly three live neighbours becomes a live cell,
+     as if by reproduction.
+
+  Write a function that accepts a board, and returns a board
+  representing the next generation of cells."
+  (let [__]
+    (is (= (__ ["      "
+                " ##   "
+                " ##   "
+                "   ## "
+                "   ## "
+                "      "])
+           ["      "
+            " ##   "
+            " #    "
+            "    # "
+            "   ## "
+            "      "]))
+    (is (= (__ ["     "
+                "     "
+                " ### "
+                "     "
+                "     "])
+           ["     "
+            "  #  "
+            "  #  "
+            "  #  "
+            "     "]))
+    (is (= (__ ["      "
+                "      "
+                "  ### "
+                " ###  "
+                "      "
+                "      "])
+           ["      "
+            "   #  "
+            " #  # "
+            " #  # "
+            "  #   "
+            "      "]))))
+
+(deftest
+  ^{::fc/problem    95
+    ::fc/difficulty :easy
+    ::fc/topics     [:trees]}
+  to-tree-or-not-to-tree
+  "Write a predicate which checks whether or not a given sequence
+  represents a [binary tree](https://en.wikipedia.org/wiki/Binary_tree).
+  Each node in the tree must have a value, a left child, and a right child."
+  (let [__ fc/binary-tree?]
+    (is (= (__ '(:a (:b nil nil) nil))
+           true))
+    (is (= (__ '(:a (:b nil nil)))
+           false))
+    (is (= (__ [1 nil [2 [3 nil nil] [4 nil nil]]])
+           true))
+    (is (= (__ [1 [2 nil nil] [3 nil nil] [4 nil nil]])
+           false))
+    (is (= (__ [1 [2 [3 [4 nil nil] nil] nil] nil])
+           true))
+    (is (= (__ [1 [2 [3 [4 false nil] nil] nil] nil])
+           false))
+    (is (= (__ '(:a nil ()))
+           false))))
+
+(deftest
+  ^{::fc/problem    96
+    ::fc/difficulty :easy
+    ::fc/topics     [:trees]}
+  beauty-is-symmetry
+  "Let us define a binary tree as \"symmetric\" if the left half of the
+  tree is the mirror image of the right half of the tree. Write a
+  predicate to determine whether or not a given binary tree is
+  symmetric. (see [To Tree, or not to
+  Tree](http://www.4clojure.com/problem/95) for a reminder on the tree
+  representation we're using)."
+  (let [__ fc/symmetric?]
+    (is (= (__ '(:a (:b nil nil) (:b nil nil))) true))
+    (is (= (__ '(:a (:b nil nil) nil)) false))
+    (is (= (__ '(:a (:b nil nil) (:c nil nil))) false))
+    (is (= (__ [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+                [2 [3 nil [4 [6 nil nil] [5 nil nil]]] nil]])
+           true))
+    (is (= (__ [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+                [2 [3 nil [4 [5 nil nil] [6 nil nil]]] nil]])
+           false))
+    (is (= (__ [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+                [2 [3 nil [4 [6 nil nil] nil]] nil]])
+           false))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    97
+    ::fc/difficulty :easy}
+  pascals-triangle
+  "[Pascal's triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle)
+  is a triangle of numbers computed using the following rules:
+
+  - The first row is 1.
+  - Each successive row is computed by adding together adjacent
+    numbers in the row above, and adding a 1 to the beginning and
+    end of the row.
+
+  Write a function which returns the nth row of Pascal's Triangle."
+  (let [__ fc/pascals-triangle-row]
+    (is (= (__ 1) [1]))
+    (is (= (map __ (range 1 6))
+           [     [1]
+            [1 1]
+            [1 2 1]
+            [1 3 3 1]
+            [1 4 6 4 1]]))
+    (is (= (__ 11)
+           [1 10 45 120 210 252 210 120 45 10 1]))))
+
+#_ ;; TODO
+(deftest
+  ^{::fc/problem    98
+    ::fc/difficulty :medium}
+  equivalence-classes
+  "A function f defined on a domain D induces an [equivalence
+  relation](http://en.wikipedia.org/wiki/Equivalence_relation) on D,
+  as follows: a is equivalent to b with respect to f if and only if (f
+  a) is equal to (f b). Write a function with arguments f and D that
+  computes the [equivalence
+  classes](http://en.wikipedia.org/wiki/Equivalence_class) of D with
+  respect to f."
+  (let [__ fc/equivalence-class]
+    (is (= (__ #(* % %) #{-2 -1 0 1 2})
+           #{#{0} #{1 -1} #{2 -2}}))
+    (is (= (__ #(rem % 3) #{0 1 2 3 4 5 })
+           #{#{0 3} #{1 4} #{2 5}}))
+    (is (= (__ identity #{0 1 2 3 4})
+           #{#{0} #{1} #{2} #{3} #{4}}))
+    (is (= (__ (constantly true) #{0 1 2 3 4})
+           #{#{0 1 2 3 4}}))))
