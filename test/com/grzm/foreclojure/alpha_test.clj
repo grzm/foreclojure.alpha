@@ -1607,7 +1607,6 @@
     (is (= __ (for [[x y] (partition 2 (range 20))]
                 (+ x y))))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    146
     ::fc/difficulty :easy
@@ -1629,7 +1628,7 @@
 
   <sup>1</sup> That is, `(get-in original [k1 k2])` should be the same
   as `(get result [k1 k2])`"
-  (let [__]
+  (let [__ fc/tree->table]
     (is (= (__ '{a {p 1, q 2}
                  b {m 3, n 4}})
            '{[a p] 1, [a q] 2
@@ -1642,7 +1641,6 @@
     (is (= (__ '{m {1 [a b c] 3 nil}})
            '{[m 1] [a b c], [m 3] nil}))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    147
     ::fc/difficulty :easy
@@ -1659,13 +1657,12 @@
   too large to fit into a 64-bit integer, an exception is thrown. You
   can use +' to indicate that you would rather overflow into Clojure's
   slower, arbitrary-precision bigint."
-  (let [__]
+  (let [__ fc/pascals-triangle-rows]
     (is (= (second (__ [2 3 2])) [2 5 5 2]))
     (is (= (take 5 (__ [1])) [[1] [1 1] [1 2 1] [1 3 3 1] [1 4 6 4 1]]))
     (is (= (take 2 (__ [3 1 2])) [[3 1 2] [3 4 3 2]]))
     (is (= (take 100 (__ [2 4 2])) (rest (take 101 (__ [2 2])))))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    153
     ::fc/difficulty :easy
@@ -1678,7 +1675,7 @@
 
   <sup>1</sup>Such sets are usually called *pairwise disjoint* or
   *mutually disjoint*."
-  (let [__]
+  (let [__ fc/pairwise-disjoint?]
     (is (= (__ #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
            true))
     (is (= (__ #{#{:a :b :c :d :e}

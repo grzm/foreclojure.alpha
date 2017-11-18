@@ -672,3 +672,86 @@
      :rank (if-let [r (get {\A 12, \K 11, \Q 10, \J 9, \T 8} rank)]
              r
              (- (Integer/parseInt (str rank)) 2))}))
+
+(def
+  ^{::problem    146
+    ::difficulty :easy
+    ::topics     #{:seqs :maps}}
+  tree->table
+  "Because Clojure's `for` macro allows you to \"walk\" over multiple
+  sequences in a nested fashion, it is excellent for transforming all
+  sorts of sequences. If you don't want a sequence as your final
+  output (say you want a map), you are often still best-off using for,
+  because you can produce a sequence and feed it into a map, for
+  example.
+
+  For this problem, your goal is to \"flatten\" a map of
+  hashmaps. Each key in your output map should be the
+  \"path\"<sup>1</sup> that you would have to take in the original map
+  to get to a value, so for example `{1 {2 3}}` should result in `{[1
+  2] 3}`. You only need to flatten one level of maps: if one of the
+  values is a map, just leave it alone.
+
+  <sup>1</sup> That is, `(get-in original [k1 k2])` should be the same
+  as `(get result [k1 k2])`"
+  (fn [m]
+    (->>
+      (for [[k mv]  m
+            [ik iv] mv]
+        [[k ik] iv])
+      (into {}))))
+
+(def
+  ^{::problem    147
+    ::difficulty :easy
+    ::topics     #{:seqs}}
+  pascals-triangle-rows
+  "Write a function that, for any given input vector of numbers,
+  returns an infinite lazy sequence of vectors, where each next one is
+  constructed from the previous following the rules used in [Pascal's
+  Triangle](http://en.wikipedia.org/wiki/Pascal's_triangle). For
+  example, for [3 1 2], the next row is [3 4 3 2].
+
+  Beware of arithmetic overflow! In clojure (since version 1.3 in
+  2011), if you use an arithmetic operator like + and the result is
+  too large to fit into a 64-bit integer, an exception is thrown. You
+  can use +' to indicate that you would rather overflow into Clojure's
+  slower, arbitrary-precision bigint."
+  (fn [r]
+    (letfn [(next-row [p]
+              (condp = (count p)
+                0 [1]
+                1 [(first p) (first p)]
+                (let [f (first p)
+                      l (last p)]
+                  (vec (concat [f] (map #(apply +' %) (partition 2 1 p)) [l])))) )]
+      (iterate next-row r))))
+
+(defn spy [x label]
+  (prn {:label label :x x})
+  x)
+
+(def
+  ^{::problem    153
+    ::difficulty :easy
+    ::topics     #{:set-theory}}
+  pairwise-disjoint?
+  "Given a set of sets, create a function which returns true if no two
+  of those sets have any elements in common<sup>1</sup> and false
+  otherwise. Some of the test cases are a bit tricky, so pay a little
+  more attention to them.
+
+  <sup>1</sup>Such sets are usually called *pairwise disjoint* or
+  *mutually disjoint*."
+  (fn d [sets]
+    (let [f (first sets)
+          r (disj sets f)]
+      (if (seq r)
+        (and (reduce (fn [m el]
+                       (-> (clojure.set/intersection f el)
+                           empty?
+                           (and m)
+                           boolean))
+                     true r)
+             (d r))
+        true))))
