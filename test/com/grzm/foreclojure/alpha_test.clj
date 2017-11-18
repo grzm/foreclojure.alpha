@@ -1607,9 +1607,9 @@
 
 #_ ;; TODO
 (deftest
-  ^{::fc/problem 146
+  ^{::fc/problem    146
     ::fc/difficulty :easy
-    ::fc/topics #{:seqs :maps}}
+    ::fc/topics     #{:seqs :maps}}
   trees-into-tables
   "Because Clojure's `for` macro allows you to \"walk\" over multiple
   sequences in a nested fashion, it is excellent for transforming all
@@ -1642,9 +1642,9 @@
 
 #_ ;; TODO
 (deftest
-  ^{::fc/problem 147
+  ^{::fc/problem    147
     ::fc/difficulty :easy
-    ::fc/topics #{:seqs}}
+    ::fc/topics     #{:seqs}}
   pascals-trapezoid
   "Write a function that, for any given input vector of numbers,
   returns an infinite lazy sequence of vectors, where each next one is
@@ -1804,9 +1804,9 @@
 
 #_;; TODO
 (deftest
-  ^{::fc/problem 173
+  ^{::fc/problem    173
     ::fc/difficulty :easy
-    ::fc/topics #{:destructuring}}
+    ::fc/topics     #{:destructuring}}
   intro-to-destructuring-2
   "Sequential destructuring allows you to bind symbols to parts of
   sequential things (vectors, lists, seqs, etc.): [(let [bindings* ]
