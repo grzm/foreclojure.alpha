@@ -1824,4 +1824,11 @@
        vals
        (filter #(:test (meta %)))
        (sort-by #(:name (meta %))))
+
+  ;; count of solved problems by difficulty
+  (->> (ns-interns 'com.grzm.foreclojure.alpha-test)
+       vals
+       (filter #(:test (meta %)))
+       (map #(::fc/difficulty (meta %)))
+       frequencies)
   )
