@@ -1338,7 +1338,6 @@
                 [2 [3 nil [4 [6 nil nil] nil]] nil]])
            false))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    97
     ::fc/difficulty :easy}
@@ -1355,10 +1354,10 @@
   (let [__ fc/pascals-triangle-row]
     (is (= (__ 1) [1]))
     (is (= (map __ (range 1 6))
-           [     [1]
-            [1 1]
-            [1 2 1]
-            [1 3 3 1]
+           [,,,,[1]
+            ,,,[1 1]
+            ,,[1 2 1]
+            ,[1 3 3 1]
             [1 4 6 4 1]]))
     (is (= (__ 11)
            [1 10 45 120 210 252 210 120 45 10 1]))))
@@ -1385,7 +1384,6 @@
     (is (= (__ (constantly true) #{0 1 2 3 4})
            #{#{0 1 2 3 4}}))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    99
     ::fc/difficulty :easy
@@ -1393,29 +1391,27 @@
   product-digits
   "Write a function which multiplies two numbers and returns the
   result as a sequence of its digits."
-  (let [__ ]
+  (let [__ (fn [a b] (->> (* a b) str seq (map #(Integer/parseInt (str %)))))]
     (is (= (__ 1 1) [1]))
     (is (= (__ 99 9) [8 9 1]))
     (is (= (__ 999 99) [9 8 9 0 1]))))
 
-#_ ;; TODO
 (deftest
-  ^{::fc/problem 100
+  ^{::fc/problem    100
     ::fc/difficulty :easy
-    ::fc/topics #{:math}}
+    ::fc/topics     #{:math}}
   least-common-multiple
   "Write a function which calculates the [least common
   multiple](http://en.wikipedia.org/wiki/Least_common_multiple). Your
   function should accept a variable number of positive integers or
-  ratios. "
-  (let [__]
+  ratios."
+  (let [__ fc/brute-force-lcm]
     (is (== (__ 2 3) 6))
     (is (== (__ 5 3 7) 105))
     (is (== (__ 1/3 2/5) 2))
     (is (== (__ 3/4 1/6) 3/2))
     (is (== (__ 7 5/7 2 3/5) 210))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    107
     ::fc/difficulty :easy
@@ -1434,23 +1430,24 @@
   computes x<sup>n</sup>. Observe that the effect of this is to
   preserve the value of *n* for use outside the scope in which it is
   defined."
-  (let [__ ]
-    (is (= 256 ((__ 2) 16),
+  (let [__ (fn [n]
+             (fn [x] (apply * (repeat n x))))]
+    (is (= 256 ((__ 2) 16)
            ((__ 8) 2)))
     (is (= [1 8 27 64] (map (__ 3) [1 2 3 4])))
     (is (= [1 2 4 8 16] (map #((__ %) 2) [0 1 2 3 4])))))
 
-#_ ;; TODO
+#_
 (deftest
-  ^{::fc/problem 118
-    ::fc/difficulty :easy
-    ::fc/topics #{:core-seqs}
+  ^{::fc/problem              118
+    ::fc/difficulty           :easy
+    ::fc/topics               #{:core-seqs}
     ::fc/special-restrictions #{'map 'map-indexed 'mapcat 'for}}
   re-implement-map
   "Map is one of the core elements of a functional programming
   language. Given a function f and an input sequence s, return a lazy
   sequence of (f x) for each element x in s."
-  (let [__]
+  (let [__ fc/map']
     (is (= [3 4 5 6 7]
            (__ inc [2 3 4 5 6])))
     (is (= (repeat 10 nil)
@@ -1460,31 +1457,37 @@
                 (drop (dec 1000000))
                 (take 2))))    ))
 
-#_ ;; TODO
 (deftest
-  ^{::fc/problem 120
+  ^{::fc/problem    120
     ::fc/difficulty :easy
-    ::fc/topics #{:math}}
+    ::fc/topics     #{:math}}
   sum-of-square-of-digits
   "Write a function which takes a collection of integers as an
   argument. Return the count of how many elements are smaller than the
   sum of their squared component digits. For example: 10 is larger
   than 1 squared plus 0 squared; whereas 15 is smaller than 1 squared
   plus 5 squared."
-  (let [__]
+  (let [__ (fn [coll]
+             (count (for [n     coll
+                          :when (< n (->> (str n)
+                                          seq
+                                          (map #(-> (str %)
+                                                    (Integer/parseInt)
+                                                    ((fn [x] (* x x)))))
+                                          (reduce +)))]
+                      n)))]
     (is (= 8 (__ (range 10))))
     (is (= 19 (__ (range 30))))
     (is (= 50 (__ (range 100))))
     (is (= 50 (__ (range 1000))))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    122
     ::fc/difficulty :easy}
   read-a-binary-number
   "Convert a binary number, provided in the form of a string, to its
   numerical value."
-  (let [__]
+  (let [__ fc/binary->dec]
     (is (= 0     (__ "0")))
     (is (= 7     (__ "111")))
     (is (= 8     (__ "1000")))
@@ -1493,22 +1496,20 @@
     (is (= 1365  (__ "10101010101")))
     (is (= 65535 (__ "1111111111111111")))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problems   126
     ::fc/difficulty :easy
     ::fc/topics     #{:fun :brain-teaser}}
   through-the-looking-glass
   "Enter a value which satisfies the following:"
-  (let [__]
+  (let [__ java.lang.Class]
     (is (let [x __]
           (and (= (class x) x) x)))))
 
-#_ ;; TODO
 (deftest
-  ^{::fc/problems 128
+  ^{::fc/problems   128
     ::fc/difficulty :easy
-    ::fc/topics #{:strings :game}}
+    ::fc/topics     #{:strings :game}}
   recognize-playing-cards
   "A standard American deck of playing cards has four suits - spades,
   hearts, diamonds, and clubs - and thirteen cards in each suit. Two
@@ -1526,7 +1527,7 @@
   a map of {:suit :spade, :rank 9}. A ten will always be represented
   with the single character \"T\", rather than the two characters
   \"10\"."
-  (let [__]
+  (let [__ fc/playing-card]
     (is (= {:suit :diamond :rank 10} (__ "DQ")))
     (is (= {:suit :heart :rank 3} (__ "H5")))
     (is (= {:suit :club :rank 12} (__ "CA")))
@@ -1534,7 +1535,6 @@
                            '[S2 S3 S4 S5 S6 S7
                              S8 S9 ST SJ SQ SK SA])))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    134
     ::fc/difficulty :elementary
@@ -1542,12 +1542,13 @@
   a-nil-key
   "Write a function which, given a key and map, returns true iff the
   map contains an entry with that key and its value is nil."
-  (let [__ ]
+  (let [__ (fn [k m]
+             (true? (and (some #{k} (keys m))
+                         (nil? (get m k)))))]
     (is (true?  (__ :a {:a nil :b 2})))
     (is (false? (__ :b {:a nil :b 2})))
     (is (false? (__ :c {:a nil :b 2})))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    135
     ::fc/difficulty :easy
@@ -1560,13 +1561,15 @@
   mathematical expression consisting of numbers and the operations +,
   -, *, and /. Assume a simple calculator that does not do precedence
   and instead just calculates left to right."
-  (let [__]
+  (let [__ (fn [init & r]
+             (reduce (fn [memo [f n]] (f memo n))
+                     init
+                     (partition 2 r)))]
     (is (= 7  (__ 2 + 5)))
     (is (= 42 (__ 38 + 48 - 2 / 2)))
     (is (= 8  (__ 10 / 2 - 1 * 2)))
     (is (= 72 (__ 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9)))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    143
     ::fc/difficulty :easy
@@ -1576,13 +1579,12 @@
   product](http://en.wikipedia.org/wiki/Dot_product#Definition) of two
   sequences. You may assume that the vectors will have the same
   length."
-  (let [__ ]
+  (let [__ (fn [a b] (reduce + (map #(* % %2) a b)))]
     (is (= 0 (__ [0 1 0] [1 0 0])))
     (is (= 3 (__ [1 1 1] [1 1 1])))
     (is (= 32 (__ [1 2 3] [4 5 6])))
     (is (= 256 (__ [2 5 6] [100 10 1])))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    145
     ::fc/difficulty :elementary
@@ -1594,7 +1596,7 @@
   will be paid back with clear, concise sequence-wrangling later. With
   that in mind, read over these for expressions and try to see how
   each of them produces the same result."
-  (let [__ ]
+  (let [__ [1 5 9 13 17 21 25 29 33 37]]
     (is (= __ (for [x     (range 40)
                     :when (= 1 (rem x 4))]
                 x)))
@@ -1717,7 +1719,6 @@
                  #{, , , #_, , empty?}})
            false))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    156
     ::fc/difficulty :elementary
@@ -1731,7 +1732,7 @@
   However, what if you want the map itself to contain the default
   values? Write a function which takes a default value and a sequence
   of keys and constructs a map."
-  (let [__]
+  (let [__ #(into {} (map vector %2 (repeat %)))]
     (is (= (__ 0 [:a :b :c]) {:a 0 :b 0 :c 0}))
     (is (= (__ "x" [1 2 3]) {1 "x" 2 "x" 3 "x"}))
     (is (= (__ [:a :b] [:foo :bar]) {:foo [:a :b] :bar [:a :b]}))))
@@ -1749,7 +1750,6 @@
     (is (= (__ [0 1 3]) '((0 0) (1 1) (3 2))))
     (is (= (__ [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]]))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    161
     ::fc/difficulty :elementary
@@ -1757,13 +1757,12 @@
   subset-and-superset
   "Set A is a subset of set B, or equivalently B is a superset of A,
   if A is \"contained\" inside B. A and B may coincide."
-  (let [__]
+  (let [__ #{1 2}]
     (is (clojure.set/superset? __ #{2}))
     (is (clojure.set/subset? #{1} __))
     (is (clojure.set/superset? __ #{1 2}))
     (is (clojure.set/subset? #{1 2} __))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    162
     ::fc/difficulty :elementary
@@ -1771,7 +1770,7 @@
   logical-falsity-and-truth
   "In Clojure, only nil and false represent the values of logical
   falsity in conditional tests - anything else is logical truth."
-  (let [__ ]
+  (let [__ 1]
     (is (= __ (if-not false 1 0)))
     (is (= __ (if-not nil 1 0)))
     (is (= __ (if true 1 0)))

@@ -563,3 +563,112 @@
                   [h (mirror b) (mirror a)])
                 t))]
       (= a (mirror b)))))
+
+(def
+  ^{::problem    97
+    ::difficulty :easy}
+  pascals-triangle-row
+  "[Pascal's triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle)
+  is a triangle of numbers computed using the following rules:
+
+  - The first row is 1.
+  - Each successive row is computed by adding together adjacent
+    numbers in the row above, and adding a 1 to the beginning and
+    end of the row.
+
+  Write a function which returns the nth row of Pascal's Triangle."
+  (fn [n]
+    (letfn [(next-row [r]
+              (condp = r
+                []  [1]
+                [1] [1 1]
+                (vec (concat [1] (map #(apply + %) (partition 2 1 r)) [1]))))]
+      (nth (iterate next-row []) n))))
+
+(comment
+  (defn int-lcm
+    [coll]
+    (->> (range)
+         (filter (fn [n]
+                   (every? #(zero? (rem n %)) coll)))
+         second))
+  )
+
+(def
+  ^{::problem    100
+    ::difficulty :easy
+    ::topics     #{:math}}
+  brute-force-lcm
+  "Write a function which calculates the [least common
+  multiple](http://en.wikipedia.org/wiki/Least_common_multiple). Your
+  function should accept a variable number of positive integers or
+  ratios."
+  ;; https://www.edugain.com/articles/6/LCM-of-Fractions
+  (fn [& args]
+    (let [lcm   (fn [coll]
+                  (->> (range)
+                       (filter (fn [n]
+                                 (every? #(zero? (rem n %)) coll)))
+                       second))
+          rats  (map #(if (ratio? %) [(numerator %) (denominator %)] [% 1]) args)
+          lcd   (lcm (map second rats))
+          rats' (map (fn [[n d]] [(* n (/ lcd d)) lcd]) rats)
+          num   (lcm (map first rats'))]
+      (/ num lcd))))
+
+#_(def
+    ^{::problem              118
+      ::difficulty           :easy
+      ::topics               #{:core-seqs}
+      ::special-restrictions #{'map 'map-indexed 'mapcat 'for}}
+    map'
+    "Map is one of the core elements of a functional programming
+  language. Given a function f and an input sequence s, return a lazy
+  sequence of (f x) for each element x in s."
+    (fn [f coll]
+      (loop [res   []
+             coll' coll]
+        (prn {:res res :coll' coll'})
+        (if (seq coll')
+          (recur (conj res (f (first coll'))) (next coll'))
+          res))))
+
+(def
+  ^{::problem    122
+    ::difficulty :easy}
+  binary->dec
+  "Convert a binary number, provided in the form of a string, to its
+  numerical value."
+  (fn [s]
+    (->> (reverse s)
+         (map-indexed (fn [i c]
+                        (* (Integer/parseInt (str c)) (Math/pow 2 i))))
+         (reduce +)
+         int)))
+
+(def
+  ^{::problems   128
+    ::difficulty :easy
+    ::topics     #{:strings :game}}
+  playing-card
+  "A standard American deck of playing cards has four suits - spades,
+  hearts, diamonds, and clubs - and thirteen cards in each suit. Two
+  is the lowest rank, followed by other integers up to ten; then the
+  jack, queen, king, and ace.
+
+  It's convenient for humans to represent these cards as suit/rank
+  pairs, such as H5 or DQ: the heart five and diamond queen
+  respectively. But these forms are not convenient for programmers, so
+  to write a card game you need some way to parse an input string into
+  meaningful components. For purposes of determining rank, we will
+  define the cards to be valued from 0 (the two) to 12 (the ace)
+
+  Write a function which converts (for example) the string \"SJ\" into
+  a map of {:suit :spade, :rank 9}. A ten will always be represented
+  with the single character \"T\", rather than the two characters
+  \"10\"."
+  (fn [[suit rank]]
+    {:suit (get {\S :spade, \D :diamond, \H :heart, \C :club} suit)
+     :rank (if-let [r (get {\A 12, \K 11, \Q 10, \J 9, \T 8} rank)]
+             r
+             (- (Integer/parseInt (str rank)) 2))}))
