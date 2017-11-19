@@ -1364,7 +1364,7 @@
     (is (= (__ 11)
            [1 10 45 120 210 252 210 120 45 10 1]))))
 
-#_ ;; TODO
+#_
 (deftest
   ^{::fc/problem    98
     ::fc/difficulty :medium}
