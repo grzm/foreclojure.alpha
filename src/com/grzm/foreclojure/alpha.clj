@@ -1,5 +1,13 @@
 (ns com.grzm.foreclojure.alpha)
 
+(defn spy-> [x label]
+  (prn {:label label :x x})
+  x)
+
+(defn spy->> [label x]
+  (prn {:label label :x x})
+  x)
+
 (def
   ^{::problem 21}
   enth
@@ -718,10 +726,6 @@
                       l (last p)]
                   (vec (concat [f] (map #(apply +' %) (partition 2 1 p)) [l])))) )]
       (iterate next-row r))))
-
-(defn spy [x label]
-  (prn {:label label :x x})
-  x)
 
 (def
   ^{::problem    153
