@@ -2150,6 +2150,22 @@
                            '[S2 S3 S4 S5 S6 S7
                              S8 S9 ST SJ SQ SK SA])))))
 
+;; No problem 129
+
+#_(deftest
+    ^{::fc/problem 130}
+    problem-130)
+
+#_(deftest
+    ^{::fc/problem 131}
+    problem-131)
+
+#_(deftest
+    ^{::fc/problem 132}
+    problem-132)
+
+;; No problem 133
+
 (deftest
   ^{::fc/problem    134
     ::fc/difficulty :elementary
@@ -2185,6 +2201,36 @@
     (is (= 8  (__ 10 / 2 - 1 * 2)))
     (is (= 72 (__ 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9)))))
 
+;; No problem 136
+
+#_
+(deftest
+  ^{::fc/problem 137}
+  problem-137)
+
+#_
+(deftest
+  ^{::fc/problem 138}
+  problem-138)
+
+#_
+(deftest
+  ^{::fc/problem   139
+    ::fc/approved? false}
+  problem-139)
+
+#_
+(deftest
+  ^{::fc/problem 140}
+  problem-140)
+
+#_
+(deftest
+  ^{::fc/problem 141}
+  problem-141)
+
+;; No problem 142
+
 (deftest
   ^{::fc/problem    143
     ::fc/difficulty :easy
@@ -2199,6 +2245,11 @@
     (is (= 3 (__ [1 1 1] [1 1 1])))
     (is (= 32 (__ [1 2 3] [4 5 6])))
     (is (= 256 (__ [2 5 6] [100 10 1])))))
+
+#_
+(deftest
+  ^{::fc/problem 144}
+  problem-144)
 
 (deftest
   ^{::fc/problem    145
@@ -2278,6 +2329,24 @@
     (is (= (take 2 (__ [3 1 2])) [[3 1 2] [3 4 3 2]]))
     (is (= (take 100 (__ [2 4 2])) (rest (take 101 (__ [2 2])))))))
 
+#_
+(deftest
+  ^{::fc/problem   149
+    ::fc/approved? false}
+  problem-149)
+
+#_
+(deftest
+  ^{::fc/problem   150
+    ::fc/approved? false}
+  problem-150)
+
+;; no problem 151
+
+#_(deftest
+    ^{::fc/problem 152}
+    problem-152)
+
 (deftest
   ^{::fc/problem    153
     ::fc/difficulty :easy
@@ -2331,6 +2400,14 @@
                  #{, , , #_, , empty?}})
            false))))
 
+;; no such problem 154
+
+#_
+(deftest
+  ^{::fc/problem   155
+    ::fc/approved? false}
+  problem-155)
+
 (deftest
   ^{::fc/problem    156
     ::fc/difficulty :elementary
@@ -2361,6 +2438,23 @@
     (is (= (__ [0 1 3]) '((0 0) (1 1) (3 2))))
     (is (= (__ [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]]))))
 
+#_
+(deftest
+  ^{::fc/problem 158}
+  problem-158)
+
+#_
+(deftest
+  ^{::fc/problem   159
+    ::fc/approved? false}
+  problem-159)
+
+#_
+(deftest
+  ^{::fc/problem   160
+    ::fc/approved? false}
+  problem-160)
+
 (deftest
   ^{::fc/problem    161
     ::fc/difficulty :elementary
@@ -2390,6 +2484,23 @@
     (is (= __ (if 0 1 0)))
     (is (= __ (if 1 1 0)))))
 
+#_
+(deftest
+  ^{::fc/problem   163
+    ::fc/approved? false}
+  problem-163)
+
+#_
+(deftest
+  ^{::fc/problem 164}
+  problem-164)
+
+#_
+(deftest
+  ^{::fc/problem   165
+    ::fc/approved? false}
+  problem-165)
+
 (deftest
   ^{::fc/problem    166
     ::fc/difficulty :easy}
@@ -2411,6 +2522,36 @@
     (is (= :lt (__ (fn [x y] (< (mod x 5) (mod y 5))) 21 3)))
     (is (= :gt (__ > 0 2)))))
 
+#_
+(deftest
+  ^{::fc/problem   167
+    ::fc/approved? false}
+  problem-167)
+
+#_
+(deftest
+  ^{::fc/problem 168}
+  problem-168)
+
+#_
+(deftest
+  ^{::fc/problem   169
+    ::fc/approved? false}
+  problem-169)
+
+;; no such problem 170
+
+#_
+(deftest
+  ^{::fc/problem 171}
+  problem-171)
+
+#_
+(deftest
+  ^{::fc/problem   172
+    ::fc/approved? false}
+  problem-172)
+
 (deftest
   ^{::fc/problem    173
     ::fc/difficulty :easy
@@ -2426,17 +2567,48 @@
          (let [[[a c] b] [[+ 1] 2]] (a c b))
          (let [[a c] [inc 2]] (a c)))))
 
+#_
+(deftest
+  ^{::fc/problem   174
+    ::fc/approved? false}
+  problem-174)
+
+#_
+(deftest
+  ^{::fc/problem   175
+    ::fc/approved? false}
+  problem-175)
+
+;; no such problem 176
+
+#_
+(deftest
+  ^{::fc/problem 177}
+  problem-177)
+
+#_
+(deftest
+  ^{::fc/problem 178}
+  problem-178)
+
+;; problems 179-209, unapproved
+
+;; no such problem 210
+
 (comment
   ;; all solved problems ordered by name
   (->> (ns-interns 'com.grzm.foreclojure.alpha-test)
        vals
-       (filter #(:test (meta %)))
-       (sort-by #(:name (meta %))))
+       (map meta)
+       (filter :test)
+       (map :name)
+       sort)
 
   ;; count of solved problems by difficulty
   (->> (ns-interns 'com.grzm.foreclojure.alpha-test)
        vals
-       (filter #(:test (meta %)))
-       (map #(::fc/difficulty (meta %)))
+       (map meta)
+       (filter :test)
+       (map ::fc/difficulty)
        frequencies)
   )
