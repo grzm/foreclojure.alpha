@@ -1075,7 +1075,9 @@
     ::fc/difficulty :medium
     ::fc/topcs      [:set-theory]}
   power-set
-  "Write a function which generates the power set of a given set. The power set of a set x is the set of all subsets of x, including the empty set and x itself."
+  "Write a function which generates the power set of a given set. The
+  power set of a set x is the set of all subsets of x, including the
+  empty set and x itself."
   (let [__ #()]
     (is (= (__ #{1 :a}) #{#{1 :a} #{:a} #{} #{1}}))
     (is (= (__ #{}) #{#{}}))
