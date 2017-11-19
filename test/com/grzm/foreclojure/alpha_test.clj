@@ -1498,7 +1498,7 @@
     (is (= 65535 (__ "1111111111111111")))))
 
 (deftest
-  ^{::fc/problems   126
+  ^{::fc/problem    126
     ::fc/difficulty :easy
     ::fc/topics     #{:fun :brain-teaser}}
   through-the-looking-glass
@@ -1508,7 +1508,7 @@
           (and (= (class x) x) x)))))
 
 (deftest
-  ^{::fc/problems   128
+  ^{::fc/problem    128
     ::fc/difficulty :easy
     ::fc/topics     #{:strings :game}}
   recognize-playing-cards
