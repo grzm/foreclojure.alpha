@@ -45,7 +45,6 @@
   "Find the odd numbers"
   (partial filter odd?))
 
-
 (def
   ^{::problem 26}
   fibonacci-seq
@@ -212,8 +211,7 @@
                        memo)))
                  [])
          ((fn [x]
-            (concat (map first (butlast x)) (last x))))))
-  )
+            (concat (map first (butlast x)) (last x)))))))
 
 (def
   ^{::problem 54}

@@ -793,7 +793,6 @@
     (is (= (__ concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]})
            {:a [3 4 5], :b [6 7], :c [8 9]}))))
 
-
 (deftest
   ^{::fc/problem    70
     ::fc/difficulty :medium}
