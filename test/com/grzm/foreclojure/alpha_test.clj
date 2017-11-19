@@ -1414,6 +1414,132 @@
     (is (== (__ 3/4 1/6) 3/2))
     (is (== (__ 7 5/7 2 3/5) 210))))
 
+#_
+(deftest
+  ^{::fc/problem    101
+    ::fc/difficulty :hard
+    ::fc/topics     #{:seqs}}
+  levenshtein-distance
+  "Given two sequences x and y, calculate the [Levenshtein
+   distance](Levenshtein distance) of x and y, i. e. the
+   minimum number of edits needed to transform x into y.
+   The allowed edits are:
+
+  - insert a single item
+  - delete a single item
+  - replace a single item with another item
+
+  WARNING: Some of the test cases may timeout if you write an
+  inefficient solution!"
+  (let [__ ]
+    (is (= (__ "kitten" "sitting") 3))
+    (is (= (__ "closure" "clojure") (__ "clojure" "closure") 1))
+    (is (= (__ "xyx" "xyyyx") 2))
+    (is (= (__ "" "123456") 6))
+    (is (= (__ "Clojure" "Clojure") (__ "" "") (__ [] []) 0))
+    (is (= (__ [1 2 3 4] [0 2 3 4 5]) 2))
+    (is (= (__ '(:a :b :c :d) '(:a :d)) 2))
+    (is (= (__ "ttttattttctg" "tcaaccctaccat") 10))
+    (is (= (__ "gaattctaatctc" "caaacaaaaaattt") 9))))
+
+#_
+(deftest
+  ^{::fc/problem    102
+    ::fc/difficulty :medium
+    ::fc/topics     #{:strings}}
+  into-camel-case
+  "When working with java, you often need to create an object with
+  fieldsLikeThis, but you'd rather work with a hashmap that has
+  :keys-like-this until it's time to convert. Write a function which
+  takes lower-case hyphen-separated strings and converts them to
+  camel-case strings."
+  (let [__]
+    (is (= (__ "something") "something"))
+    (is (= (__ "multi-word-key") "multiWordKey"))
+    (is (= (__ "leaveMeAlone") "leaveMeAlone"))))
+
+#_
+(deftest
+  ^{::fc/problem    103
+    ::fc/difficulty :medium
+    ::fc/topics     #{:seqs :combinatorics}}
+  generating-k-combinations
+  "Given a sequence S consisting of n elements generate all
+  [k-combinations](https://secure.wikimedia.org/wikipedia/en/wiki/Combination)
+  of S, i. e. generate all possible sets consisting of k distinct
+  elements taken from S. The number of k-combinations for a sequence
+  is equal to the [binomial
+  coefficient](https://secure.wikimedia.org/wikipedia/en/wiki/Binomial_coefficient)."
+  (let [__ ]
+    (is (= (__ 1 #{4 5 6}) #{#{4} #{5} #{6}}))
+    (is (= (__ 10 #{4 5 6}) #{}))
+    (is (= (__ 2 #{0 1 2}) #{#{0 1} #{0 2} #{1 2}}))
+    (is (= (__ 3 #{0 1 2 3 4}) #{#{0 1 2} #{0 1 3} #{0 1 4} #{0 2 3} #{0 2 4}
+                                 #{0 3 4} #{1 2 3} #{1 2 4} #{1 3 4} #{2 3 4}}))
+    (is (= (__ 4 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a "abc" "efg"}}))
+    (is (= (__ 2 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a} #{[1 2 3] "abc"} #{[1 2 3] "efg"}
+                                              #{:a "abc"} #{:a "efg"} #{"abc" "efg"}}))))
+
+#_
+(deftest
+  ^{::fc/problem    104
+    ::fc/difficulty :medium
+    ::fc/topics     #{:strings :math}}
+  write-roman-numerals
+  "This is the inverse of [Problem
+  92](http://www.4clojure.com/problem/92), but much easier. Given an
+  integer smaller than 4000, return the corresponding roman numeral in
+  uppercase, adhering to the [subtractive
+  principle](http://www.numericana.com/answer/roman.htm#valid)."
+  (let [__]
+    (is (= "I" (__ 1)))
+    (is (= "XXX" (__ 30)))
+    (is (= "IV" (__ 4)))
+    (is (= "CXL" (__ 140)))
+    (is (= "DCCCXXVII" (__ 827)))
+    (is (= "MMMCMXCIX" (__ 3999)))
+    (is (= "XLVIII" (__ 48)))))
+
+#_
+(deftest
+  ^{::fc/problem    105
+    ::fc/difficulty :medium
+    ::topics        #{:maps :seqs}}
+  identify-keys-and-values
+  "Given an input sequence of keywords and numbers, create a map such
+  that each key in the map is a keyword, and the value is a sequence
+  of all the numbers (if any) between it and the next keyword in the
+  sequence."
+  (let [__]
+    (is (= {} (__ [])))
+    (is (= {:a [1]} (__ [:a 1])))
+    (is (= {:a [1], :b [2]} (__ [:a 1, :b 2])))
+    (is (= {:a [1 2 3], :b [], :c [4]} (__ [:a 1 2 3 :b :c 4])))))
+
+#_
+(deftest
+  ^{::fc/problem    106
+    ::fc/difficulty :hard
+    ::fc/topics     #{:numbers}}
+  number-maze
+  "Given a pair of numbers, the start and end point, find a path
+  between the two using only three possible operations:
+
+ - double
+ - halve (odd numbers cannot be halved)
+ - add 2
+
+  Find the shortest path through the "maze". Because there are
+  multiple shortest paths, you must return the length of the shortest
+  path, not the path itself."
+  (let [__]
+    (is (= 1 (__ 1 1)))    ; 1
+    (is (= 3 (__ 3 12)))   ; 3 6 12
+    (is (= 3 (__ 12 3)))   ; 12 6 3
+    (is (= 3 (__ 5 9)))    ; 5 7 9
+    (is (= 9 (__ 9 2)))    ; 9 18 20 10 12 6 8 4 2
+    (is (= 5 (__ 9 12))))) ; 9 11 22 24 12
+
 (deftest
   ^{::fc/problem    107
     ::fc/difficulty :easy
@@ -1439,6 +1565,265 @@
     (is (= [1 8 27 64] (map (__ 3) [1 2 3 4])))
     (is (= [1 2 4 8 16] (map #((__ %) 2) [0 1 2 3 4])))))
 
+#_
+(deftest
+  ^{::fc/problem    108
+    ::fc/difficulty :medium
+    ::fc/topics     #{:seqs :sorting}}
+  lazy-searching
+  "Given any number of sequences, each sorted from smallest to
+  largest, find the smallest single number which appears in all of the
+  sequences. The sequences may be infinite, so be careful to search
+  lazily."
+  (let [__ ]
+    (is (= 3 (__ [3 4 5])))
+    (iss (= 4 (__ [1 2 3 4 5 6 7] [0.5 3/2 4 19])))
+    (is (= 7 (__ (range) (range 0 100 7/6) [2 3 5 7 11 13])))
+    (is (= 64 (__ (map #(* % % %) (range)) ;; perfect cubes
+                  (filter #(zero? (bit-and % (dec %))) (range)) ;; powers of 2
+                  (iterate inc 20)))))) ;; at least as large as 20
+
+;; no problem 109
+
+#_
+(deftest
+  ^{::fc/problem    110
+    ::fc/difficulty :medium
+    ::fc/topics     #{:seqs}}
+  sequence-of-pronunciations
+  "Write a function that returns a lazy sequence of \"pronunciations\"
+  of a sequence of numbers. A pronunciation of each element in the
+  sequence consists of the number of repeating identical numbers and
+  the number itself. For example, [1 1] is pronounced as [2 1] (\"two
+  ones\"), which in turn is pronounced as [1 2 1 1] (\"one two, one
+  one\").
+
+  Your function should accept an initial sequence of numbers, and return
+  an infinite lazy sequence of pronunciations, each element being a
+  pronunciation of the previous element."
+  (let [__]
+    (is (= [[1 1] [2 1] [1 2 1 1]] (take 3 (__ [1]))))
+    (is (= [3 1 2 4] (first (__ [1 1 1 4 4]))))
+    (is (= [1 1 1 3 2 1 3 2 1 1] (nth (__ [1]) 6)))
+    (is (= 338 (count (nth (__ [3 2]) 15))))))
+
+#_
+(deftest
+  ^{::fc/problem    111
+    ::fc/difficulty :hard
+    ::fc/topics     #{:game}}
+  crossword-puzzle
+  "Write a function that takes a string and a partially-filled
+  crossword puzzle board, and determines if the input string can be
+  legally placed onto the board.
+
+  The crossword puzzle board consists of a collection of
+  partially-filled rows. Empty spaces are denoted with an underscore
+  (_), unusable spaces are denoted with a hash symbol (#), and
+  pre-filled spaces have a character in place; the whitespace
+  characters are for legibility and should be ignored.
+
+  For a word to be legally placed on the board:
+
+  - It may use empty spaces (underscores)
+
+  - It may use but must not conflict with any pre-filled characters.
+
+  - It must not use any unusable spaces (hashes).
+
+  - There must be no empty spaces (underscores) or extra characters
+    before or after the word (the word may be bound by unusable spaces
+    though).
+
+  - Characters are not case-sensitive.
+
+  - Words may be placed vertically (proceeding top-down only), or
+    horizontally (proceeding left-right only)."
+  (let [__ ]
+    (is (= true  (__ "the" ["_ # _ _ e"])))
+    (is (= false (__ "the" ["c _ _ _"
+                            "d _ # e"
+                            "r y _ _"])))
+    (is (= true  (__ "joy" ["c _ _ _"
+                            "d _ # e"
+                            "r y _ _"])))
+    (is (= false (__ "joy" ["c o n j"
+                            "_ _ y _"
+                            "r _ _ #"])))
+    (is (= true  (__ "clojure" ["_ _ _ # j o y"
+                                "_ _ o _ _ _ _"
+                                "_ _ f _ # _ _"])))))
+#_
+(deftest
+  ^{::fc/problem    112
+    ::fc/difficulty :medium
+    ::fc/topics     #{:seqs}}
+  sequs-horribilus
+  "Create a function which takes an integer and a nested collection of
+  integers as arguments. Analyze the elements of the input collection
+  and return a sequence which maintains the nested structure, and
+  which includes all elements starting from the head whose sum is less
+  than or equal to the input integer."
+  (let [__]
+    (is (=  (__ 10 [1 2 [3 [4 5] 6] 7])
+            '(1 2 (3 (4)))))
+    (is (=  (__ 30 [1 2 [3 [4 [5 [6 [7 8]] 9]] 10] 11])
+            '(1 2 (3 (4 (5 (6 (7))))))))
+    (is (=  (__ 9 (range))
+            '(0 1 2 3)))
+    (is (=  (__ 1 [[[[[1]]]]])
+            '(((((1)))))))
+    (is (=  (__ 0 [1 2 [3 [4 5] 6] 7])
+            '()))
+    (is (=  (__ 0 [0 0 [0 [0]]])
+            '(0 0 (0 (0)))))
+    (is (=  (__ 1 [-10 [1 [2 3 [4 5 [6 7 [8]]]]]])
+            '(-10 (1 (2 3 (4))))))))
+
+#_
+(deftest
+  ^{::fc/problem              113
+    ::fc/difficulty           :hard
+    ::fc/topics               #{:types}
+    ::fc/special-restrictions #{'proxy}}
+  making-data-dance
+  "Write a function that takes a variable number of integer
+  arguments. If the output is coerced into a string, it should return
+  a comma (and space) separated list of the inputs sorted smallest to
+  largest. If the output is coerced into a sequence, it should return
+  a seq of unique input elements in the same order as they were
+  entered."
+  (let [__ ]
+    (is (= "1, 2, 3" (str (__ 2 1 3))))
+    (is (= '(2 1 3) (seq (__ 2 1 3))))
+    (is (= '(2 1 3) (seq (__ 2 1 3 3 1 2))))
+    (is (= '(1) (seq (apply __ (repeat 5 1)))))
+    (is (is (= "1, 1, 1, 1, 1" (str (apply __ (repeat 5 1))))))
+    (is (and (= nil (seq (__)))
+             (=  "" (str (__)))))))
+
+#_
+(deftest
+  ^{::fc/problem    114
+    ::fc/difficulty :medium
+    ::fc/topics     #{:seqs :higher-order-functions}}
+  global-take-while
+  "[take-while](http://clojuredocs.org/clojure_core/clojure.core/take-while)
+  is great for filtering sequences, but it limited: you
+  can only examine a single item of the sequence at a time. What if
+  you need to keep track of some state as you go over the sequence?
+
+  Write a function which accepts an integer n, a predicate p, and a
+  sequence. It should return a lazy sequence of items in the list up
+  to, but not including, the nth item that satisfies the predicate."
+  (let [__]
+    (is (= [2 3 5 7 11 13]
+           (__ 4 #(= 2 (mod % 3))
+               [2 3 5 7 11 13 17 19 23])))
+    (is (= ["this" "is" "a" "sentence"]
+           (__ 3 #(some #{\i} %)
+               ["this" "is" "a" "sentence" "i" "wrote"])))
+    (is (= ["this" "is"]
+           (__ 1 #{"a"}
+               ["this" "is" "a" "sentence" "i" "wrote"])))))
+
+#_
+(deftest
+  ^{::fc/problem    115
+    ::fc/difficulty :medium
+    ::fc/topics     #{:math}}
+  the-balance-of-n
+  "A balanced number is one whose component digits have the same sum
+  on the left and right halves of the number. Write a function which
+  accepts an integer n, and returns true iff n is balanced."
+  (let [__]
+    (is (= true (__ 11)))
+    (is (= true (__ 121)))
+    (is (= false (__ 123)))
+    (is (= true (__ 0)))
+    (is (= false (__ 88099)))
+    (is (= true (__ 89098)))
+    (is (= true (__ 89089)))
+    (is (= (take 20 (filter __ (range)))
+           [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101]))))
+
+#_
+(deftest
+  ^{::fc/problem    116
+    ::fc/difficulty :medium
+    ::fc/topics     #{:math}}
+  prime-sandwich
+  "A [balanced prime](http://en.wikipedia.org/wiki/Balanced_prime) is
+  a prime number which is also the mean of the primes directly before
+  and after it in the sequence of valid primes. Create a function
+  which takes an integer n, and returns true iff it is a balanced
+  prime."
+  (let [__]
+    (is (= false (__ 4)))
+    (is (= true (__ 563)))
+    (is (= 1103 (nth (filter __ (range)) 15)))))
+
+#_
+(deftest
+  ^{::fc/problem    117
+    ::fc/difficulty :hard
+    ::fc/topics     #{:game}}
+  for-science!
+  "A mad scientist with tenure has created an experiment tracking mice
+  in a maze. Several mazes have been randomly generated, and you've
+  been tasked with writing a program to determine the mazes in which
+  it's possible for the mouse to reach the cheesy endpoint. Write a
+  function which accepts a maze in the form of a collection of rows,
+  each row is a string where:
+
+ - spaces represent areas where the mouse can walk freely
+
+ - hashes (#) represent walls where the mouse can not walk
+
+ - M represents the mouse's starting point
+
+ - C represents the cheese which the mouse must reach
+
+  The mouse is not allowed to travel diagonally in the maze (only
+  up/down/left/right), nor can he escape the edge of the maze. Your
+  function must return true iff the maze is solvable by the mouse."
+  (let [__]
+    (is (= true  (__ ["M   C"])))
+    (is (= false (__ ["M # C"])))
+    (is (= true  (__ ["#######"
+                      "#     #"
+                      "#  #  #"
+                      "#M # C#"
+                      "#######"])))
+    (is (= false (__ ["########"
+                      "#M  #  #"
+                      "#   #  #"
+                      "# # #  #"
+                      "#   #  #"
+                      "#  #   #"
+                      "#  # # #"
+                      "#  #   #"
+                      "#  #  C#"
+                      "########"])))
+    (is (= false (__ ["M     "
+                      "      "
+                      "      "
+                      "      "
+                      "    ##"
+                      "    #C"])))
+    (is (= true  (__ ["C######"
+                      " #     "
+                      " #   # "
+                      " #   #M"
+                      "     # "])))
+    (is (= true  (__ ["C# # # #"
+                      "        "
+                      "# # # # "
+                      "        "
+                      " # # # #"
+                      "        "
+                      "# # # #M"])))))
+
 (deftest
   ^{::fc/problem              118
     ::fc/difficulty           :easy
@@ -1457,6 +1842,43 @@
            (->> (__ inc (range))
                 (drop (dec 1000000))
                 (take 2))))))
+
+#_
+(deftest
+  ^{::fc/problem    119
+    ::fc/difficulty :hard
+    ::fc/topics     #{:game}}
+  win-at-tic-tac-toe
+  "As in [Problem 73](http://www.4clojure.com/problem/73), a
+  tic-tac-toe board is represented by a two dimensional vector. X is
+  represented by :x, O is represented by :o, and empty is represented
+  by :e. Create a function that accepts a game piece and board as
+  arguments, and returns a set (possibly empty) of all valid board
+  placements of the game piece which would result in an immediate win.
+
+  Board coordinates should be as in calls to get-in. For example, [0
+  1] is the topmost row, center position."
+  (let [__]
+    (is (= (__ :x [[:o :e :e]
+                   [:o :x :o]
+                   [:x :x :e]])
+           #{[2 2] [0 1] [0 2]}))
+    (is (= (__ :x [[:x :o :o]
+                   [:x :x :e]
+                   [:e :o :e]])
+           #{[2 2] [1 2] [2 0]}))
+    (is (= (__ :x [[:x :e :x]
+                   [:o :x :o]
+                   [:e :o :e]])
+           #{[2 2] [0 1] [2 0]}))
+    (is (= (__ :x [[:x :x :o]
+                   [:e :e :e]
+                   [:e :e :e]])
+           #{}))
+    (is (= (__ :o [[:x :x :o]
+                   [:o :e :o]
+                   [:x :e :e]])
+           #{[2 2] [1 1]}))))
 
 (deftest
   ^{::fc/problem    120
@@ -1482,6 +1904,34 @@
     (is (= 50 (__ (range 100))))
     (is (= 50 (__ (range 1000))))))
 
+#_
+(deftest
+  ^{::fc/problem              121
+    ::fc/difficulty           :medium
+    ::fc/topics               #{:functions}
+    ::fc/special-restrictions #{'eval 'resolve}}
+  universal-computation-engine
+  "Given a mathematical formula in prefix notation, return a function
+  that calculates the value of the formula. The formula can contain
+  nested calculations using the four basic mathematical operators,
+  numeric constants, and symbols representing variables. The returned
+  function has to accept a single parameter containing the map of
+  variable names to their values."
+  (let [__]
+    (is (= 2 ((__ '(/ a b))
+              '{b 8 a 16})))
+    (is (= 8 ((__ '(+ a b 2))
+              '{a 2 b 4})))
+    (is (= [6 0 -4]
+           (map (__ '(* (+ 2 a)
+                        (- 10 b)))
+                '[{a 1 b 8}
+                  {b 5 a -2}
+                  {a 2 b 11}])))
+    (is (= 1 ((__ '(/ (+ x 2)
+                      (* 3 (+ y 1))))
+              '{x 4 y 1})))))
+
 (deftest
   ^{::fc/problem    122
     ::fc/difficulty :easy}
@@ -1497,6 +1947,65 @@
     (is (= 1365  (__ "10101010101")))
     (is (= 65535 (__ "1111111111111111")))))
 
+;; no problem 123
+
+#_
+(deftest
+  ^{::fc/problem    124
+    ::fc/difficulty :hard
+    ::fc/topics     #{:game}}
+  analyze-reversi
+  "[Reversi](http://en.wikipedia.org/wiki/Reversi) is normally played
+  on an 8 by 8 board. In this problem, a 4 by 4 board is represented
+  as a two-dimensional vector with black, white, and empty pieces
+  represented by 'b, 'w, and 'e, respectively. Create a function that
+  accepts a game board and color as arguments, and returns a map of
+  legal moves for that color. Each key should be the coordinates of a
+  legal move, and its value a set of the coordinates of the pieces
+  flipped by that move.
+
+  Board coordinates should be as in calls to get-in. For example, [0
+  1] is the topmost row, second column from the left."
+  (let [__]
+    (is (= {[1 3] #{[1 2]}, [0 2] #{[1 2]}, [3 1] #{[2 1]}, [2 0] #{[2 1]}}
+           (__ '[[e e e e]
+                 [e w b e]
+                 [e b w e]
+                 [e e e e]] 'w)))
+    (is (= {[3 2] #{[2 2]}, [3 0] #{[2 1]}, [1 0] #{[1 1]}}
+           (__ '[[e e e e]
+                 [e w b e]
+                 [w w w e]
+                 [e e e e]] 'b)))
+    (is (= {[0 3] #{[1 2]}, [1 3] #{[1 2]}, [3 3] #{[2 2]}, [2 3] #{[2 2]}}
+           (__ '[[e e e e]
+                 [e w b e]
+                 [w w b e]
+                 [e e b e]] 'w)))
+    (is (= {[0 3] #{[2 1] [1 2]}, [1 3] #{[1 2]}, [2 3] #{[2 1] [2 2]}}
+           (__ '[[e e w e]
+                 [b b w e]
+                 [b w w e]
+                 [b w w w]] 'b)))))
+
+#_
+(deftest
+  ^{::fc/problem    125
+    ::fc/difficulty :hard
+    ::fc/topics     #{:logic :fun :brain-teaser}}
+  gus-quinundrum
+  "Create a function of no arguments which returns a string that is an
+  exact copy of the function itself.
+
+  Hint: read [this](http://en.wikipedia.org/wiki/Quine_(computing)) if
+  you get stuck (this question is harder than it first appears); but
+  it's worth the effort to solve it independently if you can!
+
+  Fun fact: Gus is the name of the [4Clojure
+  dragon](http://i.imgur.com/FBd8z.png)."
+  (let [__ ]
+    (is (= (str '__) (__)))))
+
 (deftest
   ^{::fc/problem    126
     ::fc/difficulty :easy
@@ -1506,6 +2015,111 @@
   (let [__ java.lang.Class]
     (is (let [x __]
           (and (= (class x) x) x)))))
+#_
+(deftest
+  ^{::fc/problem    127
+    ::fc/difficulty :hard
+    ::fc/topics     #{:search :data-juggling}}
+  love-triangle
+  "Everyone loves triangles, and it's easy to understand why—they're
+  so wonderfully symmetric (except scalenes, they suck).
+
+  Your passion for triangles has led you to become a miner (and
+  part-time Clojure programmer) where you work all day to chip out
+  isosceles-shaped minerals from rocks gathered in a nearby open-pit
+  mine. There are too many rocks coming from the mine to harvest them
+  all so you've been tasked with writing a program to analyze the
+  mineral patterns of each rock, and determine which rocks have the
+  biggest minerals.
+
+  Someone has already written a
+  [computer-vision](http://en.wikipedia.org/wiki/Computer_vision)
+  system for the mine. It images each rock as it comes into the
+  processing centre and creates a cross-sectional
+  [bitmap](http://en.wikipedia.org/wiki/Bit_array) of mineral (1) and
+  rock (0) concentrations for each one.
+
+  You must now create a function which accepts a collection of
+  integers, each integer when read in base-2 gives the
+  bit-representation of the rock (again, 1s are mineral and 0s are
+  worthless scalene-like rock). You must return the cross-sectional
+  area of the largest harvestable mineral from the input rock, as
+  follows:
+
+  - The minerals only have smooth faces when sheared vertically or
+    horizontally from the rock's cross-section
+
+  - The mine is only concerned with harvesting isosceles triangles
+    (such that one or two sides can be sheared)
+
+  - If only one face of the mineral is sheared, its opposing vertex
+    must be a point (ie. the smooth face must be of odd length), and
+    its two equal-length sides must intersect the shear face at 45°
+    (ie. those sides must cut even-diagonally)
+
+  - The harvested mineral may not contain any traces of rock
+
+  - The mineral may lie in any orientation in the plane
+
+  - Area should be calculated as the sum of 1s that comprise the
+    mineral
+
+  - Minerals must have a minimum of three measures of area to be
+    harvested
+
+  - If no minerals can be harvested from the rock, your function
+    should return nil"
+  (let [__]
+    (is (= 10 (__ [15 15 15 15 15])))
+                                        ; 1111      1111
+                                        ; 1111      *111
+                                        ; 1111  ->  **11
+                                        ; 1111      ***1
+                                        ; 1111      ****
+
+    (is (= 15 (__ [1 3 7 15 31])))
+                                        ; 00001      0000*
+                                        ; 00011      000**
+                                        ; 00111  ->  00***
+                                        ; 01111      0****
+                                        ; 11111      *****
+
+    (is (= 3 (__ [3 3])))
+                                        ; 11      *1
+                                        ; 11  ->  **
+
+    (is (= 4 (__ [7 3])))
+                                        ; 111      ***
+                                        ; 011  ->  0*1
+
+    (is (= 6 (__ [17 22 6 14 22])))
+                                        ; 10001      10001
+                                        ; 10110      101*0
+                                        ; 00110  ->  00**0
+                                        ; 01110      0***0
+                                        ; 10110      10110
+
+    (is (= 9 (__ [18 7 14 14 6 3])))
+                                        ; 10010      10010
+                                        ; 00111      001*0
+                                        ; 01110      01**0
+                                        ; 01110  ->  0***0
+                                        ; 00110      00**0
+                                        ; 00011      000*1
+
+    (is (= nil (__ [21 10 21 10])))
+                                        ; 10101      10101
+                                        ; 01010      01010
+                                        ; 10101  ->  10101
+                                        ; 01010      01010
+
+    (is (= nil (__ [0 31 0 31 0])))
+                                        ; 00000      00000
+                                        ; 11111      11111
+                                        ; 00000  ->  00000
+                                        ; 11111      11111
+                                        ; 00000      00000
+    ))
 
 (deftest
   ^{::fc/problem    128
