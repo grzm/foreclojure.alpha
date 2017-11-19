@@ -623,6 +623,62 @@
       (/ num lcd))))
 
 (def
+  ^{::problem    104
+    ::difficulty :medium
+    ::topics     #{:strings :math}}
+  dec->roman
+  "This is the inverse of [Problem
+  92](http://www.4clojure.com/problem/92), but much easier. Given an
+  integer smaller than 4000, return the corresponding roman numeral in
+  uppercase, adhering to the [subtractive
+  principle](http://www.numericana.com/answer/roman.htm#valid)."
+  (fn [n]
+    (let [ds [[1000 "M"],
+              [900  "CM"],
+              [500  "D"],
+              [400  "XD"],
+              [100  "C"],
+              [90   "XC"],
+              [50   "L"],
+              [40   "XL"],
+              [10   "X"],
+              [9    "IX"]
+              [5    "V"],
+              [4    "IV"]
+              [1    "I"]]]
+      (->>
+        (loop [r    n
+               ds   ds
+               coll []]
+          (if (zero? r)
+            coll
+            (let [[m d] (first ds)]
+              (if (< r m)
+                (recur r (rest ds) coll)
+                (recur (- r m) ds (conj coll d))))))
+        (apply str)))))
+
+(def
+  ^{::problem    110
+    ::difficulty :medium
+    ::topics     #{:seqs}}
+  pronunciations
+  "Write a function that returns a lazy sequence of \"pronunciations\"
+  of a sequence of numbers. A pronunciation of each element in the
+  sequence consists of the number of repeating identical numbers and
+  the number itself. For example, [1 1] is pronounced as [2 1] (\"two
+  ones\"), which in turn is pronounced as [1 2 1 1] (\"one two, one
+  one\").
+
+  Your function should accept an initial sequence of numbers, and return
+  an infinite lazy sequence of pronunciations, each element being a
+  pronunciation of the previous element."
+  (fn [init]
+    (next (iterate #(->> (partition-by identity %)
+                         (mapcat (fn [x] [(count x) (first x)]))
+                         vec) init))))
+
+(def
   ^{::problem              118
     ::difficulty           :easy
     ::topics               #{:core-seqs}

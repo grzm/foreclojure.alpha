@@ -1442,7 +1442,6 @@
     (is (= (__ "ttttattttctg" "tcaaccctaccat") 10))
     (is (= (__ "gaattctaatctc" "caaacaaaaaattt") 9))))
 
-#_
 (deftest
   ^{::fc/problem    102
     ::fc/difficulty :medium
@@ -1453,7 +1452,10 @@
   :keys-like-this until it's time to convert. Write a function which
   takes lower-case hyphen-separated strings and converts them to
   camel-case strings."
-  (let [__]
+  (let [__ (fn [s]
+             (let [[f & r] (clojure.string/split s #"-")
+                   rs      (map #(vector (clojure.string/upper-case (first %)) (rest %)) r)]
+               (apply str (flatten [f rs]))))]
     (is (= (__ "something") "something"))
     (is (= (__ "multi-word-key") "multiWordKey"))
     (is (= (__ "leaveMeAlone") "leaveMeAlone"))))
@@ -1480,7 +1482,6 @@
     (is (= (__ 2 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a} #{[1 2 3] "abc"} #{[1 2 3] "efg"}
                                               #{:a "abc"} #{:a "efg"} #{"abc" "efg"}}))))
 
-#_
 (deftest
   ^{::fc/problem    104
     ::fc/difficulty :medium
@@ -1491,7 +1492,7 @@
   integer smaller than 4000, return the corresponding roman numeral in
   uppercase, adhering to the [subtractive
   principle](http://www.numericana.com/answer/roman.htm#valid)."
-  (let [__]
+  (let [__ fc/dec->roman]
     (is (= "I" (__ 1)))
     (is (= "XXX" (__ 30)))
     (is (= "IV" (__ 4)))
@@ -1500,7 +1501,6 @@
     (is (= "MMMCMXCIX" (__ 3999)))
     (is (= "XLVIII" (__ 48)))))
 
-#_
 (deftest
   ^{::fc/problem    105
     ::fc/difficulty :medium
@@ -1510,7 +1510,14 @@
   that each key in the map is a keyword, and the value is a sequence
   of all the numbers (if any) between it and the next keyword in the
   sequence."
-  (let [__]
+  (let [__ #(->> (reduce
+                   (fn [m e]
+                     (if (keyword? e)
+                       (conj m [e []])
+                       (let [[k vs] (first m)]
+                         (conj (rest m) [k (conj vs e)]))))
+                   '() %)
+                 (into {}))]
     (is (= {} (__ [])))
     (is (= {:a [1]} (__ [:a 1])))
     (is (= {:a [1], :b [2]} (__ [:a 1, :b 2])))
@@ -1585,7 +1592,6 @@
 
 ;; no problem 109
 
-#_
 (deftest
   ^{::fc/problem    110
     ::fc/difficulty :medium
@@ -1601,7 +1607,7 @@
   Your function should accept an initial sequence of numbers, and return
   an infinite lazy sequence of pronunciations, each element being a
   pronunciation of the previous element."
-  (let [__]
+  (let [__ fc/pronunciations]
     (is (= [[1 1] [2 1] [1 2 1 1]] (take 3 (__ [1]))))
     (is (= [3 1 2 4] (first (__ [1 1 1 4 4]))))
     (is (= [1 1 1 3 2 1 3 2 1 1] (nth (__ [1]) 6)))
