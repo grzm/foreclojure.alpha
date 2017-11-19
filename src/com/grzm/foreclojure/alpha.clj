@@ -614,22 +614,16 @@
           num   (lcm (map first rats'))]
       (/ num lcd))))
 
-#_(def
-    ^{::problem              118
-      ::difficulty           :easy
-      ::topics               #{:core-seqs}
-      ::special-restrictions #{'map 'map-indexed 'mapcat 'for}}
-    map'
-    "Map is one of the core elements of a functional programming
+(def
+  ^{::problem              118
+    ::difficulty           :easy
+    ::topics               #{:core-seqs}
+    ::special-restrictions #{'map 'map-indexed 'mapcat 'for}}
+  map'
+  "Map is one of the core elements of a functional programming
   language. Given a function f and an input sequence s, return a lazy
   sequence of (f x) for each element x in s."
-    (fn [f coll]
-      (loop [res   []
-             coll' coll]
-        (prn {:res res :coll' coll'})
-        (if (seq coll')
-          (recur (conj res (f (first coll'))) (next coll'))
-          res))))
+  (fn [f xs] (reductions #(f %2) (f (first xs)) (rest xs))))
 
 (def
   ^{::problem    122

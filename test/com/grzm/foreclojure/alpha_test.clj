@@ -651,7 +651,6 @@
     (is (= (__ [1 2 3 4] ["one" "two" "three"]) {1 "one", 2 "two", 3 "three"}))
     (is (= (__ [:foo :bar] ["foo" "bar" "baz"]) {:foo "foo", :bar "bar"}))    ))
 
-#_
 (deftest
   ^{::fc/problem              62
     ::fc/difficulty           :easy
@@ -661,7 +660,9 @@
   "Given a side-effect free function f and an initial value x write a
   function which returns an infinite lazy sequence of x, (f x), (f (f
   x)), (f (f (f x))), etc."
-  (let [__ identity]
+  (let [__ (fn iterate' [f init]
+             (cons init
+                   (lazy-seq (iterate' f (f init)))))]
     (is (= (take 5 (__ #(* 2 %) 1)) [1 2 4 8 16]))
     (is (= (take 100 (__ inc 0)) (take 100 (range))))
     (is (= (take 9 (__ #(inc (mod % 3)) 1)) (take 9 (cycle [1 2 3]))))))
@@ -1436,7 +1437,6 @@
     (is (= [1 8 27 64] (map (__ 3) [1 2 3 4])))
     (is (= [1 2 4 8 16] (map #((__ %) 2) [0 1 2 3 4])))))
 
-#_
 (deftest
   ^{::fc/problem              118
     ::fc/difficulty           :easy
@@ -1454,7 +1454,7 @@
     (is (= [1000000 1000001]
            (->> (__ inc (range))
                 (drop (dec 1000000))
-                (take 2))))    ))
+                (take 2))))))
 
 (deftest
   ^{::fc/problem    120
@@ -1733,7 +1733,6 @@
     (is (= (__ "x" [1 2 3]) {1 "x" 2 "x" 3 "x"}))
     (is (= (__ [:a :b] [:foo :bar]) {:foo [:a :b] :bar [:a :b]}))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    157
     ::fc/difficulty :easy
@@ -1741,7 +1740,7 @@
   indexing-sequences
   "Transform a sequence into a sequence of pairs containing the
   original elements along with their index."
-  (let [__]
+  (let [__ #(map list % (range))]
     (is (= (__ [:a :b :c]) [[:a 0] [:b 1] [:c 2]]))
     (is (= (__ [0 1 3]) '((0 0) (1 1) (3 2))))
     (is (= (__ [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]]))))
@@ -1775,7 +1774,6 @@
     (is (= __ (if 0 1 0)))
     (is (= __ (if 1 1 0)))))
 
-#_ ;; TODO
 (deftest
   ^{::fc/problem    166
     ::fc/difficulty :easy}
@@ -1791,13 +1789,12 @@
  - x = y → :eq
  - x > y → :gt
  - x < y → :lt"
-  (let [__ ]
+  (let [__ #(cond (% %2 %3) :lt (% %3 %2) :gt :else :eq)]
     (is (= :gt (__ < 5 1)))
     (is (= :eq (__ (fn [x y] (< (count x) (count y))) "pear" "plum")))
     (is (= :lt (__ (fn [x y] (< (mod x 5) (mod y 5))) 21 3)))
     (is (= :gt (__ > 0 2)))))
 
-#_;; TODO
 (deftest
   ^{::fc/problem    173
     ::fc/difficulty :easy
@@ -1807,11 +1804,11 @@
   sequential things (vectors, lists, seqs, etc.): [(let [bindings* ]
   exprs*)](http://clojure.org/special_forms#Special%20Forms--(let%20[bindings*%20]%20exprs*))
   Complete the bindings so all let-parts evaluate to 3."
-  (let [__ ]
-    (is (= 3
-           (let [[__] [+ (range 3)]] (apply __))
-           (let [[[__] b] [[+ 1] 2]] (__ b))
-           (let [[__] [inc 2]] (__))))))
+  ;; __ a c
+  (is (= 3
+         (let [[a c] [+ (range 3)]] (apply a c))
+         (let [[[a c] b] [[+ 1] 2]] (a c b))
+         (let [[a c] [inc 2]] (a c)))))
 
 (comment
   ;; all solved problems ordered by name
