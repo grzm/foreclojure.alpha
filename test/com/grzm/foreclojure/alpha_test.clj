@@ -622,7 +622,6 @@
     (is (= ["HELLO" 5] ((__ #(.toUpperCase %) count) "hello")))
     (is (= [2 6 4] ((__ :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10})))))
 
-#_
 (deftest
   ^{::fc/problem              60
     ::fc/difficulty           :medium
@@ -633,7 +632,7 @@
   intermediate value of the reduction. Your function must accept
   either two or three arguments, and the return sequence must be
   lazy."
-  (let [__ identity]
+  (let [__ fc/reductions']
     (is (= (take 5 (__ + (range))) [0 1 3 6 10]))
     (is (= (__ conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]]))
     (is (= (last (__ * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120))))

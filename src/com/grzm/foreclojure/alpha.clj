@@ -270,6 +270,25 @@
           (apply f args))))))
 
 (def
+  ^{::problem              60
+    ::difficulty           :medium
+    ::topics               #{:seqs :core-functions}
+    ::special-restrictions #{'reductions}}
+  reductions'
+  "Write a function which behaves like reduce, but returns each
+  intermediate value of the reduction. Your function must accept
+  either two or three arguments, and the return sequence must be
+  lazy."
+  (fn r
+    ([f [init & xs]]
+     (r f init xs))
+    ([f memo [x & xs]]
+     (let [memo' (f memo x)]
+       (if (seq xs)
+         (cons memo (lazy-seq (r f memo' xs)))
+         (list memo memo'))))))
+
+(def
   ^{::problem 66}
   brute-force-gcd
   "Given two integers, write a function which returns the greatest common divisor."
