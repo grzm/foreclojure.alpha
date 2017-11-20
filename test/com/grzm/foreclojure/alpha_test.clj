@@ -2158,17 +2158,142 @@
 
 ;; No problem 129
 
-#_(deftest
-    ^{::fc/problem 130}
-    problem-130)
+#_
+(deftest
+  ^{::fc/problem    130
+    ::fc/difficulty :hard
+    ::topics        #{:tree}}
+  tree-reparenting
+  "Every node of a tree is connected to each of its children as well
+  as its parent. One can imagine grabbing one node of a tree and
+  dragging it up to the root position, leaving all connections
+  intact. For example, below on the left is a binary tree. By
+  pulling the \"c\" node up to the root, we obtain the tree on the
+  right.
 
-#_(deftest
-    ^{::fc/problem 131}
-    problem-131)
+  ![tree diagram](http://i.imgur.com/UtD2T.png)
 
-#_(deftest
-    ^{::fc/problem 132}
-    problem-132)
+  Note it is no longer binary as \"c\" had three connections total --
+  two children and one parent. Each node is represented as a vector,
+  which always has at least one element giving the name of the node as
+  a symbol. Subsequent items in the vector represent the children of
+  the node. Because the children are ordered it's important that the
+  tree you return keeps the children of each node in order and that
+  the old parent node, if any, is appended on the right. Your function
+  will be given two args -- the name of the node that should become
+  the new root, and the tree to transform."
+  (let [__ ]
+    (is (= '(n)
+           (__ 'n '(n))))
+    (is (= '(a (t (e)))
+           (__ 'a '(t (e) (a)))))
+    (is (= '(e (t (a)))
+           (__ 'e '(a (t (e))))))
+    (is (= '(a (b (c)))
+           (__ 'a '(c (b (a))))))
+    (is (= '(d
+              (b
+                (c)
+                (e)
+                (a
+                  (f
+                    (g)
+                    (h)))))
+           (__ 'd '(a
+                     (b
+                       (c)
+                       (d)
+                       (e))
+                     (f
+                       (g)
+                       (h))))))
+    (is (= '(c
+              (d)
+              (e)
+              (b
+                (f
+                  (g)
+                  (h))
+                (a
+                  (i
+                    (j
+                      (k)
+                      (l))
+                    (m
+                      (n)
+                      (o))))))
+           (__ 'c '(a
+                     (b
+                       (c
+                         (d)
+                         (e))
+                       (f
+                         (g)
+                         (h)))
+                     (i
+                       (j
+                         (k)
+                         (l))
+                       (m
+                         (n)
+                         (o)))))))))
+
+#_
+(deftest
+  ^{::fc/problem    131
+    ::fc/difficulty :medium
+    ::fc/topcs      #{:math}}
+  sum-som-set-subsets
+  "Given a variable number of sets of integers, create a function
+  which returns true iff all of the sets have a non-empty subset with
+  an equivalent summation."
+  (let [__]
+    (is (= true  (__ #{-1 1 99}
+                     #{-2 2 888}
+                     #{-3 3 7777}))) ; ex. all sets have a subset which sums to zero
+    (is (= false (__ #{1}
+                     #{2}
+                     #{3}
+                     #{4})))
+    (is (= true  (__ #{1})))
+    (is (= false (__ #{1 -3 51 9}
+                     #{0}
+                     #{9 2 81 33})))
+    (is (= true  (__ #{1 3 5}
+                     #{9 11 4}
+                     #{-3 12 3}
+                     #{-3 4 -2 10})))
+    (is (= false (__ #{-1 -2 -3 -4 -5 -6}
+                     #{1 2 3 4 5 6 7 8 9})))
+    (is (= true  (__ #{1 3 5 7}
+                     #{2 4 6 8})))
+    (is (= true  (__ #{-1 3 -5 7 -9 11 -13 15}
+                     #{1 -3 5 -7 9 -11 13 -15}
+                     #{1 -1 2 -2 4 -4 8 -8})))
+    (is (= true  (__ #{-10 9 -8 7 -6 5 -4 3 -2 1}
+                     #{10 -9 8 -7 6 -5 4 -3 2 -1})))))
+
+#_
+(deftest
+  ^{::fc/problem    132
+    ::fc/difficulty :medium
+    ::fc/topcs      #{:seqs :core-functions}}
+  insert-between-two-items
+  "Write a function that takes a two-argument predicate, a value, and
+  a collection; and returns a new collection where the value is
+  inserted between every two items that satisfy the predicate."
+  (let [__]
+    (is (= '(1 :less 6 :less 7 4 3) (__ < :less [1 6 7 4 3])))
+    (is (= '(2) (__ > :more [2])))
+    (is (= [0 1 :x 2 :x 3 :x 4]  (__ #(and (pos? %) (< % %2)) :x (range 5))))
+    (is (empty? (__ > :more ())))
+    (is (= [0 1 :same 1 2 3 :same 5 8 13 :same 21]
+           (take 12 (->> [0 1]
+                         (iterate (fn [[a b]] [b (+ a b)]))
+                         (map first)         ; fibonacci numbers
+                         (__ (fn [a b]       ; both even or both odd
+                               (= (mod a 2) (mod b 2)))
+                             :same)))))))
 
 ;; No problem 133
 
@@ -2211,13 +2336,60 @@
 
 #_
 (deftest
-  ^{::fc/problem 137}
-  problem-137)
+  ^{::fc/problem    137
+    ::fc/difficulty :medium
+    ::fc/topics     #{:math}}
+  digits-and-bases
+  "Write a function which returns a sequence of digits of a
+  non-negative number (first argument) in numerical system with an
+  arbitrary base (second argument). Digits should be represented with
+  their integer values, e.g. 15 would be [1 5] in base 10, [1 1 1 1]
+  in base 2 and [15] in base 16. "
+  (let [__]
+    (is (= [1 2 3 4 5 0 1] (__ 1234501 10)))
+    (is (= [0] (__ 0 11)))
+    (is (= [1 0 0 1] (__ 9 2)))
+    (is (= [1 0] (let [n (rand-int 100000)](__ n n))))
+    (is (= [16 18 5 24 15 1] (__ Integer/MAX_VALUE 42)))))
 
 #_
 (deftest
-  ^{::fc/problem 138}
-  problem-138)
+  ^{::fc/problem    138
+    ::fc/difficulty :hard
+    ::fc/topics     #{:data-juggling}}
+  squares-squared
+  "Create a function of two integer arguments: the start and end,
+  respectively. You must create a vector of strings which renders a
+  45° rotated square of integers which are successive squares from the
+  start point up to and including the end point. If a number comprises
+  multiple digits, wrap them around the shape individually. If there
+  are not enough digits to complete the shape, fill in the rest with
+  asterisk characters. The direction of the drawing should be
+  clockwise, starting from the center of the shape and working
+  outwards, with the initial direction being down and to the right."
+  (let [__]
+    (is (= (__ 2 2) ["2"]))
+    (is (= (__ 2 4) [" 2 "
+                     "* 4"
+                     " * "]))
+    (is (= (__ 3 81) [" 3 "
+                      "1 9"
+                      " 8 "]))
+    (is (= (__ 4 20) [" 4 "
+                      "* 1"
+                      " 6 "]))
+    (is (= (__ 2 256) ["  6  "
+                       " 5 * "
+                       "2 2 *"
+                       " 6 4 "
+                       "  1  "]))
+    (is (= (__ 10 10000) ["   0   "
+                          "  1 0  "
+                          " 0 1 0 "
+                          "* 0 0 0"
+                          " * 1 * "
+                          "  * *  "
+                          "   *   "]))))
 
 #_
 (deftest
@@ -2227,13 +2399,129 @@
 
 #_
 (deftest
-  ^{::fc/problem 140}
-  problem-140)
+  ^{::fc/problem    140
+    ::fc/difficulty :hard
+    ::fc/topics     #{:math :circuit-design}}
+  veitch-please!
+  "Create a function which accepts as input a boolean algebra function
+  in the form of a set of sets, where the inner sets are collections
+  of symbols corresponding to the input boolean variables which
+  satisfy the function (the inputs of the inner sets are conjoint, and
+  the sets themselves are disjoint... also known as canonical
+  minterms). Note: capitalized symbols represent truth, and lower-case
+  symbols represent negation of the inputs. Your function must return
+  the minimal function which is logically equivalent to the input.
+
+  PS — You may want to give this a read before proceeding:
+  [K-Maps](http://en.wikipedia.org/wiki/K_map)"
+  (let [__]
+    (is (= (__ #{#{'a 'B 'C 'd}
+                 #{'A 'b 'c 'd}
+                 #{'A 'b 'c 'D}
+                 #{'A 'b 'C 'd}
+                 #{'A 'b 'C 'D}
+                 #{'A 'B 'c 'd}
+                 #{'A 'B 'c 'D}
+                 #{'A 'B 'C 'd}})
+           #{#{'A 'c}
+             #{'A 'b}
+             #{'B 'C 'd}}))
+    (is (= (__ #{#{'A 'B 'C 'D}
+                 #{'A 'B 'C 'd}})
+           #{#{'A 'B 'C}}))
+    (is (= (__ #{#{'a 'b 'c 'd}
+                 #{'a 'B 'c 'd}
+                 #{'a 'b 'c 'D}
+                 #{'a 'B 'c 'D}
+                 #{'A 'B 'C 'd}
+                 #{'A 'B 'C 'D}
+                 #{'A 'b 'C 'd}
+                 #{'A 'b 'C 'D}})
+           #{#{'a 'c}
+             #{'A 'C}}))
+    (is (= (__ #{#{'a 'b 'c}
+                 #{'a 'B 'c}
+                 #{'a 'b 'C}
+                 #{'a 'B 'C}})
+           #{#{'a}}))
+    (is (= (__ #{#{'a 'B 'c 'd}
+                 #{'A 'B 'c 'D}
+                 #{'A 'b 'C 'D}
+                 #{'a 'b 'c 'D}
+                 #{'a 'B 'C 'D}
+                 #{'A 'B 'C 'd}})
+           #{#{'a 'B 'c 'd}
+             #{'A 'B 'c 'D}
+             #{'A 'b 'C 'D}
+             #{'a 'b 'c 'D}
+             #{'a 'B 'C 'D}
+             #{'A 'B 'C 'd}}))
+    (is (= (__ #{#{'a 'b 'c 'd}
+                 #{'a 'B 'c 'd}
+                 #{'A 'B 'c 'd}
+                 #{'a 'b 'c 'D}
+                 #{'a 'B 'c 'D}
+                 #{'A 'B 'c 'D}})
+           #{#{'a 'c}
+             #{'B 'c}}))
+    (is (= (__ #{#{'a 'B 'c 'd}
+                 #{'A 'B 'c 'd}
+                 #{'a 'b 'c 'D}
+                 #{'a 'b 'C 'D}
+                 #{'A 'b 'c 'D}
+                 #{'A 'b 'C 'D}
+                 #{'a 'B 'C 'd}
+                 #{'A 'B 'C 'd}})
+           #{#{'B 'd}
+             #{'b 'D}}))
+    (is (= (__ #{#{'a 'b 'c 'd}
+                 #{'A 'b 'c 'd}
+                 #{'a 'B 'c 'D}
+                 #{'A 'B 'c 'D}
+                 #{'a 'B 'C 'D}
+                 #{'A 'B 'C 'D}
+                 #{'a 'b 'C 'd}
+                 #{'A 'b 'C 'd}})
+           #{#{'B 'D}
+             #{'b 'd}}))))
 
 #_
 (deftest
-  ^{::fc/problem 141}
-  problem-141)
+  ^{::fc/problem    141
+    ::fc/difficulty :medium
+    ::fc/topics     #{:game :cards}}
+  tricky-card-games
+  "In [trick-taking card
+  games](http://en.wikipedia.org/wiki/Trick-taking_game) such as
+  bridge, spades, or hearts, cards are played in groups known as
+  "tricks" - each player plays a single card, in order; the first
+  player is said to "lead" to the trick. After all players have
+  played, one card is said to have "won" the trick. How the winner is
+  determined will vary by game, but generally the winner is the
+  highest card played in the suit that was led. Sometimes (again
+  varying by game), a particular suit will be designated "trump",
+  meaning that its cards are more powerful than any others: if there
+  is a trump suit, and any trumps are played, then the highest trump
+  wins regardless of what was led.
+
+  Your goal is to devise a function that can determine which of a
+  number of cards has won a trick. You should accept a trump suit, and
+  return a function winner. Winner will be called on a sequence of
+  cards, and should return the one which wins the trick. Cards will be
+  represented in the format returned by [Problem 128, Recognize
+  Playing Cards](http://www.4clojure.com/problem/128/): a hash-map of
+  :suit and a numeric :rank. Cards with a larger rank are stronger."
+  (let [__]
+    (is (let [notrump (__ nil)]
+          (and (= {:suit :club :rank 9}  (notrump [{:suit :club :rank 4}
+                                                   {:suit :club :rank 9}]))
+               (= {:suit :spade :rank 2} (notrump [{:suit :spade :rank 2}
+                                                   {:suit :club :rank 10}])))))
+    (is (= {:suit :club :rank 10} ((__ :club) [{:suit :spade :rank 2}
+                                               {:suit :club :rank 10}])))
+    (is (= {:suit :heart :rank 8}
+           ((__ :heart) [{:suit :heart :rank 6} {:suit :heart :rank 8}
+                         {:suit :diamond :rank 10} {:suit :heart :rank 4}])))))
 
 ;; No problem 142
 
@@ -2254,8 +2542,18 @@
 
 #_
 (deftest
-  ^{::fc/problem 144}
-  problem-144)
+  ^{::fc/problem    144
+    ::fc/difficulty :medium
+    ::fc/topics     #{:sequences}}
+  oscilrate
+  "Write an oscillating iterate: a function that takes an initial
+  value and a variable number of functions. It should return a lazy
+  sequence of the functions applied to the value in order, restarting
+  from the first function after it hits the end."
+  (let [__]
+    (is (= (take 3 (__ 3.14 int double)) [3.14 3 3.0]))
+    (is (= (take 5 (__ 3 #(- % 3) #(+ 5 %))) [3 0 5 2 7]))
+    (is (= (take 12 (__ 0 inc dec inc dec inc)) [0 1 0 1 0 1 2 1 2 1 2 3]))))
 
 (deftest
   ^{::fc/problem    145
@@ -2349,9 +2647,125 @@
 
 ;; no problem 151
 
-#_(deftest
-    ^{::fc/problem 152}
-    problem-152)
+#_
+(deftest
+  ^{::fc/problem    152
+    ::fc/difficulty :hard
+    ::fc/topics     #{:data-analysis :math}}
+  latin-square-slicing
+  "A [Latin square](http://en.wikipedia.org/wiki/Latin_square) of
+    order `n` is an `n x n` array that contains `n` different
+    elements, each occurring exactly once in each row, and exactly
+    once in each column. For example, among the following arrays `only
+    the first one` forms a Latin square:
+
+        A B C    A B C    A B C
+        B C A    B C A    B D A
+        C A B    C A C    C A B
+
+  Let V be a vector of such vectors<sup>1</sup> that they may differ
+  in length<sup>2</sup>. We will say that an arrangement of vectors of
+  `V` in consecutive rows is an *alignment (of vectors)* of `V` if the
+  following conditions are satisfied:
+
+ - All vectors of `V` are used.
+
+ - Each row contains just one vector.
+
+ - The order of `V` is preserved.
+
+ - All vectors of maximal length are horizontally aligned each other.
+
+ - If a vector is not of maximal length then all its elements are
+   aligned with elements of some subvector of a vector of maximal
+   length.
+
+  Let `L` denote a Latin square of order 2 or greater. We will say
+  that `L` *is included* in `V` or that `V` *includes* `L` iff there
+  exists an alignment of V such that contains a subsquare that is
+  equal to `L`.
+
+  For example, if `V` equals `[[1 2 3][2 3 1 2 1][3 1 2]]` then there
+  are nine alignments of `V` (brackets omitted):
+
+
+              1              2              3
+
+            1 2 3          1 2 3          1 2 3
+        A   2 3 1 2 1    2 3 1 2 1    2 3 1 2 1
+            3 1 2        3 1 2        3 1 2
+
+            1 2 3          1 2 3          1 2 3
+        B   2 3 1 2 1    2 3 1 2 1    2 3 1 2 1
+              3 1 2        3 1 2        3 1 2
+
+            1 2 3          1 2 3          1 2 3
+        C   2 3 1 2 1    2 3 1 2 1    2 3 1 2 1
+                3 1 2        3 1 2        3 1 2
+
+  Alignment **A1** contains Latin square `[[1 2 3][2 3 1][3 1 2]]`,
+  alignments **A2**, **A3**, **B1**, **B2**, **B3** contain no Latin
+  squares, and alignments **C1**, **C2**, **C3** contain `[[2 1][1
+  2]]`. Thus in this case `V` includes one Latin square of order 3 and
+  one of order 2 which is included three times.
+
+  Our aim is to implement a function which accepts a vector of vectors
+  V as an argument, and returns a map which keys and values are
+  integers. Each key should be the order of a Latin square included in
+  V, and its value a count of different Latin squares of that order
+  included in `V`. If `V` does not include any Latin squares an empty
+  map should be returned. In the previous example the correct output
+  of such a function is `{3 1, 2 1}` and *not* `{3 1, 2 3}`.
+
+  <sup>1</sup> Of course, we can consider sequences instead of vectors.
+
+  <sup>2</sup> Length of a vector is the number of elements in the vector."
+
+  (let [__]
+    (is (= (__ '[[A B C D]
+                 [A C D B]
+                 [B A D C]
+                 [D C A B]])
+           {}))
+    (is (= (__ '[[A B C D E F]
+                 [B C D E F A]
+                 [C D E F A B]
+                 [D E F A B C]
+                 [E F A B C D]
+                 [F A B C D E]])
+           {6 1}))
+    (is (= (__ '[[A B C D]
+                 [B A D C]
+                 [D C B A]
+                 [C D A B]])
+           {4 1, 2 4}))
+    (is (= (__ '[[B D A C B]
+                 [D A B C A]
+                 [A B C A B]
+                 [B C A B C]
+                 [A D B C A]])
+           {3 3}))
+    (is (= (__ [  [2 4 6 3]
+                [3 4 6 2]
+                [6 2 4]  ])
+           {}))
+    (is (= (__ [[1]
+                [1 2 1 2]
+                [2 1 2 1]
+                [1 2 1 2]
+                []       ])
+           {2 2}))
+    (is (= (__ [[3 1 2]
+                [1 2 3 1 3 4]
+                [2 3 1 3]    ])
+           {3 1, 2 2}))
+    (is (= (__ [[8 6 7 3 2 5 1 4]
+                [6 8 3 7]
+                [7 3 8 6]
+                [3 7 6 8 1 4 5 2]
+                [1 8 5 2 4]
+                [8 1 2 4 5]])
+           {4 1, 3 1, 2 7}))))
 
 (deftest
   ^{::fc/problem    153
@@ -2446,8 +2860,32 @@
 
 #_
 (deftest
-  ^{::fc/problem 158}
-  problem-158)
+  ^{::fc/problem    158
+    ::fc/difficulty :medium
+    ::fc/topics     #{:partial-functions}}
+  decurry
+  "Write a function that accepts a curried function of unknown arity
+  *n*. Return an equivalent function of *n* arguments.
+
+  You may wish to read
+  [this](http://en.wikipedia.org/wiki/Currying)."
+  (let [__]
+    (is (= 10 ((__ (fn [a]
+                     (fn [b]
+                       (fn [c]
+                         (fn [d]
+                           (+ a b c d))))))
+               1 2 3 4)))
+    (is (= 24 ((__ (fn [a]
+                     (fn [b]
+                       (fn [c]
+                         (fn [d]
+                           (* a b c d))))))
+               1 2 3 4)))
+    (is (= 25 ((__ (fn [a]
+                     (fn [b]
+                       (* a b))))
+               5 5)))))
 
 #_
 (deftest
@@ -2498,8 +2936,94 @@
 
 #_
 (deftest
-  ^{::fc/problem 164}
-  problem-164)
+  ^{::fc/problem    164
+    ::fc/difficulty :hard
+    ::fc/topics     #{:automata :seqs}}
+  language-of-a-dfa
+  "A [deterministic finite automaton
+  (DFA)](http://en.wikipedia.org/wiki/Deterministic_finite_automaton)
+  is an abstract machine that recognizes a [regular
+  language](http://en.wikipedia.org/wiki/Regular_language). Usually a
+  DFA is defined by a 5-tuple, but instead we'll use a map with 5
+  keys:
+
+  - *:states* is the set of states for the DFA.
+
+  - *:alphabet* is the set of symbols included in the language
+     recognized by the DFA.
+
+  - *:start* is the start state of the DFA.
+
+  - *:accepts* is the set of accept states in the DFA.
+
+  - *:transitions* is the transition function for the DFA, mapping
+     :states ⨯ *:alphabet* onto *:states*.
+
+  Write a function that takes as input a DFA definition (as described
+  above) and returns a sequence enumerating all strings in the
+  language recognized by the DFA. Note: Although the DFA itself is
+  finite and only recognizes finite-length strings it can still
+  recognize an infinite set of finite-length strings. And because
+  stack space is finite, make sure you don't get stuck in an infinite
+  loop that's not producing results every so often!"
+  (let [__]
+    (is (= #{"a" "ab" "abc"}
+           (set (__ '{:states      #{q0 q1 q2 q3}
+                      :alphabet    #{a b c}
+                      :start       q0
+                      :accepts     #{q1 q2 q3}
+                      :transitions {q0 {a q1}
+                                    q1 {b q2}
+                                    q2 {c q3}}}))))
+    (is (= #{"hi" "hey" "hello"}
+           (set (__ '{:states      #{q0 q1 q2 q3 q4 q5 q6 q7}
+                      :alphabet    #{e h i l o y}
+                      :start       q0
+                      :accepts     #{q2 q4 q7}
+                      :transitions {q0 {h q1}
+                                    q1 {i q2, e q3}
+                                    q3 {l q5, y q4}
+                                    q5 {l q6}
+                                    q6 {o q7}}}))))
+    (is (= (set (let [ss "vwxyz"] (for [i ss, j ss, k ss, l ss] (str i j k l))))
+           (set (__ '{:states      #{q0 q1 q2 q3 q4}
+                      :alphabet    #{v w x y z}
+                      :start       q0
+                      :accepts     #{q4}
+                      :transitions {q0 {v q1, w q1, x q1, y q1, z q1}
+                                    q1 {v q2, w q2, x q2, y q2, z q2}
+                                    q2 {v q3, w q3, x q3, y q3, z q3}
+                                    q3 {v q4, w q4, x q4, y q4, z q4}}}))))
+    (is (let [res (take 2000 (__ '{:states      #{q0 q1}
+                                   :alphabet    #{0 1}
+                                   :start       q0
+                                   :accepts     #{q0}
+                                   :transitions {q0 {0 q0, 1 q1}
+                                                 q1 {0 q1, 1 q0}}}))]
+          (and (every? (partial re-matches #"0*(?:10*10*)*") res)
+               (= res (distinct res)))))
+    (is (let [res (take 2000 (__ '{:states      #{q0 q1}
+                                   :alphabet    #{n m}
+                                   :start       q0
+                                   :accepts     #{q1}
+                                   :transitions {q0 {n q0, m q1}}}))]
+          (and (every? (partial re-matches #"n*m") res)
+               (= res (distinct res)))))
+    (is (let [res (take 2000 (__ '{:states      #{q0 q1 q2 q3 q4 q5 q6 q7 q8 q9}
+                                   :alphabet    #{i l o m p t}
+                                   :start       q0
+                                   :accepts     #{q5 q8}
+                                   :transitions {q0 {l q1}
+                                                 q1 {i q2, o q6}
+                                                 q2 {m q3}
+                                                 q3 {i q4}
+                                                 q4 {t q5}
+                                                 q6 {o q7}
+                                                 q7 {p q8}
+                                                 q8 {l q9}
+                                                 q9 {o q6}}}))]
+          (and (every? (partial re-matches #"limit|(?:loop)+") res)
+               (= res (distinct res)))))))
 
 #_
 (deftest
@@ -2536,8 +3060,85 @@
 
 #_
 (deftest
-  ^{::fc/problem 168}
-  problem-168)
+  ^{::fc/problem              168
+    ::fc/difficulty           :medium
+    ::fc/topics               #{:seqs :recursion :math}
+    ::fc/special-restrictions #{'for
+                                'range
+                                'iterate
+                                'repeat
+                                'cycle
+                                'drop}}
+  infinite-matrix
+  "In what follows, `m`, `n`, `s`, `t` denote nonnegative integers, f
+  denotes a function that accepts two arguments and is defined for all
+  nonnegative integers in both arguments.
+
+  In mathematics, the function f can be interpreted as an infinite
+  [matrix](http://en.wikipedia.org/wiki/Matrix_%28mathematics%29) with
+  infinitely many rows and columns that, when written, looks like an
+  ordinary matrix but its rows and columns cannot be written down
+  completely, so are terminated with ellipses. In Clojure, such
+  infinite matrix can be represented as an infinite lazy sequence of
+  infinite lazy sequences, where the inner sequences represent rows.
+
+  Write a function that accepts 1, 3 and 5 arguments
+
+  - with the argument `f`, it returns the infinite matrix **A** that
+    has the entry in the `i`-th row and the `j`-th column equal to
+    `f(i,j)` for `i,j = 0,1,2,...`;
+
+  - with the arguments `f`, `m`, `n`, it returns the infinite matrix
+    **B** that equals the remainder of the matrix **A** after the
+    removal of the first `m` rows and the first `n` columns;
+
+  - with the arguments `f`, `m`, `n`, `s`, `t`, it returns the finite
+    s-by-t matrix that consists of the first t entries of each of the
+    first `s` rows of the matrix **B** or, equivalently, that consists
+    of the first s entries of each of the first `t` columns of the
+    matrix **B**."
+  (let [__]
+    (is (= (take 5 (map #(take 6 %) (__ str)))
+           [["00" "01" "02" "03" "04" "05"]
+            ["10" "11" "12" "13" "14" "15"]
+            ["20" "21" "22" "23" "24" "25"]
+            ["30" "31" "32" "33" "34" "35"]
+            ["40" "41" "42" "43" "44" "45"]]))
+    (is (= (take 6 (map #(take 5 %) (__ str 3 2)))
+           [["32" "33" "34" "35" "36"]
+            ["42" "43" "44" "45" "46"]
+            ["52" "53" "54" "55" "56"]
+            ["62" "63" "64" "65" "66"]
+            ["72" "73" "74" "75" "76"]
+            ["82" "83" "84" "85" "86"]]))
+    (is (= (__ * 3 5 5 7)
+           [[15 18 21 24 27 30 33]
+            [20 24 28 32 36 40 44]
+            [25 30 35 40 45 50 55]
+            [30 36 42 48 54 60 66]
+            [35 42 49 56 63 70 77]]))
+    (is (= (__ #(/ % (inc %2)) 1 0 6 4)
+           [[1/1 1/2 1/3 1/4]
+            [2/1 2/2 2/3 1/2]
+            [3/1 3/2 3/3 3/4]
+            [4/1 4/2 4/3 4/4]
+            [5/1 5/2 5/3 5/4]
+            [6/1 6/2 6/3 6/4]]))
+    (is (= (class (__ (juxt bit-or bit-xor)))
+           (class (__ (juxt quot mod) 13 21))
+           (class (lazy-seq))))
+    (is (= (class (nth (__ (constantly 10946)) 34))
+           (class (nth (__ (constantly 0) 5 8) 55))
+           (class (lazy-seq))))
+    (is (= (let [m        377 n 610 w 987
+                 check    (fn [f s] (every? true? (map-indexed f s)))
+                 row      (take w (nth (__ vector) m))
+                 column   (take w (map first (__ vector m n)))
+                 diagonal (map-indexed #(nth %2 %) (__ vector m n w w))]
+             (and (check #(= %2 [m %]) row)
+                  (check #(= %2 [(+ m %) n]) column)
+                  (check #(= %2 [(+ m %) (+ n %)]) diagonal)))
+           true))))
 
 #_
 (deftest
@@ -2549,8 +3150,20 @@
 
 #_
 (deftest
-  ^{::fc/problem 171}
-  problem-171)
+  ^{::fc/problem    171
+    ::fc/difficulty :medium}
+  intervals
+  "Write a function that takes a sequence of integers and returns a
+  sequence of \"intervals\". Each interval is a a vector of two
+  integers, start and end, such that all integers between start and
+  end (inclusive) are contained in the input sequence."
+  (let [__]
+    (is (= (__ [1 2 3]) [[1 3]]))
+    (is (= (__ [10 9 8 1 2 3]) [[1 3] [8 10]]))
+    (is (= (__ [1 1 1 1 1 1 1]) [[1 1]]))
+    (is (= (__ []) []))
+    (is (= (__ [19 4 17 1 3 10 2 13 13 2 16 4 2 15 13 9 6 14 2 11])
+           [[1 4] [6 6] [9 11] [13 17] [19 19]]))))
 
 #_
 (deftest
@@ -2589,13 +3202,70 @@
 
 #_
 (deftest
-  ^{::fc/problem 177}
-  problem-177)
+  ^{::fc/problem    177
+    ::fc/difficulty :medium
+    ::fc/topics     #{:parsing}}
+  balancing-brackets
+  "When parsing a snippet of code it's often a good idea to do a
+  sanity check to see if all the brackets match up. Write a function
+  that takes in a string and returns truthy if all square [ ]
+  round ( ) and curly { } brackets are properly paired and legally nested,
+  or returns falsey otherwise."
+  (let [__]
+    (is (__ "This string has no brackets."))
+    (is (__ "class Test {
+      public static void main(String[] args) {
+        System.out.println(\"Hello world.\");
+      }
+    }"))
+    (is (not (__ "(start, end]")))
+    (is (not (__ "())")))
+    (is (not (__ "[ { ] } ")))
+    (is (__ "([]([(()){()}(()(()))(([[]]({}()))())]((((()()))))))"))
+    (is (not (__ "([]([(()){()}(()(()))(([[]]({}([)))())]((((()()))))))")))
+    (is (not (__ "[")))))
 
 #_
 (deftest
-  ^{::fc/problem 178}
-  problem-178)
+  ^{::fc/problem    178
+    ::fc/difficulty :hard
+    ::fc/topics     #{:strings :game}}
+  best-hand
+  "Following on from [Recognize Playing
+  Cards](http://www.4clojure.com/problem/128), determine the best
+  poker hand that can be made with five cards. The hand rankings are
+  listed below for your convenience.
+
+  1. Straight flush: All cards in the same suit, and in sequence
+
+  2. Four of a kind: Four of the cards have the same rank
+
+  3. Full House: Three cards of one rank, the other two of another
+     rank
+
+  4. Flush: All cards in the same suit
+
+  5. Straight: All cards in sequence (aces can be high or low, but not
+     both at once)
+
+  6. Three of a kind: Three of the cards have the same rank
+
+  7. Two pair: Two pairs of cards have the same rank
+
+  8. Pair: Two cards have the same rank
+
+  9. High card: None of the above conditions are met"
+  (let [__]
+    (is (= :high-card (__ ["HA" "D2" "H3" "C9" "DJ"])))
+    (is (= :pair (__ ["HA" "HQ" "SJ" "DA" "HT"])))
+    (is (= :two-pair (__ ["HA" "DA" "HQ" "SQ" "HT"])))
+    (is (= :three-of-a-kind (__ ["HA" "DA" "CA" "HJ" "HT"])))
+    (is (= :straight (__ ["HA" "DK" "HQ" "HJ" "HT"])))
+    (is (= :straight (__ ["HA" "H2" "S3" "D4" "C5"])))
+    (is (= :flush (__ ["HA" "HK" "H2" "H4" "HT"])))
+    (is (= :full-house (__ ["HA" "DA" "CA" "HJ" "DJ"])))
+    (is (= :four-of-a-kind (__ ["HA" "DA" "CA" "SA" "DJ"])))
+    (is (= :straight-flush (__ ["HA" "HK" "HQ" "HJ" "HT"])))))
 
 ;; problems 179-209, unapproved
 
