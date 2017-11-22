@@ -1732,7 +1732,6 @@
            (__ 1 #{"a"}
                ["this" "is" "a" "sentence" "i" "wrote"])))))
 
-#_
 (deftest
   ^{::fc/problem    115
     ::fc/difficulty :medium
@@ -1741,7 +1740,13 @@
   "A balanced number is one whose component digits have the same sum
   on the left and right halves of the number. Write a function which
   accepts an integer n, and returns true iff n is balanced."
-  (let [__]
+  (let [__ (fn [n]
+             (let [xs (->> (str n)
+                           seq
+                           (map #(Integer/parseInt (str %))))
+                   h  (/ (count xs) 2)]
+               (= (reduce + (take h xs))
+                  (reduce + (take h (reverse xs))))))]
     (is (= true (__ 11)))
     (is (= true (__ 121)))
     (is (= false (__ 123)))
@@ -2333,7 +2338,6 @@
 
 ;; No problem 136
 
-#_
 (deftest
   ^{::fc/problem    137
     ::fc/difficulty :medium
@@ -2344,7 +2348,15 @@
   arbitrary base (second argument). Digits should be represented with
   their integer values, e.g. 15 would be [1 5] in base 10, [1 1 1 1]
   in base 2 and [15] in base 16. "
-  (let [__]
+  (let [__ #(loop [ds '()
+                   q  %]
+              (let [[q r] ((juxt quot rem) q %2)
+                    ds    (conj ds r)]
+                (if (zero? q)
+                  ds
+                  (recur ds q))))
+
+        ]
     (is (= [1 2 3 4 5 0 1] (__ 1234501 10)))
     (is (= [0] (__ 0 11)))
     (is (= [1 0 0 1] (__ 9 2)))
@@ -2857,7 +2869,6 @@
     (is (= (__ [0 1 3]) '((0 0) (1 1) (3 2))))
     (is (= (__ [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]]))))
 
-#_
 (deftest
   ^{::fc/problem    158
     ::fc/difficulty :medium
@@ -2868,7 +2879,7 @@
 
   You may wish to read
   [this](http://en.wikipedia.org/wiki/Currying)."
-  (let [__]
+  (let [__ (fn [f] (fn [& args] (reduce (fn [m e] (m e)) f args)))]
     (is (= 10 ((__ (fn [a]
                      (fn [b]
                        (fn [c]
