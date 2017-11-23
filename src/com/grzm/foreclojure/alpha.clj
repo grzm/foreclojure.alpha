@@ -826,3 +826,21 @@
                      true r)
              (d r))
         true))))
+
+(def
+  ^{::problem    177
+    ::difficulty :medium
+    ::topics     #{:parsing}}
+  balanced?
+  "When parsing a snippet of code it's often a good idea to do a
+  sanity check to see if all the brackets match up. Write a function
+  that takes in a string and returns truthy if all square [ ]
+  round ( ) and curly { } brackets are properly paired and legally nested,
+  or returns falsey otherwise."
+  (fn balanced? [s]
+    (loop [last-l (inc (count s))
+           s      (clojure.string/replace s #"[^]\[{}()]" "")]
+      (let [l (count s)]
+        (if (< l last-l)
+          (recur l (clojure.string/replace s #"\(\)|\[\]|\{\}" ""))
+          (zero? l))))))

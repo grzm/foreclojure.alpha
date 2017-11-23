@@ -3208,7 +3208,6 @@
 
 ;; no such problem 176
 
-#_
 (deftest
   ^{::fc/problem    177
     ::fc/difficulty :medium
@@ -3219,7 +3218,7 @@
   that takes in a string and returns truthy if all square [ ]
   round ( ) and curly { } brackets are properly paired and legally nested,
   or returns falsey otherwise."
-  (let [__]
+  (let [__ fc/balanced?]
     (is (__ "This string has no brackets."))
     (is (__ "class Test {
       public static void main(String[] args) {
