@@ -1068,7 +1068,6 @@
              #{["father" "son"] ["father" "grandson"]
                ["uncle" "cousin"] ["son" "grandson"]})))))
 
-#_
 (deftest
   ^{::fc/problem    85
     ::fc/difficulty :medium
@@ -1077,7 +1076,7 @@
   "Write a function which generates the power set of a given set. The
   power set of a set x is the set of all subsets of x, including the
   empty set and x itself."
-  (let [__ #()]
+  (let [__ fc/power-set]
     (is (= (__ #{1 :a}) #{#{1 :a} #{:a} #{} #{1}}))
     (is (= (__ #{}) #{#{}}))
     (is (= (__ #{1 2 3})
@@ -1757,7 +1756,6 @@
     (is (= (take 20 (filter __ (range)))
            [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101]))))
 
-#_
 (deftest
   ^{::fc/problem    116
     ::fc/difficulty :medium
@@ -1768,7 +1766,7 @@
   and after it in the sequence of valid primes. Create a function
   which takes an integer n, and returns true iff it is a balanced
   prime."
-  (let [__]
+  (let [__ fc/balanced-prime?]
     (is (= false (__ 4)))
     (is (= true (__ 563)))
     (is (= 1103 (nth (filter __ (range)) 15)))))
@@ -2494,7 +2492,6 @@
            #{#{'B 'D}
              #{'b 'd}}))))
 
-#_
 (deftest
   ^{::fc/problem    141
     ::fc/difficulty :medium
@@ -2503,12 +2500,12 @@
   "In [trick-taking card
   games](http://en.wikipedia.org/wiki/Trick-taking_game) such as
   bridge, spades, or hearts, cards are played in groups known as
-  "tricks" - each player plays a single card, in order; the first
-  player is said to "lead" to the trick. After all players have
-  played, one card is said to have "won" the trick. How the winner is
+  \"tricks\" - each player plays a single card, in order; the first
+  player is said to \"lead\" to the trick. After all players have
+  played, one card is said to have \"won\" the trick. How the winner is
   determined will vary by game, but generally the winner is the
   highest card played in the suit that was led. Sometimes (again
-  varying by game), a particular suit will be designated "trump",
+  varying by game), a particular suit will be designated \"trump\",
   meaning that its cards are more powerful than any others: if there
   is a trump suit, and any trumps are played, then the highest trump
   wins regardless of what was led.
@@ -2520,7 +2517,7 @@
   represented in the format returned by [Problem 128, Recognize
   Playing Cards](http://www.4clojure.com/problem/128/): a hash-map of
   :suit and a numeric :rank. Cards with a larger rank are stronger."
-  (let [__]
+  (let [__ fc/trick-winner]
     (is (let [notrump (__ nil)]
           (and (= {:suit :club :rank 9}  (notrump [{:suit :club :rank 4}
                                                    {:suit :club :rank 9}]))
@@ -2549,7 +2546,6 @@
     (is (= 32 (__ [1 2 3] [4 5 6])))
     (is (= 256 (__ [2 5 6] [100 10 1])))))
 
-#_
 (deftest
   ^{::fc/problem    144
     ::fc/difficulty :medium
@@ -2559,7 +2555,8 @@
   value and a variable number of functions. It should return a lazy
   sequence of the functions applied to the value in order, restarting
   from the first function after it hits the end."
-  (let [__]
+  (let [__ (fn [init & fns]
+             (reductions (fn [memo f] (f memo)) init (cycle fns)))]
     (is (= (take 3 (__ 3.14 int double)) [3.14 3 3.0]))
     (is (= (take 5 (__ 3 #(- % 3) #(+ 5 %))) [3 0 5 2 7]))
     (is (= (take 12 (__ 0 inc dec inc dec inc)) [0 1 0 1 0 1 2 1 2 1 2 3]))))

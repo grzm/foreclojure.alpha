@@ -456,6 +456,21 @@
             f sets)))
 
 (def
+  ^{::problem    85
+    ::difficulty :medium
+    ::topcs      [:set-theory]}
+  power-set
+  "Write a function which generates the power set of a given set. The
+  power set of a set x is the set of all subsets of x, including the
+  empty set and x itself."
+  (fn p [xs]
+    (let [f (first xs)
+          r (disj xs f)]
+      (if (seq xs)
+        (set (concat (map #(conj % f) (p r)) (p r)))
+        #{#{}}))))
+
+(def
   ^{::problem    86
     ::difficulty :medium
     ::topics     [:math]}
@@ -698,6 +713,52 @@
                          vec) init))))
 
 (def
+  ^{::problem    116
+    ::difficulty :medium
+    ::topics     #{:math}}
+  balanced-prime?
+  "A [balanced prime](http://en.wikipedia.org/wiki/Balanced_prime) is
+  a prime number which is also the mean of the primes directly before
+  and after it in the sequence of valid primes. Create a function
+  which takes an integer n, and returns true iff it is a balanced
+  prime."
+  (let [prime? (fn [x]
+                 (cond
+                   (> 2 x)
+                   false
+
+                   (#{2 3 5 7 11 13 17 19 23 29
+                      31 37 41 43 47 53 59 61 67 71
+                      73 79 83 89 97 101 103 107 109 113
+                      127 131 137 139 149 151 157 163 167 173
+                      179 181 191 193 197 199 211 223 227 229} x)
+                   true
+
+                   (even? x)
+                   false
+
+                   :else
+                   (empty? (for [i     (range 3 (inc (Math/sqrt x)) 2)
+                                 :when (zero? (rem x i))]
+                             i))))
+        m-prime? (memoize prime?)]
+    (fn [n]
+      (let []
+        (and (m-prime? n)
+             (if-let [prev-prime (first (for [d     (range n) ;;   = n - next-prime + n
+                                              :let  [p (- n (inc d))]
+                                              :when (m-prime? p)]
+                                          p))]
+               (let [maybe-next-prime (- (* 2 n) prev-prime)]
+                 (and (m-prime? maybe-next-prime)
+                      (= maybe-next-prime (first (for [x     (drop
+                                                               (inc n)
+                                                               (range (inc maybe-next-prime)))
+                                                       :when (m-prime? x)]
+                                                   x)))))
+               false))))))
+
+(def
   ^{::problem              118
     ::difficulty           :easy
     ::topics               #{:core-seqs}
@@ -747,6 +808,49 @@
      :rank (if-let [r (get {\A 12, \K 11, \Q 10, \J 9, \T 8} rank)]
              r
              (- (Integer/parseInt (str rank)) 2))}))
+
+(def
+  ^{::problem    141
+    ::difficulty :medium
+    ::topics     #{:game :cards}}
+  trick-winner
+  "In [trick-taking card
+  games](http://en.wikipedia.org/wiki/Trick-taking_game) such as
+  bridge, spades, or hearts, cards are played in groups known as
+  \"tricks\" - each player plays a single card, in order; the first
+  player is said to \"lead\" to the trick. After all players have
+  played, one card is said to have \"won\" the trick. How the winner is
+  determined will vary by game, but generally the winner is the
+  highest card played in the suit that was led. Sometimes (again
+  varying by game), a particular suit will be designated \"trump\",
+  meaning that its cards are more powerful than any others: if there
+  is a trump suit, and any trumps are played, then the highest trump
+  wins regardless of what was led.
+
+  Your goal is to devise a function that can determine which of a
+  number of cards has won a trick. You should accept a trump suit, and
+  return a function winner. Winner will be called on a sequence of
+  cards, and should return the one which wins the trick. Cards will be
+  represented in the format returned by [Problem 128, Recognize
+  Playing Cards](http://www.4clojure.com/problem/128/): a hash-map of
+  :suit and a numeric :rank. Cards with a larger rank are stronger."
+  (fn [trump]
+    (fn [xs]
+      (let [res (reduce (fn [memo {:keys [rank suit]}]
+                          (cond
+                            (and (= suit trump)
+                                 (> rank (:trump memo 0)))
+                            (assoc memo :trump rank)
+
+                            (and (= suit (:suit memo))
+                                 (> rank (:rank memo)))
+                            (assoc memo :rank rank)
+
+                            :else memo))
+                        xs)]
+        (if-let [rank (:trump res)]
+          {:suit trump, :rank rank}
+          (select-keys res [:suit :rank]))))))
 
 (def
   ^{::problem    146
