@@ -1568,7 +1568,6 @@
     (is (= [1 8 27 64] (map (__ 3) [1 2 3 4])))
     (is (= [1 2 4 8 16] (map #((__ %) 2) [0 1 2 3 4])))))
 
-#_
 (deftest
   ^{::fc/problem    108
     ::fc/difficulty :medium
@@ -1578,9 +1577,9 @@
   largest, find the smallest single number which appears in all of the
   sequences. The sequences may be infinite, so be careful to search
   lazily."
-  (let [__ ]
+  (let [__ fc/lazy-search]
     (is (= 3 (__ [3 4 5])))
-    (iss (= 4 (__ [1 2 3 4 5 6 7] [0.5 3/2 4 19])))
+    (is (= 4 (__ [1 2 3 4 5 6 7] [0.5 3/2 4 19])))
     (is (= 7 (__ (range) (range 0 100 7/6) [2 3 5 7 11 13])))
     (is (= 64 (__ (map #(* % % %) (range)) ;; perfect cubes
                   (filter #(zero? (bit-and % (dec %))) (range)) ;; powers of 2

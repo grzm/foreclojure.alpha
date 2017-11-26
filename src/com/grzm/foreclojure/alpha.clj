@@ -712,6 +712,22 @@
         (apply str)))))
 
 (def
+  ^{::problem    108
+    ::difficulty :medium
+    ::topics     #{:seqs :sorting}}
+  lazy-search
+  "Given any number of sequences, each sorted from smallest to
+  largest, find the smallest single number which appears in all of the
+  sequences. The sequences may be infinite, so be careful to search
+  lazily."
+  (fn ls [& xss]
+    (let [firsts (map first xss)]
+      (if (apply = firsts)
+        (first firsts)
+        (let [m (apply max firsts)]
+          (apply ls (map #(drop-while (partial > m) %) xss)))))))
+
+(def
   ^{::problem    110
     ::difficulty :medium
     ::topics     #{:seqs}}
