@@ -676,6 +676,27 @@
       (/ num lcd))))
 
 (def
+  ^{::problem    103
+    ::difficulty :medium
+    ::topics     #{:seqs :combinatorics}}
+  k-combos
+  "Given a sequence S consisting of n elements generate all
+  [k-combinations](https://secure.wikimedia.org/wikipedia/en/wiki/Combination)
+  of S, i. e. generate all possible sets consisting of k distinct
+  elements taken from S. The number of k-combinations for a sequence
+  is equal to the [binomial
+  coefficient](https://secure.wikimedia.org/wikipedia/en/wiki/Binomial_coefficient)."
+  (fn [n xs]
+    (letfn [(power-set [xs]
+              (let [f (first xs)
+                    r (disj xs f)]
+                (if (seq xs)
+                  (set (concat (map #(conj % f) (power-set r))
+                               (power-set r)))
+                  #{#{}})))]
+      (set (filter #(= n (count %)) (power-set xs))))))
+
+(def
   ^{::problem    104
     ::difficulty :medium
     ::topics     #{:strings :math}}

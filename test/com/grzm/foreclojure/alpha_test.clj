@@ -1456,7 +1456,6 @@
     (is (= (__ "multi-word-key") "multiWordKey"))
     (is (= (__ "leaveMeAlone") "leaveMeAlone"))))
 
-#_
 (deftest
   ^{::fc/problem    103
     ::fc/difficulty :medium
@@ -1468,7 +1467,7 @@
   elements taken from S. The number of k-combinations for a sequence
   is equal to the [binomial
   coefficient](https://secure.wikimedia.org/wikipedia/en/wiki/Binomial_coefficient)."
-  (let [__ ]
+  (let [__ fc/k-combos]
     (is (= (__ 1 #{4 5 6}) #{#{4} #{5} #{6}}))
     (is (= (__ 10 #{4 5 6}) #{}))
     (is (= (__ 2 #{0 1 2}) #{#{0 1} #{0 2} #{1 2}}))
