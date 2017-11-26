@@ -550,7 +550,6 @@
                    r)
            (reduce +)))))
 
-#_
 (def
   ^{::problem    93
     ::difficulty :medium
@@ -561,11 +560,14 @@
   level sequential items. The result should be a sequence of sequences
   with only one level of nesting."
   (fn [xs]
-    (letfn [(unnest [coll]
-              (if (some coll? coll)
-                (map unnest coll)
-                coll))]
-      (mapcat unnest xs))))
+    (letfn [(unnest [[f & r :as coll]]
+              (if (coll? f)
+                (if (seq r)
+                  (mapcat unnest coll)
+                  (unnest f))
+                (list coll)))]
+      (reduce (fn [ret e]
+                (concat ret (unnest e))) (list) xs))))
 
 (def
   ^{::problem    95

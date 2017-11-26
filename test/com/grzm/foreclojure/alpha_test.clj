@@ -1211,7 +1211,6 @@
     (is (= 3999 (__ "MMMCMXCIX")))
     (is (= 48 (__ "XLVIII")))))
 
-#_
 (deftest
   ^{::fc/problem    93
     ::fc/difficulty :medium
