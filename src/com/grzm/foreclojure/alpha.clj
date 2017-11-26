@@ -769,6 +769,26 @@
                          vec) init))))
 
 (def
+  ^{::problem    114
+    ::difficulty :medium
+    ::topics     #{:seqs :higher-order-functions}}
+  global-take-while
+  "[take-while](http://clojuredocs.org/clojure_core/clojure.core/take-while)
+  is great for filtering sequences, but it limited: you
+  can only examine a single item of the sequence at a time. What if
+  you need to keep track of some state as you go over the sequence?
+
+  Write a function which accepts an integer n, a predicate p, and a
+  sequence. It should return a lazy sequence of items in the list up
+  to, but not including, the nth item that satisfies the predicate."
+  (fn tw
+    [n p [a & r]]
+    (when a
+      (let [n' (if (p a) (dec n) n)]
+        (when (pos? n')
+          (cons a (lazy-seq (tw n' p r))))))))
+
+(def
   ^{::problem    116
     ::difficulty :medium
     ::topics     #{:math}}

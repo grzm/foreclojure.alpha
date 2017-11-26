@@ -1702,7 +1702,6 @@
     (is (and (= nil (seq (__)))
              (=  "" (str (__)))))))
 
-#_
 (deftest
   ^{::fc/problem    114
     ::fc/difficulty :medium
@@ -1716,7 +1715,7 @@
   Write a function which accepts an integer n, a predicate p, and a
   sequence. It should return a lazy sequence of items in the list up
   to, but not including, the nth item that satisfies the predicate."
-  (let [__]
+  (let [__ fc/global-take-while]
     (is (= [2 3 5 7 11 13]
            (__ 4 #(= 2 (mod % 3))
                [2 3 5 7 11 13 17 19 23])))
