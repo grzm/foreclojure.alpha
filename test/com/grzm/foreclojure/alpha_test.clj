@@ -343,7 +343,8 @@
 
 (deftest
   ^{::fc/problem    35
-    ::fc/difficulty :elementary}
+    ::fc/difficulty :elementary
+    ::fc/topics     #{:syntax}}
   local-bindings
   (let [__ 7]
     (is (= __ (let [x 5] (+ 2 x))))
@@ -352,7 +353,8 @@
 
 (deftest
   ^{::fc/problem    36
-    ::fc/difficulty :elementary}
+    ::fc/difficulty :elementary
+    ::fc/topics     #{:math :syntax}}
   let-it-be
   (let [x 7
         y 3
@@ -363,7 +365,8 @@
 
 (deftest
   ^{::fc/problem    37
-    ::fc/difficulty :elementary}
+    ::fc/difficulty :elementary
+    ::fc/topics     #{:regex :syntax}}
   regular-expressions
   (let [__ "ABC"]
     (is (= __ (apply str (re-seq #"[A-Z]+" "bA1B3Ce "))))))
@@ -586,7 +589,8 @@
 
 (deftest
   ^{::fc/problem    57
-    ::fc/difficulty :elementary}
+    ::fc/difficulty :elementary
+    ::fc/topics     #{:recursion}}
   simple-recursion
   "A recursive function is a function which calls itself. This is one
   of the fundamental techniques used in functional programming."
@@ -690,7 +694,8 @@
 
 (deftest
   ^{::fc/problem    64
-    ::fc/difficulty :elementary}
+    ::fc/difficulty :elementary
+    ::fc/topics     #{:seqs}}
   intro-to-reduce
   "Reduce takes a 2 argument function and an optional starting value.
   It then applies the function to the first 2 items in the sequence
@@ -760,7 +765,8 @@
 
 (deftest
   ^{::fc/problem    68
-    ::fc/difficulty :elementary}
+    ::fc/difficulty :elementary
+    ::fc/topics     #{:recursion}}
   recurring-theme
   "Clojure only has one non-stack-consuming looping construct: recur.
   Either a function or a loop can be used as the recursion point.
