@@ -1362,7 +1362,6 @@
     (is (= (__ 11)
            [1 10 45 120 210 252 210 120 45 10 1]))))
 
-#_
 (deftest
   ^{::fc/problem    98
     ::fc/difficulty :medium}
@@ -1374,7 +1373,7 @@
   computes the [equivalence
   classes](http://en.wikipedia.org/wiki/Equivalence_class) of D with
   respect to f."
-  (let [__ fc/equivalence-class]
+  (let [__ fc/equivalence-classes]
     (is (= (__ #(* % %) #{-2 -1 0 1 2})
            #{#{0} #{1 -1} #{2 -2}}))
     (is (= (__ #(rem % 3) #{0 1 2 3 4 5 })

@@ -625,6 +625,23 @@
                 (vec (concat [1] (map #(apply + %) (partition 2 1 r)) [1]))))]
       (nth (iterate next-row []) n))))
 
+(def
+  ^{::problem    98
+    ::difficulty :medium}
+  equivalence-classes
+  "A function f defined on a domain D induces an [equivalence
+  relation](http://en.wikipedia.org/wiki/Equivalence_relation) on D,
+  as follows: a is equivalent to b with respect to f if and only if (f
+  a) is equal to (f b). Write a function with arguments f and D that
+  computes the [equivalence
+  classes](http://en.wikipedia.org/wiki/Equivalence_class) of D with
+  respect to f."
+  (fn [f xs]
+    (->> (group-by f xs)
+         vals
+         (map set)
+         set)))
+
 (comment
   (defn int-lcm
     [coll]
