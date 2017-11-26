@@ -1907,7 +1907,6 @@
     (is (= 50 (__ (range 100))))
     (is (= 50 (__ (range 1000))))))
 
-#_
 (deftest
   ^{::fc/problem              121
     ::fc/difficulty           :medium
@@ -1920,7 +1919,7 @@
   numeric constants, and symbols representing variables. The returned
   function has to accept a single parameter containing the map of
   variable names to their values."
-  (let [__]
+  (let [__ fc/puter]
     (is (= 2 ((__ '(/ a b))
               '{b 8 a 16})))
     (is (= 8 ((__ '(+ a b 2))

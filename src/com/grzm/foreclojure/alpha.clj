@@ -846,6 +846,27 @@
   (fn [f xs] (reductions #(f %2) (f (first xs)) (rest xs))))
 
 (def
+  ^{::problem              121
+    ::difficulty           :medium
+    ::topics               #{:functions}
+    ::special-restrictions #{'eval 'resolve}}
+  puter
+  "Given a mathematical formula in prefix notation, return a function
+  that calculates the value of the formula. The formula can contain
+  nested calculations using the four basic mathematical operators,
+  numeric constants, and symbols representing variables. The returned
+  function has to accept a single parameter containing the map of
+  variable names to their values."
+  (fn [es]
+    (fn [m]
+      (letfn [(a [e]
+                (if (list? e)
+                  (let [[f & args] e
+                        res        (map a args)]
+                    (apply ({'+ +, '- -, '/ /, '* *} f) res))
+                  (get m e e)))]
+        (a es)))))
+(def
   ^{::problem    122
     ::difficulty :easy}
   binary->dec
