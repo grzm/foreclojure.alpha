@@ -827,6 +827,20 @@
              (- (Integer/parseInt (str rank)) 2))}))
 
 (def
+  ^{::problem    132
+    ::difficulty :medium
+    ::topics     #{:seqs :core-functions}}
+  insert-pred
+  "Write a function that takes a two-argument predicate, a value, and
+  a collection; and returns a new collection where the value is
+  inserted between every two items that satisfy the predicate."
+  (fn ip [p v [a b & r :as xs]]
+    (if (seq xs)
+      (cons a (if (and b (p a b))
+                (cons v (lazy-seq (ip p v (next xs))))
+                (lazy-seq (ip p v (next xs))))))))
+
+(def
   ^{::problem    141
     ::difficulty :medium
     ::topics     #{:game :cards}}

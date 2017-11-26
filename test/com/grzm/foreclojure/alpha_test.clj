@@ -2274,16 +2274,15 @@
     (is (= true  (__ #{-10 9 -8 7 -6 5 -4 3 -2 1}
                      #{10 -9 8 -7 6 -5 4 -3 2 -1})))))
 
-#_
 (deftest
   ^{::fc/problem    132
     ::fc/difficulty :medium
-    ::fc/topcs      #{:seqs :core-functions}}
+    ::fc/topics     #{:seqs :core-functions}}
   insert-between-two-items
   "Write a function that takes a two-argument predicate, a value, and
   a collection; and returns a new collection where the value is
   inserted between every two items that satisfy the predicate."
-  (let [__]
+  (let [__ fc/insert-pred]
     (is (= '(1 :less 6 :less 7 4 3) (__ < :less [1 6 7 4 3])))
     (is (= '(2) (__ > :more [2])))
     (is (= [0 1 :x 2 :x 3 :x 4]  (__ #(and (pos? %) (< % %2)) :x (range 5))))
