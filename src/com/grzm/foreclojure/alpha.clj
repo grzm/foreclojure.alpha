@@ -1043,6 +1043,28 @@
         true))))
 
 (def
+  ^{::problem    171
+    ::difficulty :medium}
+  compact-intervals
+  "Write a function that takes a sequence of integers and returns a
+  sequence of \"intervals\". Each interval is a a vector of two
+  integers, start and end, such that all integers between start and
+  end (inclusive) are contained in the input sequence."
+  (fn [xs]
+    (->> xs
+         distinct
+         sort
+         (reduce (fn [ret e]
+                   (if-let [curr (ffirst ret)]
+                     (if (= (inc curr) e)
+                       (conj (rest ret) (conj (first ret) e))
+                       (conj ret (list e)))
+                     (conj ret (list e))))
+                 '())
+         reverse
+         (map (juxt (partial apply min) (partial apply max))))))
+
+(def
   ^{::problem    177
     ::difficulty :medium
     ::topics     #{:parsing}}

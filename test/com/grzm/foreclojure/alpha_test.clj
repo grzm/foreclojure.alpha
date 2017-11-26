@@ -3146,7 +3146,6 @@
 
 ;; no such problem 170
 
-#_
 (deftest
   ^{::fc/problem    171
     ::fc/difficulty :medium}
@@ -3155,7 +3154,7 @@
   sequence of \"intervals\". Each interval is a a vector of two
   integers, start and end, such that all integers between start and
   end (inclusive) are contained in the input sequence."
-  (let [__]
+  (let [__ fc/compact-intervals]
     (is (= (__ [1 2 3]) [[1 3]]))
     (is (= (__ [10 9 8 1 2 3]) [[1 3] [8 10]]))
     (is (= (__ [1 1 1 1 1 1 1]) [[1 1]]))
