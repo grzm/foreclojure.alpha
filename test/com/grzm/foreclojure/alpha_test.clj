@@ -3227,7 +3227,6 @@
     (is (not (__ "([]([(()){()}(()(()))(([[]]({}([)))())]((((()()))))))")))
     (is (not (__ "[")))))
 
-#_
 (deftest
   ^{::fc/problem    178
     ::fc/difficulty :hard
@@ -3257,7 +3256,7 @@
   8. Pair: Two cards have the same rank
 
   9. High card: None of the above conditions are met"
-  (let [__]
+  (let [__ fc/best-hand]
     (is (= :high-card (__ ["HA" "D2" "H3" "C9" "DJ"])))
     (is (= :pair (__ ["HA" "HQ" "SJ" "DA" "HT"])))
     (is (= :two-pair (__ ["HA" "DA" "HQ" "SQ" "HT"])))

@@ -1081,3 +1081,90 @@
         (if (< l last-l)
           (recur l (clojure.string/replace s #"\(\)|\[\]|\{\}" ""))
           (zero? l))))))
+
+(def
+  ^{::problem    178
+    ::difficulty :hard
+    ::topics     #{:strings :game}}
+  best-hand
+  "Following on from [Recognize Playing
+  Cards](http://www.4clojure.com/problem/128), determine the best
+  poker hand that can be made with five cards. The hand rankings are
+  listed below for your convenience.
+
+  1. Straight flush: All cards in the same suit, and in sequence
+
+  2. Four of a kind: Four of the cards have the same rank
+
+  3. Full House: Three cards of one rank, the other two of another
+     rank
+
+  4. Flush: All cards in the same suit
+
+  5. Straight: All cards in sequence (aces can be high or low, but not
+     both at once)
+
+  6. Three of a kind: Three of the cards have the same rank
+
+  7. Two pair: Two pairs of cards have the same rank
+
+  8. Pair: Two cards have the same rank
+
+  9. High card: None of the above conditions are met"
+  (fn [cs]
+    (letfn [(straight? [cs]
+              (let [ranks  (sort (map :rank cs))
+                    ranks' (sort (map #(if (= % 12) -1 %) ranks))]
+                (or (and (apply < ranks)
+                         (= 4 (- (last ranks)
+                                 (first ranks))))
+                    (and (apply < ranks')
+                         (= 4 (- (last ranks')
+                                 (first ranks')))))))
+            (grouped-rank-counts [cs]
+              (->> (group-by :rank cs)
+                   vals
+                   (map count)
+                   sort))]
+      (->> (map (fn [[s r]]
+                  {:suit ({\D :diamond, \H :heart, \C :club, \S :spade} s)
+                   :rank (get (zipmap "23456789TJQKA" (range)) r)}) cs)
+           ((fn [cs]
+              (cond
+                (and (apply = (map :suit cs))
+                     (straight? cs))
+                :straight-flush
+
+                (->> (grouped-rank-counts cs)
+                     last
+                     (= 4))
+                :four-of-a-kind
+
+                (->> (grouped-rank-counts cs)
+                     (= [2 3]))
+                :full-house
+
+                (apply = (map :suit cs))
+                :flush
+
+                (straight? cs)
+                :straight
+
+                (->> (grouped-rank-counts cs)
+                     last
+                     (= 3))
+                :three-of-a-kind
+
+                (->> (grouped-rank-counts cs)
+                     reverse
+                     (take 2)
+                     (= [2 2]))
+                :two-pair
+
+                (->> (group-by :rank cs)
+                     vals
+                     count
+                     (= 4))
+                :pair
+
+                :else :high-card)))))))
