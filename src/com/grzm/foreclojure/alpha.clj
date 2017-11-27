@@ -892,6 +892,35 @@
   (fn [f xs] (reductions #(f %2) (f (first xs)) (rest xs))))
 
 (def
+  ^{::problem    119
+    ::difficulty :hard
+    ::topics     #{:game}}
+  tic-tac-toe-wins
+  "As in [Problem 73](http://www.4clojure.com/problem/73), a
+  tic-tac-toe board is represented by a two dimensional vector. X is
+  represented by :x, O is represented by :o, and empty is represented
+  by :e. Create a function that accepts a game piece and board as
+  arguments, and returns a set (possibly empty) of all valid board
+  placements of the game piece which would result in an immediate win.
+
+  Board coordinates should be as in calls to get-in. For example, [0
+  1] is the topmost row, center position."
+  (fn [p b]
+    (let [ab   (map-indexed (fn [i r]
+                              (map-indexed
+                                (fn [j p] {:pos [i j] :p p}) r)) b)
+          rows (concat ab
+                       (apply map vector ab)
+                       (list
+                         (map-indexed (fn [i r] (nth r i)) ab)
+                         (map-indexed (fn [i r] (nth r i)) (reverse ab))))]
+      (->> (filter (fn [r]
+                     (= {p 2 :e 1} (frequencies (map :p r))))
+                   rows)
+           (map (fn [r] (:pos (first (filter #(= :e (:p %)) r)))))
+           set))))
+
+(def
   ^{::problem              121
     ::difficulty           :medium
     ::topics               #{:functions}

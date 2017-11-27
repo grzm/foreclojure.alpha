@@ -1851,7 +1851,6 @@
                 (drop (dec 1000000))
                 (take 2))))))
 
-#_
 (deftest
   ^{::fc/problem    119
     ::fc/difficulty :hard
@@ -1866,7 +1865,7 @@
 
   Board coordinates should be as in calls to get-in. For example, [0
   1] is the topmost row, center position."
-  (let [__]
+  (let [__ fc/tic-tac-toe-wins]
     (is (= (__ :x [[:o :e :e]
                    [:o :x :o]
                    [:x :x :e]])
