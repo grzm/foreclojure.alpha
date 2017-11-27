@@ -769,6 +769,52 @@
                          vec) init))))
 
 (def
+  ^{::problem    111
+    ::difficulty :hard
+    ::topics     #{:game}}
+  xword-fits?
+  "Write a function that takes a string and a partially-filled
+  crossword puzzle board, and determines if the input string can be
+  legally placed onto the board.
+
+  The crossword puzzle board consists of a collection of
+  partially-filled rows. Empty spaces are denoted with an underscore
+  (_), unusable spaces are denoted with a hash symbol (#), and
+  pre-filled spaces have a character in place; the whitespace
+  characters are for legibility and should be ignored.
+
+  For a word to be legally placed on the board:
+
+  - It may use empty spaces (underscores)
+
+  - It may use but must not conflict with any pre-filled characters.
+
+  - It must not use any unusable spaces (hashes).
+
+  - There must be no empty spaces (underscores) or extra characters
+    before or after the word (the word may be bound by unusable spaces
+    though).
+
+  - Characters are not case-sensitive.
+
+  - Words may be placed vertically (proceeding top-down only), or
+    horizontally (proceeding left-right only)."
+  (fn [w p]
+    (let [wc (count w)
+          ws (seq w)
+          p' (map (fn [r]
+                    (->> (seq r)
+                         (filter #(not= \space %)))) p)]
+      (->> (concat p' (apply map vector p'))
+           (mapcat #(partition-by (fn [e] (= \# e)) %))
+           (filter #(= (count %) wc))
+           (some (fn [r] (->> (map list r ws)
+                              (every? (fn [[x l]]
+                                        (or (= x \_)
+                                            (= x l)))))))
+           boolean))))
+
+(def
   ^{::problem    114
     ::difficulty :medium
     ::topics     #{:seqs :higher-order-functions}}

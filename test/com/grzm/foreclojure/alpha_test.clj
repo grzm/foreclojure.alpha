@@ -1613,7 +1613,6 @@
     (is (= [1 1 1 3 2 1 3 2 1 1] (nth (__ [1]) 6)))
     (is (= 338 (count (nth (__ [3 2]) 15))))))
 
-#_
 (deftest
   ^{::fc/problem    111
     ::fc/difficulty :hard
@@ -1645,7 +1644,7 @@
 
   - Words may be placed vertically (proceeding top-down only), or
     horizontally (proceeding left-right only)."
-  (let [__ ]
+  (let [__ fc/xword-fits?]
     (is (= true  (__ "the" ["_ # _ _ e"])))
     (is (= false (__ "the" ["c _ _ _"
                             "d _ # e"
